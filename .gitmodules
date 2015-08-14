@@ -1,0 +1,3 @@
+[submodule "admin/skelet"]
+	path = admin/skelet
+	url = https://github.com/pressapps/skelet.git
