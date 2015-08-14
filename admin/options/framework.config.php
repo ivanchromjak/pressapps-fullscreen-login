@@ -282,10 +282,69 @@ $options[]      = array(
     'icon'        => 'fa fa-paint-brush',
     'fields'      => array(
         array(
-            'id'      => 'text', 
-            'type'    => 'text',
-            'title'   => 'Title',
-            'default' => 'Hello World',
+            'id'      => 'modal_background', 
+            'type'    => 'color_picker',
+            'title'   => 'Modal Background',
+        ),
+        array(
+            'id'      => 'text_color', 
+            'type'    => 'color_picker',
+            'title'   => 'Text Color',
+            'help'    => 'Change color for content color, applies to form title, subtitle, remember me label and links under forms',
+            'rgba'    => false
+        ),
+        array(
+            'id'      => 'modal_form_border_color', 
+            'type'    => 'color_picker',
+            'title'   => 'Form Border Color',
+            'help'    => 'Applies to text form fields only',
+            'rgba'    => false
+        ),
+        array(
+            'id'      => 'modal_form_border_thickness',
+            'type'    => 'number',
+            'title'   => 'Form Fields Border Thickness',
+            'after'   => ' <i class="sk-text-muted">(px)</i>',
+            'default' => 1,
+            'help'    => 'Applies to text form fields only',
+        ),
+        array(
+            'id'      => 'modal_form_button_text_color', 
+            'type'    => 'color_picker',
+            'title'   => 'Form Button Text Color',
+            'help'    => 'A color picker for button text color',
+            'rgba'    => false
+        ),
+        array(
+            'id'      => 'modal_form_button_background_color', 
+            'type'    => 'color_picker',
+            'title'   => 'Form Button Background Color',
+            'help'    => 'A color picker for background text color',
+            'rgba'    => false
+        ),
+        array(
+            'id'      => 'modal_effect',
+            'type'    => 'select',
+            'title'   => 'Effect',
+            'options' => array(
+                'hugeinc'       => 'Huge Inc',
+                'corner'        => 'Corner',
+                'slidedown'     => 'Slide Down',
+                'scale'         => 'Scale',
+                'door'          => 'Door',
+                'contentpush'   => 'Content Push',
+                'contentscale'  => 'Content Scale',
+                'simplegenie'   => 'Simple Genie',
+            ),
+            'default'    => 'hugeinc',
+        ),
+        array(
+            'id'      => 'modal_form_custom_css', 
+            'type'    => 'textarea',
+            'title'   => 'Custom CSS',
+            'attributes'    => array(
+                'placeholder' => '/* Insert custom styles here */'
+            ),
         ),
     ),
 );
