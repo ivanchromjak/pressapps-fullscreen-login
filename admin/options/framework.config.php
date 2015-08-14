@@ -282,7 +282,7 @@ $options[]      = array(
     'icon'        => 'fa fa-paint-brush',
     'fields'      => array(
         array(
-            'id'      => 'modal_background', 
+            'id'      => 'form_modal_background', 
             'type'    => 'color_picker',
             'title'   => 'Modal Background',
         ),

@@ -1,32 +1,46 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your admin-specific JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note that this assume you're going to use jQuery, so it prepares
-	 * the $ function reference to be used within the scope of this
-	 * function.
-	 *
-	 * From here, you're able to define handlers for when the DOM is
-	 * ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * Or when the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and so on.
-	 *
-	 * Remember that ideally, we should not attach any more than a single DOM-ready or window-load handler
-	 * for any particular page. Though other scripts in WordPress core, other plugins, and other themes may
-	 * be doing this, we should try to minimize doing that in our own work.
-	 */
+var PA_FULLSCREEN_LOGIN = {
+    common: {
+        init: function(){
+        	
+        }
+    }
+}
+
+// The routing fires all common scripts, followed by the page specific scripts.
+// Add additional events for more control over timing e.g. a finalize event
+var UTIL = {
+  fire: function(func, funcname, args) {
+    var namespace = PA_FULLSCREEN_LOGIN;
+    funcname = (funcname === undefined) ? 'init' : funcname;
+    if (func !== '' && namespace[func] && typeof namespace[func][funcname] === 'function') {
+      namespace[func][funcname](args);
+    }
+  },
+  loadEvents: function() {
+    UTIL.fire('common');
+
+    $.each(document.body.className.replace(/-/g, '_').split(/\s+/),function(i,classnm) {
+      UTIL.fire(classnm);
+    });
+  }
+};
+	
+// Shuffle Array
+$.fn.shuffle = function() {
+    return this.each(function(){
+        var items = $(this).children().clone(true);
+        return (items.length) ? $(this).html($.shuffle(items)) : this;
+    });
+}
+ 
+$.shuffle = function(arr) {
+    for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+    return arr;
+}
+
+$(document).ready(UTIL.loadEvents);
 
 })( jQuery );

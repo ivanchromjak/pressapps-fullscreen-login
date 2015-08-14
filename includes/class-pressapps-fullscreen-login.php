@@ -171,6 +171,14 @@ class Pressapps_Fullscreen_Login {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		// Register Shortcode
+		$this->loader->add_action( 'init'			   , $plugin_public, 'register_shortcodes', 10, 2 );
+		
+		// Custom styles 
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'modal_styles');
+
+		// Add overlay html to footer
+		$this->loader->add_action( 'wp_footer' , $plugin_public, 'append_to_footer', 10, 2 );
 	}
 
 	/**
