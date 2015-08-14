@@ -220,11 +220,19 @@ $options[]      = array(
     'title'       => 'Redirect',
     'icon'        => 'fa fa-external-link-square',
     'fields'      => array(
+
         array(
-            'id'      => 'text', 
+            'id'      => 'redirect_allow_after_login_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Title',
-            'default' => 'Hello World',
+            'title'   => 'Login Redirect URL',
+            'help'    => 'Set optional login redirect URL, if not set you will be redirected to current page',
+        ),
+
+        array(
+            'id'      => 'redirect_allow_after_logout_redirection_url', 
+            'type'    => 'text',
+            'title'   => 'Logout Redirect URL',
+            'help'    => 'Set optional logout redirect URL, if not set you will be redirected to home page',
         ),
     )
 );
