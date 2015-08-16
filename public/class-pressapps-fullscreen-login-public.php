@@ -122,7 +122,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function add_login_shortcode( $atts, $text){
 
-	    echo "<a href=''>".$text."</a>";
+	    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$text."</a>";
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function add_logout_shortcode( $atts, $text){
 
-	     echo "<a href=''>".$text."</a>";
+	     echo "<a href='javascript:;'  data-form='logout'>".$text."</a>";
 
 	}
 
@@ -150,7 +150,7 @@ class Pressapps_Fullscreen_Login_Public {
 		), $atts, 'pafl_register' );
 
 	    if( $pafl_register_atts['modal'] ){
-		    echo "<a href='javascript:;' title='pafl-trigger-overlay'>".$pafl_register_atts['text']."</a>";
+		    echo "<a href='javascript:;' data-form='register' title='pafl-trigger-overlay'>".$pafl_register_atts['text']."</a>";
 		}else{
     		echo "<a href=''>".$pafl_register_atts['text']."</a>";
 		}
