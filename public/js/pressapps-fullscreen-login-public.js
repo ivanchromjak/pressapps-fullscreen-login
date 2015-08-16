@@ -20,6 +20,15 @@ var PA_FULLSCREEN_LOGIN = {
 				return false; 
 			});
 
+			$("#login.pafl-modal-content .form-links a.create-account").click(function(){
+				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
+				return false; 
+			});
+
+			$("#login.pafl-modal-content .form-links a.forgot-password").click(function(){
+				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
+				return false; 
+			});
         },
         show_screen: function( me ){
         	var get_screen; 
@@ -34,6 +43,8 @@ var PA_FULLSCREEN_LOGIN = {
         		$("div.pafl-overlay div#login").show();
         	}else if( get_screen == 'register' || get_screen == '#pafl_modal_register' ){
         		$("div.pafl-overlay div#register").show();
+        	}else if( get_screen == 'forgot' || get_screen == '#pafl_modal_forgot' ){
+        		$("div.pafl-overlay div#forgotten").show();
         	}
 
         },

@@ -256,8 +256,8 @@ class Pressapps_Fullscreen_Login_Public {
 										$label_register = __("Register",'pressapps');
 									}	
 									?>
-										<a href="#" class='forgot-password'><?php echo $label_forgot;	?></a>
-										<a href="#" class='create-account'> <?php echo $label_register;	?></a>
+										<a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot;	?></a>
+										<a href="#" data-form="register" class='create-account'> <?php echo $label_register;	?></a>
 									</p><!--[END .form-links]-->
 									
 									<?php do_action( 'pafl_inside_modal_login_last' ); ?>
