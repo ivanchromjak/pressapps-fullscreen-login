@@ -164,7 +164,8 @@ class Pressapps_Fullscreen_Login_Public {
 
 
 		   	$pafl_sk = new Skelet("pafl");
-		 $custom_css = $pafl_sk->get('custom_css');
+		 $custom_css = "";
+		$custom_css .= $pafl_sk->get('modal_form_custom_css');
 		$modal_class = $pafl_sk->get('modal_effect');
 		 $modal_bckd = $pafl_sk->get('form_modal_background');
 		 $modal_text = $pafl_sk->get('text_color');
