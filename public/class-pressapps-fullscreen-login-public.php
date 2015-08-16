@@ -410,7 +410,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	function pafl_logout_text( $text ){
 
-	     echo "<a href=''>".$text."</a>";
+	     echo "<a href='".wp_logout_url()."'>".$text."</a>";
 
 	}
 
