@@ -400,7 +400,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	function pafl_login_text( $text ){
 
-	    echo "<a href=''>".$text."</a>";
+	    echo "<a href='#'  data-form='login' title='pafl-trigger-overlay'>".$text."</a>";
 	}
 
 	/**
@@ -422,7 +422,7 @@ class Pressapps_Fullscreen_Login_Public {
 	function pafl_register( $text , $modal = false ){
 
 		if( $modal ){
-		    echo "<a href='javascript:;' title='pafl-trigger-overlay'>".$text."</a>";
+		    echo "<a href='javascript:;' data-form='register' title='pafl-trigger-overlay'>".$text."</a>";
 		}else{
     		echo "<a href=''>".$text."</a>";
 		}
