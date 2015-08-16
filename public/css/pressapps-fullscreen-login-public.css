@@ -3,4 +3,14 @@
  * included in this file.
  */
 
+.pafl-overlay  #login form .form-links a{
+	font-size:17px;
+}
 
+.pafl-overlay  #login form .form-links a.forgot-password{
+	float: left;
+}
+
+.pafl-overlay  #login form .form-links a.create-account{
+	float: right;
+}

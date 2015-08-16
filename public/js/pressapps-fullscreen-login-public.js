@@ -10,6 +10,7 @@ var PA_FULLSCREEN_LOGIN = {
         		closeBttn 	= $( 'button.pafl-overlay-close' );
 		
 			triggerBttn.on( 'click', function(){
+				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
 				PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
 				return false;
 			});
@@ -18,6 +19,22 @@ var PA_FULLSCREEN_LOGIN = {
 				PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
 				return false; 
 			});
+
+        },
+        show_screen: function( me ){
+        	var get_screen; 
+        	if( typeof me.data("form") !== 'undefined' ){
+        		get_screen = me.data("form")
+        	}else if( typeof me.attr('href') !== 'undefined' ){
+        		get_screen = me.attr('href')
+        	}
+        	$("div.pafl-overlay div[class*=pafl-modal-content]").hide();
+
+        	if( get_screen == 'login' || get_screen == '#pafl_modal_login' ){
+        		$("div.pafl-overlay div#login").show();
+        	}else if( get_screen == 'register' || get_screen == '#pafl_modal_register' ){
+        		$("div.pafl-overlay div#register").show();
+        	}
 
         },
         toggleOverlay: function( overlay ) {

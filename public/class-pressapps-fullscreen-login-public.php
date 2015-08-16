@@ -72,7 +72,10 @@ class Pressapps_Fullscreen_Login_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		$pafl_sk = new Skelet("pafl");
+		$modal_class = $pafl_sk->get('modal_effect');
 
+		wp_enqueue_style( 'pafl-'.$modal_class , plugin_dir_url( __FILE__ ) . 'css/effects/'.$modal_class.'.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pressapps-fullscreen-login-public.css', array(), $this->version, 'all' );
 
 	}
@@ -171,8 +174,7 @@ class Pressapps_Fullscreen_Login_Public {
 		 $modal_text = $pafl_sk->get('text_color');
 
 		$custom_css .= ".pafl-overlay{ background: ".$modal_bckd." !important; }";
-		$custom_css .= ".pafl-overlay li a, .pafl-overlay li, .pafl-overlay .pafl-social-links span.pafl-social-title{ color: ".$modal_text." !important}";
-		wp_enqueue_style( 'pafl-'.$modal_class , plugin_dir_url( __FILE__ ) . 'css/effects/'.$modal_class.'.css', array(), $this->version, 'all' );
+		$custom_css .= ".pafl-overlay *{ color: ".$modal_text." !important}";
 		wp_add_inline_style( 'pafl-'.$modal_class , $custom_css );
 	}
 
@@ -180,7 +182,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Append modal html to footer in all pages
 	 */
 	public function append_to_footer(){
-
+		
 		$pafl_sk = new Skelet("pafl");
 		$modal_class = $pafl_sk->get('modal_effect');
 
@@ -188,10 +190,181 @@ class Pressapps_Fullscreen_Login_Public {
 			echo "<button type=\"button\" class=\"pafl-overlay-close\">Close</button>\n";
 			echo "<nav>\n";
 				echo "<ul>\n";
+				echo "<li>\n";
+				// Form Logo
+				$form_logo = $pafl_sk->get('form_logo');
+				if( ! empty( $form_logo ) ){
+					echo "<img src='".$form_logo."'/>";
+				}
+				
+				?>
+				<?php do_action( 'pafl_before_modal_title' ); ?>
+
+				<?php if( ! is_user_logged_in() ) { ?>
+					<div class="section-container">
+
+						<?php // Login Form ?>
+							<div id="login" class="modal-login-content pafl-modal-content">
+
+								<h2><?php echo $pafl_sk->get('login_form_title'); ?></h2>
+								<p class="pafl-subtitle"><?php echo $pafl_sk->get('login_form_subtitle'); ?></p>
+
+								<?php do_action( 'pafl_before_modal_login' ); ?>
+
+								<form action="login" method="post" id="form" class="group" name="loginform">
+
+									<?php do_action( 'pafl_inside_modal_login_first' ); ?>
+
+									<p class="mluser">
+										<!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps' ); ?></label>
+										 -->
+										 <input type="text" name="log" id="login_user" class="input" placeholder="<?php echo $pafl_sk->get('login_form_username_placeholder_text');?>" value="<?php if ( isset( $user_login ) ) echo esc_attr( $user_login ); ?>" size="20" />
+									</p>
+
+									<p class="mlpsw">
+										<!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps' ); ?></label>
+										 -->
+										 <input type="password" name="pwd" id="login_pass" class="input" placeholder="<?php echo $pafl_sk->get('login_form_password_placeholder_text');?>" value="" size="20" />
+									</p>
+
+									<?php do_action( 'pafl_login_form' ); ?>
+									<?php $show_rememberme = $pafl_sk->get('rememberme_visibility'); ?>
+									<?php if( $show_rememberme ){ ?>
+									<p id="forgetmenot">
+										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo $pafl_sk->get('rememberme_placeholder_text');?>" id="rememberme" value="forever" /> <?php _e( 'Remember Me', 'pressapps' ); ?></label>
+									</p>
+									<?php } ?>
+
+									<p class="submit">
+
+										<?php do_action( 'pafl_inside_modal_login_submit' ); ?>
+
+										<input type="submit" name="wp-sumbit" id="wp-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get('login_button_text');?>" />
+										<input type="hidden" name="login" value="true" />
+										<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
+
+									</p><!--[END .submit]-->
+
+									<p class="form-links">
+									<?php $label_forgot   = $pafl_sk->get('form_forgot_link_text'); ?>
+									<?php if( empty( $label_forgot ) ){
+										$label_forgot = __("Forgot password?",'pressapps');
+									}	
+									?>
+									<?php $label_register = $pafl_sk->get('form_register_link_text'); ?>
+									<?php if( empty( $label_register ) ){
+										$label_register = __("Register",'pressapps');
+									}	
+									?>
+										<a href="#" class='forgot-password'><?php echo $label_forgot;	?></a>
+										<a href="#" class='create-account'> <?php echo $label_register;	?></a>
+									</p><!--[END .form-links]-->
+									
+									<?php do_action( 'pafl_inside_modal_login_last' ); ?>
+
+								</form><!--[END #loginform]-->
+							</div><!--[END #login]-->
+						<?php // Registration form ?>
+							<?php if ( ( get_option( 'users_can_register' ) && ! is_multisite() ) || ( $multisite_reg == 'all' || $multisite_reg == 'blog' || $multisite_reg == 'user' ) ) : ?>
+								<div id="register" class="modal-login-content pafl-modal-content" style="display:none;">
+
+									<h2><?php _e( 'Register', 'pressapps' ); ?></h2>
+
+									<?php do_action( 'pafl_before_modal_register' ); ?>
+
+									<form action="register" method="post" id="form" class="group" name="loginform">
+
+										<?php do_action( 'pafl_inside_modal_register_first' ); ?>
+
+										<p class="mluser">
+											<label class="field-titles" for="reg_user"><?php _e( 'Username', 'pressapps' ); ?></label>
+											<input type="text" name="user_login" id="reg_user" class="input" placeholder="<?php if ( $labels == 'placeholders' ) { _e( 'Username', 'pressapps' ); } ?>" value="<?php if ( isset( $user_login ) ) echo esc_attr( stripslashes( $user_login ) ); ?>" size="20" />
+										</p>
+
+										<p class="mlemail">
+											<label class="field-titles" for="reg_email"><?php _e( 'Email', 'pressapps' ); ?></label>
+											<input type="text" name="user_email" id="reg_email" class="input" placeholder="<?php if ( $labels == 'placeholders' ) { _e( 'Email', 'pressapps' ); } ?>" value="<?php if ( isset( $user_email ) ) echo esc_attr( stripslashes( $user_email ) ); ?>" size="20" />
+										</p>
+		                                    <?php
+		                                    if(isset($pafl_options['userdefine_password'])){
+		                                    ?>
+		                                <p class="mlregpsw">
+											<label class="field-titles" for="reg_password"><?php _e( 'Password', 'pressapps' ); ?></label>
+											<input type="password" name="reg_password" id="reg_password" class="input" placeholder="<?php if ( $labels == 'placeholders' ) { _e( 'Password', 'pressapps' ); } ?>"  />
+										</p>
+		                                <p class="mlregpswconf">
+											<label class="field-titles" for="reg_cpassword"><?php _e( 'Confirm Password', 'pressapps' ); ?></label>
+											<input type="password" name="reg_cpassword" id="reg_cpassword" class="input" placeholder="<?php if ( $labels == 'placeholders' ) { _e( 'Confirm Password', 'pressapps' ); } ?>"  />
+										</p>
+		                                    <?php 
+		                                    }
+		                                    ?>
+		                                                                
+										<?php do_action( 'pafl_register_form' ); ?>
+
+										<p class="submit">
+
+											<?php do_action( 'pafl_inside_modal_register_submit' ); ?>
+
+											<input type="submit" name="user-sumbit" id="user-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Sign Up', 'pressapps' ); ?>" />
+											<input type="hidden" name="register" value="true" />
+											<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
+
+										</p><!--[END .submit]-->
+
+										<?php do_action( 'pafl_inside_modal_register_last' ); ?>
+
+									</form>
+								</div><!--[END #register]-->
+							<?php endif; ?>
+						<?php // Forgotten Password ?>
+							<div id="forgotten" class="modal-login-content pafl-modal-content" style="display:none;">
+
+								<h2><?php _e( 'Forgotten Password?', 'pressapps' ); ?></h2>
+
+								<?php do_action( 'pafl_before_modal_forgotten' ); ?>
+
+								<form action="forgotten" method="post" id="form" class="group" name="loginform">
+
+									<?php do_action( 'pafl_inside_modal_forgotton_first' ); ?>
+
+									<p class="mlforgt">
+										<label class="field-titles" for="forgot_login"><?php _e( 'Username or Email', 'pressapps' ); ?></label>
+										<input type="text" name="forgot_login" id="forgot_login" class="input" placeholder="<?php if ( $labels == 'placeholders' ) { _e( 'Username or Email', 'pressapps' ); } ?>" value="<?php if ( isset( $user_login ) ) echo esc_attr( stripslashes( $user_login ) ); ?>" size="20" />
+									</p>
+
+									<?php do_action( 'pafl_login_form', 'resetpass' ); ?>
+
+									<p class="submit">
+
+										<?php do_action( 'pafl_inside_modal_forgotten_submit' ); ?>
+
+										<input type="submit" name="user-submit" id="user-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Reset Password', 'pressapps' ); ?>">
+										<input type="hidden" name="forgotten" value="true" />
+										<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
+
+									</p>
+
+									<?php do_action( 'pafl_inside_modal_forgotten_last' ); ?>
+
+								</form>
+							</div><!--[END #forgotten]-->
+	
+					<?php }else{ ?>
+					<div id="already-logged-in" class="modal-login-content">
+						<?php echo __("You're already logged in.","pressapps"); ?>
+					</div>
+					<?php } ?>
+	
+					</div><!--[END .section-container]-->
+				
+				<?php do_action( 'pafl_after_modal_form' ); ?>
+
+				<?php
+				echo "</li>\n";	
 				echo "</ul>\n";
 			echo "</nav>\n";
 		echo "</div>\n";
-
 	}	
 }
 
