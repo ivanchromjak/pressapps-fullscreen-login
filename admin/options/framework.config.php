@@ -247,10 +247,24 @@ $options[]      = array(
     'icon'        => 'fa fa-envelope-o ',
     'fields'      => array(
         array(
-            'id'      => 'text', 
-            'type'    => 'text',
-            'title'   => 'Title',
-            'default' => 'Hello World',
+           'id'      => 'custom_email_template', 
+           'type'    => 'switcher',
+           'title'   => 'Custom Email Template',
+           'default' => false,
+        ),
+        array(
+           'id'      => 'custom_email_subject', 
+           'type'    => 'text',
+           'title'   => 'Subject',
+            'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
+                        
+        ),
+        array(
+           'id'      => 'custom_email_body', 
+           'type'    => 'wysiwyg',
+           'title'   => 'Body',
+            'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
+                        
         ),
     )
 );
