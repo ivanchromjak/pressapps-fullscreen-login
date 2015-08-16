@@ -159,7 +159,7 @@ $options[]      = array(
                             'default' => true,
                         ),
                         array(
-                            'id'      => 'password_placeholder_text', 
+                            'id'      => 'register_form_password_placeholder_text', 
                             'type'    => 'text',
                             'title'   => 'Password Placeholder Text',
                             'default' => 'Password',

@@ -3,14 +3,20 @@
  * included in this file.
  */
 
-.pafl-overlay  #login form .form-links a{
+.pafl-overlay  form .form-links a{
 	font-size:17px;
 }
 
-.pafl-overlay  #login form .form-links a.forgot-password{
+.pafl-overlay nav{
+	height:80%;
+}
+.pafl-overlay  #login form .form-links a.forgot-password,.pafl-overlay  #register form .form-links a.btn-login{
 	float: left;
 }
 
-.pafl-overlay  #login form .form-links a.create-account{
+.pafl-overlay  #login form .form-links a.create-account,.pafl-overlay  #register form .form-links a.forgot-password{
 	float: right;
+}
+.pafl-overlay  #forgot form .form-links a.btn-login{
+	text-align: center;
 }

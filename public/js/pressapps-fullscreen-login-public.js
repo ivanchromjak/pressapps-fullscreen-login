@@ -20,12 +20,17 @@ var PA_FULLSCREEN_LOGIN = {
 				return false; 
 			});
 
-			$("#login.pafl-modal-content .form-links a.create-account").click(function(){
+			$(".pafl-modal-content .form-links a.create-account").click(function(){
 				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
 				return false; 
 			});
 
-			$("#login.pafl-modal-content .form-links a.forgot-password").click(function(){
+			$(".pafl-modal-content .form-links a.forgot-password").click(function(){
+				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
+				return false; 
+			});
+
+			$(".pafl-modal-content .form-links a.btn-login").click(function(){
 				PA_FULLSCREEN_LOGIN.common.show_screen( $(this) );
 				return false; 
 			});
