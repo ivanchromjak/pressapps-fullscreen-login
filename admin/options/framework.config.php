@@ -246,13 +246,15 @@ $options[]      = array(
     'title'       => 'Email',
     'icon'        => 'fa fa-envelope-o ',
     'fields'      => array(
+
         array(
            'id'      => 'custom_email_template', 
            'type'    => 'switcher',
            'title'   => 'Custom Email Template',
            'default' => false,
+           'label'    => 'Add custom registration email template with the following variables for use in subject or body: %username%, %password%, %loginlink%',
         ),
-        array(
+       array(
            'id'      => 'custom_email_subject', 
            'type'    => 'text',
            'title'   => 'Subject',
@@ -279,10 +281,35 @@ $options[]      = array(
     'icon'        => 'fa fa-shield',
     'fields'      => array(
         array(
-            'id'      => 'text', 
+            'id'      => 'recaptcha_public_key', 
             'type'    => 'text',
-            'title'   => 'Title',
-            'default' => 'Hello World',
+            'title'   => 'Public Key',
+            'default' => '',
+        ),
+        array(
+            'id'      => 'recaptcha_private_key', 
+            'type'    => 'text',
+            'title'   => 'Private Key',
+            'default' => '',
+        ),
+        array(
+            'id'      => 'recaptcha_enable_on', 
+            'type'    => 'checkbox',
+            'title'   => 'Enable On',
+            'options' => array(
+                'login'     => 'Login Form',
+                'register'  => 'Register Form',
+                'forgot'    => 'Forgot Form',
+            ),
+        ),
+        array(
+            'id'      => 'recaptcha_theme', 
+            'type'    => 'select',
+            'title'   => 'Theme',
+            'options' => array(
+                'light'     => 'Light',
+                'dark'      => 'Dark',
+            ),
         ),
     )
 );
