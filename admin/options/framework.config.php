@@ -224,15 +224,22 @@ $options[]      = array(
         array(
             'id'      => 'redirect_allow_after_login_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Login Redirect URL',
+            'title'   => 'After Login Redirect URL',
             'help'    => 'Set optional login redirect URL, if not set you will be redirected to current page',
         ),
 
         array(
             'id'      => 'redirect_allow_after_logout_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Logout Redirect URL',
+            'title'   => 'After Logout Redirect URL',
             'help'    => 'Set optional logout redirect URL, if not set you will be redirected to home page',
+        ),
+
+        array(
+            'id'      => 'redirect_allow_after_registration_redirection_url', 
+            'type'    => 'text',
+            'title'   => 'After Registration Redirect URL',
+            'help'    => 'Set optional registration redirect URL, if not set you will be redirected to the current page.',
         ),
     )
 );
