@@ -201,10 +201,10 @@ class Pressapps_Fullscreen_Login_Public {
 		$captcha->setPublicKey( $recaptcha_public_key );
 		$captcha->setPrivateKey(  $recaptcha_public_key );
 
-		if (!isset($_SERVER['REMOTE_ADDR'])) {
+/*		if (!isset($_SERVER['REMOTE_ADDR'])) {
 		    $captcha->setRemoteIp('192.168.1.1');
 		}
-
+*/
 		
 		echo "<div class=\"pafl-overlay pafl-overlay-".$modal_class."\">\n";
 			echo "<button type=\"button\" class=\"pafl-overlay-close\">Close</button>\n";
@@ -303,12 +303,10 @@ class Pressapps_Fullscreen_Login_Public {
 										<?php do_action( 'pafl_inside_modal_register_first' ); ?>
 
 										<p class="mluser">
-											<label class="field-titles" for="reg_user"><?php _e( 'Username', 'pressapps' ); ?></label>
 											<input type="text" name="user_login" id="reg_user" class="input" placeholder="<?php echo $pafl_sk->get('register_form_username_placeholder_text'); ?>" value="<?php if ( isset( $user_login ) ) echo esc_attr( stripslashes( $user_login ) ); ?>" size="20" />
 										</p>
 
 										<p class="mlemail">
-											<label class="field-titles" for="reg_email"><?php _e( 'Email', 'pressapps' ); ?></label>
 											<input type="text" name="user_email" id="reg_email" class="input" placeholder="<?php echo $pafl_sk->get('register_form_email_placeholder_text'); ?>" value="<?php if ( isset( $user_email ) ) echo esc_attr( stripslashes( $user_email ) ); ?>" size="20" />
 										</p>
 		                                <?php
@@ -316,7 +314,6 @@ class Pressapps_Fullscreen_Login_Public {
 		                                if( $allow_user_set_password ){
 		                                ?>
 		                                <p class="mlregpsw">
-											<label class="field-titles" for="reg_password"><?php _e( 'Password', 'pressapps' ); ?></label>
 											<input type="password" name="reg_password" id="reg_password" class="input" placeholder="<?php echo $pafl_sk->get('register_form_password_placeholder_text'); ?>"  />
 										</p>
 		                               <?php 
