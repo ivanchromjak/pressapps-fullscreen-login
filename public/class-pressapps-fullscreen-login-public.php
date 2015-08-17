@@ -191,10 +191,21 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Append modal html to footer in all pages
 	 */
 	public function append_to_footer(){
-		
-		$pafl_sk = new Skelet("pafl");
-		$modal_class = $pafl_sk->get('modal_effect');
+					  $pafl_sk = new Skelet("pafl");
+				  $modal_class = $pafl_sk->get('modal_effect');
+		 $recaptcha_public_key = $pafl_sk->get('recaptcha_public_key');
+		$recaptcha_private_key = $pafl_sk->get('recaptcha_private_key');
 
+		include_once plugin_dir_path( dirname( __FILE__ ) )."public/lib/recaptcha/Captcha.php";
+		$captcha = new Captcha\Captcha();
+		$captcha->setPublicKey( $recaptcha_public_key );
+		$captcha->setPrivateKey(  $recaptcha_public_key );
+
+		if (!isset($_SERVER['REMOTE_ADDR'])) {
+		    $captcha->setRemoteIp('192.168.1.1');
+		}
+
+		
 		echo "<div class=\"pafl-overlay pafl-overlay-".$modal_class."\">\n";
 			echo "<button type=\"button\" class=\"pafl-overlay-close\">Close</button>\n";
 			echo "<nav>\n";
@@ -243,10 +254,15 @@ class Pressapps_Fullscreen_Login_Public {
 										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo $pafl_sk->get('rememberme_placeholder_text');?>" id="rememberme" value="forever" /> <?php echo $pafl_sk->get('rememberme_placeholder_text');?></label>
 									</p>
 									<?php } ?>
-
+									
+									<?php if( in_array('login', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+									<p class="recaptcha">
+										 <?php echo $captcha->html(); ?>
+									</p>
+									<?php } ?>
+									
 									<p class="submit">
-
-										<?php do_action( 'pafl_inside_modal_login_submit' ); ?>
+									   <?php do_action( 'pafl_inside_modal_login_submit' ); ?>
 
 										<input type="submit" name="wp-sumbit" id="wp-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get('login_button_text');?>" />
 										<input type="hidden" name="login" value="true" />
@@ -308,7 +324,11 @@ class Pressapps_Fullscreen_Login_Public {
 		                                ?>
 		                                                                
 										<?php do_action( 'pafl_register_form' ); ?>
-
+										<?php if( in_array('register', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+										<p class="recaptcha">
+											 <?php echo $captcha->html(); ?>
+										</p>
+										<?php } ?>
 										<p class="submit">
 
 											<?php do_action( 'pafl_inside_modal_register_submit' ); ?>
@@ -357,7 +377,11 @@ class Pressapps_Fullscreen_Login_Public {
 									</p>
 
 									<?php do_action( 'pafl_login_form', 'resetpass' ); ?>
-
+									<?php if( in_array('forgot', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+										<p class="recaptcha">
+											 <?php echo $captcha->html(); ?>
+										</p>
+									<?php } ?>
 									<p class="submit">
 
 										<?php do_action( 'pafl_inside_modal_forgotten_submit' ); ?>
@@ -455,14 +479,14 @@ class Pressapps_Fullscreen_Login_Public {
 					'message'   => $user_register->get_error_message(),
 				) );
 			} else {
-                if(isset($paml_options['userdefine_password'])){
+                if( $allow_user_set_password ){
                     $success_message = __( 'Registration complete.', 'pressapps' );
                 }else{
                     $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
                 }
 				echo json_encode( array(
 					'registerd'     => true,
-                                        'redirect'      => (isset($paml_options['userdefine_password'])?TRUE:FALSE),
+                                        'redirect'      => ( $allow_user_set_password ?TRUE:FALSE),
 					'message'	=> $success_message,
 				) );
 			}
@@ -504,9 +528,10 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @param  String $user_email 
 	 */
 	public function register_new_user( $user_login, $user_email ) {
-		global $paml_options;
-		$labels = $paml_options['modal-labels'];
-                
+		
+
+		$sk = new Skelet("pafl");
+
 		$errors = new WP_Error();
 		$sanitized_user_login = sanitize_user( $user_login );
 		$user_email = apply_filters( 'user_registration_email', $user_email );
@@ -533,7 +558,9 @@ class Pressapps_Fullscreen_Login_Public {
         /**
          * password Validation if the User Defined Password Is Allowed
          */
-        if(isset($paml_options['userdefine_password'])){
+        $allow_user_set_password = $sk->get('allow_user_set_password');
+
+        if( $allow_user_set_password ){
             if(empty($_REQUEST['password'])){
                 $errors->add( 'empty_password', __( 'Please type your password.', 'pressapps' ) );
             }elseif (strlen($_REQUEST['password'])<6) {
@@ -547,7 +574,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 		if ( $errors->get_error_code() )
 			return $errors;
-                $user_pass = (isset($paml_options['userdefine_password']))?$_REQUEST['password']:wp_generate_password( 12, false );
+                $user_pass = ( $allow_user_set_password )?$_REQUEST['password']:wp_generate_password( 12, false );
 		$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 
 		if ( ! $user_id ) {
@@ -558,7 +585,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 		update_user_option( $user_id, 'default_password_nag', true, true ); // Set up the Password change nag.
                 
-                if(isset($paml_options['userdefine_password'])){
+                if( $allow_user_set_password ){
                     $data['user_login']             = $user_login;
                     $data['user_password']          = $user_pass;
                     $user_login                     = wp_signon( $data, false );
@@ -592,8 +619,8 @@ class Pressapps_Fullscreen_Login_Public {
                 
                 $pattern        = array('#\%username\%#','#\%password\%#','#\%loginlink\%#');
                 $replacement    = array($user->user_login,$user_pass,wp_login_url());
-                $subject        = trim($paml_options['reg_email_subject']);
-                $body           = trim($paml_options['reg_email_template']);
+                $subject        = trim( $sk->get('custom_email_subject') );
+                $body           = trim( $sk->get('custom_email_body') );
                 
                 if(!empty($subject))
                     $email_detail['subject'] = @preg_replace($pattern,$replacement, $subject);
