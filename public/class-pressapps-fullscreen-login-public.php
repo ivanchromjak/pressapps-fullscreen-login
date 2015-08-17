@@ -562,8 +562,6 @@ class Pressapps_Fullscreen_Login_Public {
                 $errors->add( 'empty_password', __( 'Please type your password.', 'pressapps' ) );
             }elseif (strlen($_REQUEST['password'])<6) {
                 $errors->add( 'minlength_password', __( 'Password must be 6 character long.', 'pressapps' ) );
-            }elseif ($_REQUEST['password'] != $_REQUEST['cpassword']) {
-                $errors->add( 'unequal_password', __( 'Passwords do not match.', 'pressapps' ) );
             }
         }
                 
@@ -623,10 +621,11 @@ class Pressapps_Fullscreen_Login_Public {
                     $email_detail['subject'] = @preg_replace($pattern,$replacement, $subject);
                 
                 if(!empty($body))
-                    $email_detail['body']    = @preg_replace($pattern,$replacement, $body);
+                    $email_detail['body']    = @html_entity_decode(@preg_replace($pattern,$replacement, $body));
                 
-                
-                @wp_mail($user->user_email,$email_detail['subject'] , $email_detail['body']);
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                @wp_mail($user->user_email,$email_detail['subject'] , $email_detail['body'], $headers);
                 
                 //@todo
 		//wp_new_user_notification( $user_id, $user_pass );

@@ -90,7 +90,6 @@ var PA_FULLSCREEN_LOGIN = {
 							'register' : $('#form input[name="register"]').val(),
 							'security' : $('#form #security').val(),
 							'password' : $('#form #reg_password').val(),
-							'cpassword': $('#form #reg_cpassword').val()
 						},
 						success: function(results) {
 							if(results.registerd === true) {
