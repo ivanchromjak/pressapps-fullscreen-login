@@ -159,10 +159,34 @@ class Pressapps_Fullscreen_Login_Public {
 		 $modal_text = $pafl_sk->get('text_color');
 
 		$custom_css .= ".pafl-overlay{ background: ".$modal_bckd." !important; }";
-		$custom_css .= ".pafl-overlay *{ color: ".$modal_text." !important}";
+		$custom_css .= ".pafl-overlay *:not(input){ color: ".$modal_text." !important}";
 		wp_add_inline_style( 'pafl-'.$modal_class , $custom_css );
-	}
 
+
+	}
+	/**
+	 * Add inline header scripts
+	 */
+	public function add_inline_script(){
+		$pafl_sk = new Skelet("pafl");
+		$modal_class = $pafl_sk->get('modal_effect');
+		
+		// Only run our ajax stuff when the user isn't logged in.
+		if ( ! is_user_logged_in() ) {
+			echo "<script type='text/javascript'>\n";
+			echo 'var pafl_modal_login_script = '.json_encode( 
+				array(
+					'ajax' 		     => admin_url( 'admin-ajax.php' ),
+					'redirecturl' 	 => '',
+					'loadingmessage' => __( 'Checking Credentials...', 'pressapps' ),
+				)
+			);
+			echo ";";
+			echo "\n";
+			echo "</script>\n";
+
+		}
+	}
 	/**
 	 * Append modal html to footer in all pages
 	 */
@@ -374,33 +398,304 @@ class Pressapps_Fullscreen_Login_Public {
 			echo "</nav>\n";
 		echo "</div>\n";
 	}	
-}
+    
+    /**
+	 * The main Ajax function
+	 * @return Json 
+	 */
+	public function ajax_login() {
+		global $paml_options;
+		// Check our nonce and make sure it's correct.
+                if(is_user_logged_in()){
+                    echo json_encode( array(
+                            'loggedin' => false,
+                            'message'  => __( 'You are already logged in', 'pressapps' ),
+                    ) );
+                    die();
+                }
+		check_ajax_referer( 'ajax-form-nonce', 'security' );
 
+		// Get our form data.
+		$data = array();
+
+		// Check that we are submitting the login form
+		if ( isset( $_REQUEST['login'] ) )  {
+                        
+			$data['user_login']         = sanitize_user( $_REQUEST['username'] );
+			$data['user_password']      = sanitize_text_field( $_REQUEST['password'] );
+			$data['remember']           = (sanitize_text_field( $_REQUEST['rememberme'] )=='TRUE')?TRUE:FALSE;
+			$user_login                 = wp_signon( $data, is_ssl() );
+
+			// Check the results of our login and provide the needed feedback
+			if ( is_wp_error( $user_login ) ) {
+				echo json_encode( array(
+					'loggedin' => false,
+					'message'  => __( 'Wrong Username or Password!', 'pressapps' ),
+				) );
+			} else {
+				echo json_encode( array(
+					'loggedin' => true,
+					'message'  => __( 'Login Successful!', 'pressapps' ),
+				) );
+			}
+		}
+
+		// Check if we are submitting the register form
+		elseif ( isset( $_REQUEST['register'] ) ) {
+			$user_data = array(
+				'user_login' => sanitize_user( $_REQUEST['username'] ),
+				'user_email' => sanitize_email( $_REQUEST['email'] ),
+			);
+			$user_register = $this->paml_register_new_user( $user_data['user_login'], $user_data['user_email'] );
+
+			// Check if there were any issues with creating the new user
+			if ( is_wp_error( $user_register ) ) {
+				echo json_encode( array(
+					'registerd' => false,
+					'message'   => $user_register->get_error_message(),
+				) );
+			} else {
+                if(isset($paml_options['userdefine_password'])){
+                    $success_message = __( 'Registration complete.', 'pressapps' );
+                }else{
+                    $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
+                }
+				echo json_encode( array(
+					'registerd'     => true,
+                                        'redirect'      => (isset($paml_options['userdefine_password'])?TRUE:FALSE),
+					'message'	=> $success_message,
+				) );
+			}
+		}
+
+		// Check if we are submitting the forgotten pwd form
+		elseif ( isset( $_REQUEST['forgotten'] ) ) {
+
+			// Check if we are sending an email or username and sanitize it appropriately
+			if ( is_email( $_REQUEST['username'] ) ) {
+				$username = sanitize_email( $_REQUEST['username'] );
+			} else {
+				$username = sanitize_user( $_REQUEST['username'] );
+			}
+
+			// Send our information
+			$user_forgotten = $this->retrieve_password( $username );
+
+			// Check if there were any errors when requesting a new password
+			if ( is_wp_error( $user_forgotten ) ) {
+				echo json_encode( array(
+					'reset' 	 => false,
+					'message' => $user_forgotten->get_error_message(),
+				) );
+			} else {
+				echo json_encode( array(
+					'reset'   => true,
+					'message' => __( 'Password Reset. Please check your email.', 'pressapps' ),
+				) );
+			}
+		}
+
+		die();
+	}
+	
+	/**
+	 * Sanitize user entered information
+	 * @param  String $user_login 
+	 * @param  String $user_email 
+	 */
+	public function register_new_user( $user_login, $user_email ) {
+		global $paml_options;
+		$labels = $paml_options['modal-labels'];
+                
+		$errors = new WP_Error();
+		$sanitized_user_login = sanitize_user( $user_login );
+		$user_email = apply_filters( 'user_registration_email', $user_email );
+
+		// Check the username was sanitized
+		if ( $sanitized_user_login == '' ) {
+			$errors->add( 'empty_username', __( 'Please enter a username.', 'pressapps' ) );
+		} elseif ( ! validate_username( $user_login ) ) {
+			$errors->add( 'invalid_username', __( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'pressapps' ) );
+			$sanitized_user_login = '';
+		} elseif ( username_exists( $sanitized_user_login ) ) {
+			$errors->add( 'username_exists', __( 'This username is already registered. Please choose another one.', 'pressapps' ) );
+		}
+
+		// Check the email address
+		if ( $user_email == '' ) {
+			$errors->add( 'empty_email', __( 'Please type your email address.', 'pressapps' ) );
+		} elseif ( ! is_email( $user_email ) ) {
+			$errors->add( 'invalid_email', __( 'The email address isn\'t correct.', 'pressapps' ) );
+			$user_email = '';
+		} elseif ( email_exists( $user_email ) ) {
+			$errors->add( 'email_exists', __( 'This email is already registered, please choose another one.', 'pressapps' ) );
+		}
+        /**
+         * password Validation if the User Defined Password Is Allowed
+         */
+        if(isset($paml_options['userdefine_password'])){
+            if(empty($_REQUEST['password'])){
+                $errors->add( 'empty_password', __( 'Please type your password.', 'pressapps' ) );
+            }elseif (strlen($_REQUEST['password'])<6) {
+                $errors->add( 'minlength_password', __( 'Password must be 6 character long.', 'pressapps' ) );
+            }elseif ($_REQUEST['password'] != $_REQUEST['cpassword']) {
+                $errors->add( 'unequal_password', __( 'Passwords do not match.', 'pressapps' ) );
+            }
+        }
+                
+		$errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
+
+		if ( $errors->get_error_code() )
+			return $errors;
+                $user_pass = (isset($paml_options['userdefine_password']))?$_REQUEST['password']:wp_generate_password( 12, false );
+		$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
+
+		if ( ! $user_id ) {
+			$errors->add( 'registerfail', __( 'Couldn\'t register you... please contact the site administrator', 'pressapps' ) );
+
+			return $errors;
+		}
+
+		update_user_option( $user_id, 'default_password_nag', true, true ); // Set up the Password change nag.
+                
+                if(isset($paml_options['userdefine_password'])){
+                    $data['user_login']             = $user_login;
+                    $data['user_password']          = $user_pass;
+                    $user_login                     = wp_signon( $data, false );
+                }
+                
+                $user = get_userdata( $user_id );
+                // The blogname option is escaped with esc_html on the way into the database in sanitize_option
+                // we want to reverse this for the plain text arena of emails.
+                $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
+                $message  = sprintf(__('New user registration on your site %s:', 'pressapps'), $blogname) . "\r\n\r\n";
+                $message .= sprintf(__('Username: %s', 'pressapps'), $user->user_login) . "\r\n\r\n";
+                $message .= sprintf(__('Email: %s', 'pressapps'), $user->user_email) . "\r\n";
+
+                @wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'pressapps'), $blogname), $message);
+
+                if ( empty($user_pass) )
+                        return;
+
+                $message  = sprintf(__('Username: %s', 'pressapps'), $user->user_login) . "\r\n";
+                $message .= sprintf(__('Password: %s', 'pressapps'), $user_pass) . "\r\n";
+                $message .= wp_login_url() . "\r\n";
+
+                
+                
+                $email_detail   = array(
+                    'subject'   => sprintf(__('[%s] Your username and password', 'pressapps'), $blogname),
+                    'body'      => $message,
+                );
+                
+                
+                $pattern        = array('#\%username\%#','#\%password\%#','#\%loginlink\%#');
+                $replacement    = array($user->user_login,$user_pass,wp_login_url());
+                $subject        = trim($paml_options['reg_email_subject']);
+                $body           = trim($paml_options['reg_email_template']);
+                
+                if(!empty($subject))
+                    $email_detail['subject'] = @preg_replace($pattern,$replacement, $subject);
+                
+                if(!empty($body))
+                    $email_detail['body']    = @preg_replace($pattern,$replacement, $body);
+                
+                
+                @wp_mail($user->user_email,$email_detail['subject'] , $email_detail['body']);
+                
+                //@todo
+		//wp_new_user_notification( $user_id, $user_pass );
+
+		return $user_id;
+	}
 
 
 	/**
-	 * Add login/logout/register link
-	 * @param Array $atts    
-	 * @param String $text 
+	 * Setup password retrieve function
+	 * @param  Array $user_data 
 	 */
-	function pafl_link_text( $atts ){
+	public function  retrieve_password( $user_data ) {
+		global $wpdb, $current_site;
 
-	 	$atts = shortcode_atts(
-			array(
-				'login_text' 	=> 'Login',
-				'logout_text' 	=> 'Logout',
-				'register'		=> false,
-				'register_text' => 'Create an Accout'
-			), $atts, 'pafl_link' 
-		);
+		$errors = new WP_Error();
 
-		if( $atts['register'] ){
-			    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
-		}else{
-			if( is_user_logged_in() ){
-			    echo "<a href='".wp_logout_url()."' >".$atts['logout_text']."</a>";
-			}else{
-			    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$atts['login_text']."</a>";
-			}
+		if ( empty( $user_data ) ) {
+			$errors->add( 'empty_username', __( 'Please enter a username or e-mail address.', 'pressapps' ) );
+		} else if ( strpos( $user_data, '@' ) ) {
+			$user_data = get_user_by( 'email', trim( $user_data ) );
+			if ( empty( $user_data ) )
+				$errors->add( 'invalid_email', __( 'There is no user registered with that email address.', 'pressapps'  ) );
+		} else {
+			$login = trim( $user_data );
+			$user_data = get_user_by( 'login', $login );
 		}
+
+		do_action( 'lostpassword_post' );
+
+		if ( $errors->get_error_code() )
+			return $errors;
+
+		if ( ! $user_data ) {
+			$errors->add( 'invalidcombo', __( 'Invalid username or e-mail.', 'pressapps' ) );
+			return $errors;
+		}
+
+		// redefining user_login ensures we return the right case in the email
+		$user_login = $user_data->user_login;
+		$user_email = $user_data->user_email;
+
+		do_action( 'retreive_password', $user_login );  // Misspelled and deprecated
+		do_action( 'retrieve_password', $user_login );
+
+		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
+
+		if ( ! $allow )
+			return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user', 'pressapps' ) );
+		else if ( is_wp_error( $allow ) )
+			return $allow;
+
+        $key = wp_generate_password( 20, false );
+        
+        do_action( 'retrieve_password_key', $user_login, $key );
+        
+        require_once ABSPATH . 'wp-includes/class-phpass.php';
+        $wp_hasher = new PasswordHash( 8, true );
+        
+        $hashed = $wp_hasher->HashPassword( $key );
+        
+        // Now insert the new md5 key into the db
+        $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+     
+     	$message = __( 'Someone requested that the password be reset for the following account:', 'pressapps' ) . "\r\n\r\n";
+		$message .= network_home_url( '/' ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Username: %s', 'pressapps' ), $user_login ) . "\r\n\r\n";
+		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'pressapps' ) . "\r\n\r\n";
+		$message .= __( 'To reset your password, visit the following address:', 'pressapps' ) . "\r\n\r\n";
+		$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
+
+		if ( is_multisite() ) {
+			$blogname = $GLOBALS['current_site']->site_name;
+		} else {
+			// The blogname option is escaped with esc_html on the way into the database in sanitize_option
+			// we want to reverse this for the plain text arena of emails.
+			$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+		}
+
+		$title   = sprintf( __( '[%s] Password Reset', 'pressapps' ), $blogname );
+		$title   = apply_filters( 'retrieve_password_title', $title );
+		$message = apply_filters( 'retrieve_password_message', $message, $key );
+
+		if ( $message && ! wp_mail( $user_email, $title, $message ) ) {
+			$errors->add( 'noemail', __( 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.', 'pressapps' ) );
+
+			return $errors;
+
+			wp_die();
+		}
+
+		return true;
 	}
+
+}
+

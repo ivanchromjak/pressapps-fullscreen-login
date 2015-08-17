@@ -91,3 +91,32 @@ function run_pressapps_fullscreen_login() {
 
 }
 run_pressapps_fullscreen_login();
+
+
+/**
+ * Add login/logout/register link
+ * @param Array $atts    
+ *
+ * @since    1.0.0
+ */
+function pafl_link_text( $atts ){
+
+	$atts = shortcode_atts(
+		array(
+			'login_text' 	=> 'Login',
+			'logout_text' 	=> 'Logout',
+			'register'		=> false,
+			'register_text' => 'Create an Accout'
+		), $atts, 'pafl_link' 
+	);
+
+	if( $atts['register'] ){
+	    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
+	}else{
+		if( is_user_logged_in() ){
+		    echo "<a href='".wp_logout_url()."' >".$atts['logout_text']."</a>";
+		}else{
+		    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$atts['login_text']."</a>";
+		}
+	}
+}
