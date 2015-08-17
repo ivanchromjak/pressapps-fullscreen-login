@@ -231,7 +231,7 @@ class Pressapps_Fullscreen_Login_Public {
 									<?php $show_rememberme = $pafl_sk->get('rememberme_visibility'); ?>
 									<?php if( $show_rememberme ){ ?>
 									<p id="forgetmenot">
-										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo $pafl_sk->get('rememberme_placeholder_text');?>" id="rememberme" value="forever" /> <?php _e( 'Remember Me', 'pressapps' ); ?></label>
+										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo $pafl_sk->get('rememberme_placeholder_text');?>" id="rememberme" value="forever" /> <?php echo $pafl_sk->get('rememberme_placeholder_text');?></label>
 									</p>
 									<?php } ?>
 
