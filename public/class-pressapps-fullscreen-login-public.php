@@ -616,15 +616,19 @@ class Pressapps_Fullscreen_Login_Public {
                 $replacement    = array($user->user_login,$user_pass,wp_login_url());
                 $subject        = trim( $sk->get('custom_email_subject') );
                 $body           = trim( $sk->get('custom_email_body') );
-                
-                if(!empty($subject))
-                    $email_detail['subject'] = @preg_replace($pattern,$replacement, $subject);
-                
-                if(!empty($body))
-                    $email_detail['body']    = @html_entity_decode(@preg_replace($pattern,$replacement, $body));
-                
-                $headers = array('Content-Type: text/html; charset=UTF-8');
+                $enable_custom_template = $sk->get('custom_email_template');
 
+                if( $enable_custom_template ){
+	                if( ! empty( $subject ) ){
+	                    $email_detail['subject'] = @preg_replace($pattern,$replacement, $subject);
+	                }
+	                
+	                if( ! empty( $body ) ){
+	                    $email_detail['body']    = @html_entity_decode(@preg_replace($pattern,$replacement, $body));
+	                }
+	                
+	                $headers = array('Content-Type: text/html; charset=UTF-8');
+	             }
                 @wp_mail($user->user_email,$email_detail['subject'] , $email_detail['body'], $headers);
                 
                 //@todo
