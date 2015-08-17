@@ -13,60 +13,34 @@ $skelet_shortcodes[]     = sk_shortcode_apply_prefix(array(
     'shortcodes' => array(
 
         array(
-            'name'      => 'shortcode_login_text',
-            'title'     => 'Insert Login Text',
-            'view'      => 'contents',
-    	    'fields'    => array(
+            'name'      => 'link',
+            'title'     => 'Insert Fullscreen Login Link',
+            'fields'    => array(
 
 		        array(
-			         'id'       => 'pafl_login_text',
+			         'id'       => 'login_text',
 			         'type'     => 'text',
-			         'title'    => 'Link Text',
-                     'default'  => 'Login'
+			         'title'    => 'Login Link Text',
+                     'default'  => '',
 		        ),
+                array(
+                     'id'       => 'logout_text',
+                     'type'     => 'text',
+                     'title'    => 'Logout Link Text',
+                     'default'  => '',
+                ),
+                array(
+                     'id'       => 'register',
+                     'type'     => 'switcher',
+                     'title'    => 'Register',
+                     'default'  => false,
+                ),
 
 		    ),
 
         ),
 
-        array(
-            'name'      => 'shortcode_logout_text',
-            'title'     => 'Insert Logout Text',
-            'view'      => 'contents',
-            'fields'    => array(
-
-                array(
-                     'id'       => 'pafl_logout_text',
-                     'type'     => 'text',
-                     'title'    => 'Link Text',
-                     'default'  => 'Logout'
-                ),
-
-            ),
-
-        ),
-
-        array(
-            'name'      => 'register',
-            'title'     => 'Insert Register',
-            'fields'    => array(
-
-                array(
-                     'id'       => 'modal',
-                     'type'     => 'switcher',
-                     'title'    => 'Allow register form load in a modal',
-                     'default'  => false,
-                ),
-                array(
-                     'id'       => 'text',
-                     'type'     => 'text',
-                     'title'    => 'Link Text',
-                ),
-
-            ),
-
-        ),
-
+      
     ),
     
 

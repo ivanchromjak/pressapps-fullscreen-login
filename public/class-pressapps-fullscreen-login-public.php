@@ -112,52 +112,37 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function register_shortcodes(){
 		
-		add_shortcode("pafl_login_text",	array($this,'add_login_shortcode'));
-		add_shortcode("pafl_logout_text",	array($this,'add_logout_shortcode'));
-		add_shortcode("pafl_register",		array($this,'add_register_shortcode'));
+		add_shortcode("pafl_link",	array($this,'add_link_shortcode'));
 	
 	}
 
 	/**
-	 * Add login link
+	 * Add login/logout & register link
 	 * @param Array $atts    
 	 * @param String $text 
 	 */
-	public function add_login_shortcode( $atts, $text){
+	public function add_link_shortcode( $atts ){
+		$atts = shortcode_atts(
+			array(
+				'login_text' 	=> 'Login',
+				'logout_text' 	=> 'Logout',
+				'register'		=> false,
+				'register_text' => 'Create an Accout'
+			), $atts, 'pafl_link' 
+		);
 
-	    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$text."</a>";
-	}
-
-	/**
-	 * Add logout link
-	 * @param Array $atts    
-	 * @param String $text 
-	 */
-	public function add_logout_shortcode( $atts, $text){
-
-	     echo "<a href='javascript:;'  data-form='logout'>".$text."</a>";
-
-	}
-
-	/**
-	 * Add Register 
-	 * @param Array $atts    
-	 * @param String $content 
-	 */
-	public function add_register_shortcode( $atts, $content){
-
-	
-		$pafl_register_atts = shortcode_atts( array(
-			'modal' => false,
-			'text'	=> 'Register'
-		), $atts, 'pafl_register' );
-
-	    if( $pafl_register_atts['modal'] ){
-		    echo "<a href='javascript:;' data-form='register' title='pafl-trigger-overlay'>".$pafl_register_atts['text']."</a>";
+		if( $atts['register'] ){
+			    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
 		}else{
-    		echo "<a href=''>".$pafl_register_atts['text']."</a>";
+			if( is_user_logged_in() ){
+			    echo "<a href='".wp_logout_url()."' >".$atts['logout_text']."</a>";
+			}else{
+			    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$atts['login_text']."</a>";
+			}
 		}
 	}
+
+
 
 	/**
 	 * Add modal inline styles in header
@@ -394,37 +379,28 @@ class Pressapps_Fullscreen_Login_Public {
 
 
 	/**
-	 * Add login link
+	 * Add login/logout/register link
 	 * @param Array $atts    
 	 * @param String $text 
 	 */
-	function pafl_login_text( $text ){
+	function pafl_link_text( $atts ){
 
-	    echo "<a href='#'  data-form='login' title='pafl-trigger-overlay'>".$text."</a>";
-	}
+	 	$atts = shortcode_atts(
+			array(
+				'login_text' 	=> 'Login',
+				'logout_text' 	=> 'Logout',
+				'register'		=> false,
+				'register_text' => 'Create an Accout'
+			), $atts, 'pafl_link' 
+		);
 
-	/**
-	 * Add logout link
-	 * @param Array $atts    
-	 * @param String $text 
-	 */
-	function pafl_logout_text( $text ){
-
-	     echo "<a href='".wp_logout_url()."'>".$text."</a>";
-
-	}
-
-	/**
-	 * Add Register 
-	 * @param Array $atts    
-	 * @param String $content 
-	 */
-	function pafl_register( $text , $modal = false ){
-
-		if( $modal ){
-		    echo "<a href='javascript:;' data-form='register' title='pafl-trigger-overlay'>".$text."</a>";
+		if( $atts['register'] ){
+			    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
 		}else{
-    		echo "<a href=''>".$text."</a>";
+			if( is_user_logged_in() ){
+			    echo "<a href='".wp_logout_url()."' >".$atts['logout_text']."</a>";
+			}else{
+			    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$atts['login_text']."</a>";
+			}
 		}
-
 	}
