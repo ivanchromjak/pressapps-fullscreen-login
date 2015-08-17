@@ -107,6 +107,9 @@ var PA_FULLSCREEN_LOGIN = {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
 							}
+						},
+						error: function(e){
+							console.log(e);
 						}
 					});
 				} else if ( form_id === 'forgotten' ) {

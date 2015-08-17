@@ -446,7 +446,7 @@ class Pressapps_Fullscreen_Login_Public {
 				'user_login' => sanitize_user( $_REQUEST['username'] ),
 				'user_email' => sanitize_email( $_REQUEST['email'] ),
 			);
-			$user_register = $this->paml_register_new_user( $user_data['user_login'], $user_data['user_email'] );
+			$user_register = $this->register_new_user( $user_data['user_login'], $user_data['user_email'] );
 
 			// Check if there were any issues with creating the new user
 			if ( is_wp_error( $user_register ) ) {
