@@ -3,6 +3,9 @@
  * included in this file.
  */
 
+.pafl-overlay {
+	overflow: auto;
+}
 .pafl-overlay  form .form-links a{
 	font-size:17px;
 }
@@ -19,4 +22,8 @@
 }
 .pafl-overlay  #forgot form .form-links a.btn-login{
 	text-align: center;
+}
+.section-container {
+	max-width: 500px;
+	margin: 0 auto;
 }
