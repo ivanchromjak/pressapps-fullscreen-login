@@ -33,7 +33,6 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Skelet Config Path
  */
-
 $skelet_paths[] = array(
     'prefix'      => 'pafl',
     'dir'         => wp_normalize_path(  plugin_dir_path( __FILE__ ).'/admin/' ),
