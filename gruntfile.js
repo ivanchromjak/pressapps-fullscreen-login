@@ -4,8 +4,10 @@ module.exports = function(grunt) {
 
         uglify: {
           build: {
-            src: 'src/public/js/*.js',
-            dest: 'public/js/pressapps-fullscreen-login-public.js'
+            files: {
+              'admin/js/pressapps-fullscreen-login-admin.js': 'src/admin/js/*.js',
+              'public/js/pressapps-fullscreen-login-public.js': 'src/public/js/*.js'
+            }
           },
           dev: {
             options: {
@@ -14,8 +16,10 @@ module.exports = function(grunt) {
               compress: false,
               preserveComments: 'all'
             },
-            src: 'src/public/js/*.js',
-            dest: 'public/js/pressapps-fullscreen-login-public.js'
+            files: {
+              'admin/js/pressapps-fullscreen-login-admin.js': 'src/admin/js/*.js',
+              'public/js/pressapps-fullscreen-login-public.js': 'src/public/js/*.js'
+            }
           }
         },
 
@@ -26,6 +30,7 @@ module.exports = function(grunt) {
               sourcemap: 'none'
             },
             files: {                        
+              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/*.scss',
               'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/*.scss'
             }
           },
@@ -35,6 +40,7 @@ module.exports = function(grunt) {
               sourcemap: 'none'
             },
             files: {                        
+              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/*.scss',
               'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/*.scss'
             }
           }
@@ -78,7 +84,7 @@ module.exports = function(grunt) {
             auth: {
               host: '188.121.45.1',
               port: 21,
-              authKey: 'key1'
+              authKey: 'key-dev'
             },
             src: './',
             dest: '/wp-content/plugins/pressapps-fullscreen-login',
@@ -104,7 +110,7 @@ module.exports = function(grunt) {
             auth: {
               host: '188.121.45.1',
               port: 21,
-              authKey: 'key1'
+              authKey: 'key-dev'
             },
             src: './',
             dest: '/wp-content/plugins/pressapps-fullscreen-login',
@@ -130,11 +136,11 @@ module.exports = function(grunt) {
 
         watch: {
           js: {
-            files: ['src/public/js/*.js'],
+            files: ['src/public/js/*.js', 'src/admin/js/*.js'],
             tasks: ['uglify:dev']
           },
           css: {
-            files: ['src/public/scss/*.scss'],
+            files: ['src/public/scss/*.scss', 'src/admin/scss/*.scss'],
             tasks: ['sass:dev']
           }
         }
@@ -146,12 +152,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    //grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-sass');
 
     grunt.registerTask('build', ['uglify:build','sass:build']);
     grunt.registerTask('default', ['uglify:dev','sass:dev']);
 
 };
-
-
