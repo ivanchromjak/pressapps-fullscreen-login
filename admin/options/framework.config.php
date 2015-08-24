@@ -249,31 +249,31 @@ $options[]      = array(
  * Email options tab and fields settings
  */
 $options[]      = array(
-    'name'        => 'email',
-    'title'       => 'Email',
-    'icon'        => 'fa fa-envelope-o ',
-    'fields'      => array(
+    'name'             => 'email',
+    'title'            => 'Email',
+    'icon'             => 'fa fa-envelope-o ',
+    'fields'           => array(
 
         array(
-           'id'      => 'custom_email_template', 
-           'type'    => 'switcher',
-           'title'   => 'Custom Email Template',
-           'default' => false,
-           'label'    => 'Add custom registration email template with the following variables for use in subject or body: %username%, %password%, %loginlink%',
+            'id'       => 'custom_email_template', 
+            'type'     => 'switcher',
+            'title'    => 'Custom Email Template',
+            'default'  => false,
         ),
        array(
-           'id'      => 'custom_email_subject', 
-           'type'    => 'text',
-           'title'   => 'Subject',
+            'id'       => 'custom_email_subject', 
+            'type'     => 'text',
+            'title'    => 'Subject',
             'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
                         
         ),
         array(
-           'id'      => 'custom_email_body', 
-           'type'    => 'wysiwyg',
-           'title'   => 'Body',
+            'id'       => 'custom_email_body', 
+            'type'     => 'wysiwyg',
+            'title'    => 'Body',
             'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
-                        
+            'after'     => 'Add custom registration email template with the following variables for use in subject or body: %username%, %password%, %loginlink%',
+                    
         ),
     )
 );
