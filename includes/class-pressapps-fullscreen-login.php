@@ -103,6 +103,12 @@ class Pressapps_Fullscreen_Login {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pressapps-fullscreen-login-loader.php';
 
 		/**
+		 * The Helpers responsible for defining all functions in both
+		 * side of the site.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/pressapps-fullscreen-login-helpers.php';
+
+		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
@@ -120,6 +126,7 @@ class Pressapps_Fullscreen_Login {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pressapps-fullscreen-login-public.php';
 
 		$this->loader = new Pressapps_Fullscreen_Login_Loader();
+
 
 	}
 
