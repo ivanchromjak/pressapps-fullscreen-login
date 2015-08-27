@@ -13,7 +13,7 @@
  * @package           Pressapps_Fullscreen_Login
  *
  * @wordpress-plugin
- * Plugin Name:       Fullscreen Login
+ * Plugin Name:       PressApps Fullscreen Login
  * Plugin URI:        http://pressapps.co/fullscreen-login/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0

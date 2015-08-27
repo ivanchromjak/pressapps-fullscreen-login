@@ -18,7 +18,7 @@ module.exports = function(grunt) {
             },
             files: {
               'admin/js/pressapps-fullscreen-login-admin.js': 'src/admin/js/*.js',
-              'public/js/pressapps-fullscreen-login-public.js': 'src/public/js/*.js'
+              'public/js/pressapps-fullscreen-login-public.js': ['src/public/js/modernizr.custom.js', 'src/public/js/classie.js', 'src/public/js/snap.svg.js', 'src/public/js/public.js']
             }
           }
         },
@@ -30,8 +30,16 @@ module.exports = function(grunt) {
               sourcemap: 'none'
             },
             files: {                        
-              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/*.scss',
-              'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/*.scss'
+              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/admin.scss',
+              'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/public.scss',
+              'public/css/effects/contentpush.css': 'src/public/scss/effects/contentpush.scss',
+              'public/css/effects/contentscale.css': 'src/public/scss/effects/contentscale.scss',
+              'public/css/effects/corner.css': 'src/public/scss/effects/corner.scss',
+              'public/css/effects/door.css': 'src/public/scss/effects/door.scss',
+              'public/css/effects/hugeinc.css': 'src/public/scss/effects/hugeinc.scss',
+              'public/css/effects/scale.css': 'src/public/scss/effects/scale.scss',
+              'public/css/effects/simplegenie.css': 'src/public/scss/effects/simplegenie.scss',
+              'public/css/effects/slidedown.css': 'src/public/scss/effects/slidedown.scss'
             }
           },
           build: {                           
@@ -40,8 +48,16 @@ module.exports = function(grunt) {
               sourcemap: 'none'
             },
             files: {                        
-              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/*.scss',
-              'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/*.scss'
+              'admin/css/pressapps-fullscreen-login-admin.css': 'src/admin/scss/admin.scss',
+              'public/css/pressapps-fullscreen-login-public.css': 'src/public/scss/public.scss',
+              'public/css/effects/contentpush.css': 'src/public/scss/effects/contentpush.scss',
+              'public/css/effects/contentscale.css': 'src/public/scss/effects/contentscale.scss',
+              'public/css/effects/corner.css': 'src/public/scss/effects/corner.scss',
+              'public/css/effects/door.css': 'src/public/scss/effects/door.scss',
+              'public/css/effects/hugeinc.css': 'src/public/scss/effects/hugeinc.scss',
+              'public/css/effects/scale.css': 'src/public/scss/effects/scale.scss',
+              'public/css/effects/simplegenie.css': 'src/public/scss/effects/simplegenie.scss',
+              'public/css/effects/slidedown.css': 'src/public/scss/effects/slidedown.scss'
             }
           }
         },
@@ -79,41 +95,16 @@ module.exports = function(grunt) {
             }
         },
 
-        'ftp-deploy': {
-          dev: {
-            auth: {
-              host: '188.121.45.1',
-              port: 21,
-              authKey: 'key-dev'
-            },
-            src: './',
-            dest: '/wp-content/plugins/pressapps-fullscreen-login',
-            exclusions: [
-              '.DS_Store',
-              'node_modules',
-              '.sass-cache',
-              '.git',
-              'admin/skelet/.git',
-              '.gitignore',
-              '.gitmodules',
-              '.editorconfig',
-              '.ftppass',
-              '.grunt',
-              '.jshintrc',
-              'gruntfile.js',
-              'package.json',
-              'sftpCache.json',
-              'src'
-            ]
-          },
+        'sftp-deploy': {
           demo: {
             auth: {
-              host: '188.121.45.1',
-              port: 21,
-              authKey: 'key-dev'
+              host: 'fullscreen-login.pressapps.io',
+              port: 22,
+              authKey: 'demo'
             },
+            cache: 'sftpCache.json',
             src: './',
-            dest: '/wp-content/plugins/pressapps-fullscreen-login',
+            dest: 'apps/wordpress/public/wp-content/plugins/pressapps-fullscreen-login',
             exclusions: [
               '.DS_Store',
               'node_modules',
@@ -130,7 +121,8 @@ module.exports = function(grunt) {
               'package.json',
               'sftpCache.json',
               'src'
-            ]
+            ],
+            progress: true
           }
         },
 
@@ -147,7 +139,6 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-sftp-deploy');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-uglify');
