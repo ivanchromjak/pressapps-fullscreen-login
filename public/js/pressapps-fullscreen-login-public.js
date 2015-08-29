@@ -2738,7 +2738,10 @@ Modernizr.addTest("placeholder", function() {
     var PA_FULLSCREEN_LOGIN = {
         common: {
             init: function() {
-                var overlay = document.querySelector("div.pafl-overlay"), triggerBttn = $("#pafl-trigger-overlay, a[title=pafl-trigger-overlay]"), closeBttn = $("button.pafl-overlay-close");
+                var overlay = document.querySelector("div.pafl-overlay"),
+                    triggerBttn = $("#pafl-trigger-overlay, a[title=pafl-trigger-overlay]"),
+                    closeBttn = $("button.pafl-overlay-close");
+
                 triggerBttn.on("click", function() {
                     PA_FULLSCREEN_LOGIN.common.show_screen($(this));
                     PA_FULLSCREEN_LOGIN.common.toggleOverlay(overlay);
@@ -2791,14 +2794,18 @@ Modernizr.addTest("placeholder", function() {
                                     $("#overlay, .login-popup").delay(5e3).fadeOut("300m", function() {
                                         $("#overlay").remove();
                                     });
-                                    window.location.href = updateQueryStringParameter(pafl_modal_login_script.redirecturl, "nocache", new Date().getTime());
+                                    //will track the function of this code
+                                    //window.location.href = updateQueryStringParameter(pafl_modal_login_script.redirecturl, "nocache", new Date().getTime());
+
+                                    PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
+
                                 } else {
                                     $(".modal-login-content > h2").after('<p class="message error"></p>');
                                     $(".modal-login-content > p.message").text(results.message).show();
                                 }
                             }
                         });
-                    } else if (form_id === "register") {
+                    } else if ( form_id === "register" ) {
                         $.ajax({
                             type: "GET",
                             dataType: "json",
@@ -2812,17 +2819,21 @@ Modernizr.addTest("placeholder", function() {
                                 security: $("#form #security").val(),
                                 password: $("#form #reg_password").val()
                             },
-                            success: function(results) {
-                                if (results.registerd === true) {
+                            success: function( results ) {
+                                if ( results.registerd === true ) {
                                     $(".modal-login-content > h2").after('<p class="message success"></p>');
                                     $(".modal-login-content > p.message").text(results.message).show();
                                     $("#register #form input:not(#user-submit)").val("");
-                                    if (results.redirect === true) {
-                                        $("#overlay, .login-popup").delay(5e3).fadeOut("300m", function() {
-                                            $("#overlay").remove();
-                                        });
-                                        window.location.href = updateQueryStringParameter(pafl_modal_login_script.redirecturl, "nocache", new Date().getTime());
-                                    }
+
+                                    //if ( results.redirect === true ) {
+                                    //    $("#overlay, .login-popup").delay(5e3).fadeOut("300m", function() {
+                                    //        $("#overlay").remove();
+                                    //    });
+                                    //    window.location.href = updateQueryStringParameter(pafl_modal_login_script.redirecturl, "nocache", new Date().getTime());
+                                    //}
+
+                                    PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
+
                                 } else {
                                     $(".modal-login-content > h2").after('<p class="message error"></p>');
                                     $(".modal-login-content > p.message").text(results.message).show();
@@ -2923,6 +2934,20 @@ Modernizr.addTest("placeholder", function() {
                         classie.add(container, "pafl-overlay-open");
                     }
                 }
+            },
+            redirectFunc : function( location ){
+
+                //if location is valid will redirect to location if not will redirect to current page
+
+                if ( location !== '' ){
+                    window.location.assign( location );
+                } else {
+                    window.location.assign( PA_FULLSCREEN_LOGIN.common.currentPage() );
+                }
+            },
+
+            currentPage : function(){
+                return window.location.href;
             }
         }
     };
