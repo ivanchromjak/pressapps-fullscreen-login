@@ -105,13 +105,14 @@ class Pressapps_Fullscreen_Login_Public {
 			), $atts, 'pafl_link' 
 		);
 
-		if( $atts['register'] && ! is_user_logged_in() ){
-			    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
-		}else{
-			if( is_user_logged_in() ){
-			    echo "<a href='".wp_logout_url()."' >".$atts['logout_text']."</a>";
-			}else{
-			    echo "<a href='javascript:;'  data-form='login'  title='pafl-trigger-overlay'>".$atts['login_text']."</a>";
+		if ( $atts['register'] && ! is_user_logged_in() ){
+			echo "<a href='javascript:void(0)'  data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps' ) ."</a><br>";
+			echo "<a href='javascript:void(0)'  data-form='register'  title='pafl-trigger-overlay'>". __( $atts['register_text'] , 'pressapps' ) ."</a>";
+		} else {
+			if ( is_user_logged_in() ){
+			    echo "<a href='". esc_url( wp_logout_url() ) ."' >". __( $atts['logout_text'] , 'pressapps' ) ."</a>";
+			} else {
+				echo "<a href='javascript:void(0)'  data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps' ) ."</a>";
 			}
 		}
 	}
@@ -125,12 +126,12 @@ class Pressapps_Fullscreen_Login_Public {
 	public function modal_styles(){
 
 
-		 $pafl_sk = new Skelet("pafl");
-		 $custom_css = "";
+		 $pafl_sk     = new Skelet("pafl");
+	     $custom_css  = "";
 		 $custom_css .= $pafl_sk->get('modal_form_custom_css');
 		 $modal_class = $pafl_sk->get('modal_effect');
-		 $modal_bckd = $pafl_sk->get('form_modal_background');
-		 $modal_text = $pafl_sk->get('text_color');
+	     $modal_bckd  = $pafl_sk->get('form_modal_background');
+	     $modal_text  = $pafl_sk->get('text_color');
 		 $modal_form_border_color = $pafl_sk->get('modal_form_border_color');
 		 $modal_form_border_thickness = $pafl_sk->get('modal_form_border_thickness');
 		 $modal_form_button_text_color = $pafl_sk->get('modal_form_button_text_color');
@@ -248,17 +249,18 @@ class Pressapps_Fullscreen_Login_Public {
 
 									<?php do_action( 'pafl_login_form' ); ?>
 									<?php $show_rememberme = $pafl_sk->get('rememberme_visibility'); ?>
-									<?php if( $show_rememberme ){ ?>
+
+									<?php if( $show_rememberme ): ?>
 									<p id="forgetmenot">
-										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo $pafl_sk->get('rememberme_placeholder_text');?>" id="rememberme" value="forever" /> <?php echo $pafl_sk->get('rememberme_placeholder_text');?></label>
+										<label class="forgetmenot-label" for="rememberme"><input name="rememberme" type="checkbox" placeholder="<?php echo esc_attr( $pafl_sk->get('rememberme_placeholder_text') );?>" id="rememberme" value="forever" /> <?php echo $pafl_sk->get('rememberme_placeholder_text');?></label>
 									</p>
-									<?php } ?>
-									
-									<?php if( in_array('login', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+									<?php endif; ?>
+
+									<?php if( $pafl_sk->get('recaptcha_enable_on') ): ?>
 									<p class="recaptcha">
 										 <?php echo $captcha->html(); ?>
 									</p>
-									<?php } ?>
+									<?php endif; ?>
 									
 									<p class="submit">
 									   <?php do_action( 'pafl_inside_modal_login_submit' ); ?>
@@ -289,7 +291,8 @@ class Pressapps_Fullscreen_Login_Public {
 								</form><!--[END #loginform]-->
 							</div><!--[END #login]-->
 						<?php // Registration form ?>
-							<?php if ( ( get_option( 'users_can_register' ) && ! is_multisite() ) || ( $multisite_reg == 'all' || $multisite_reg == 'blog' || $multisite_reg == 'user' ) ) : ?>
+							<?php //if ( ( get_option( 'users_can_register' ) && ! is_multisite() ) || ( $multisite_reg == 'all' || $multisite_reg == 'blog' || $multisite_reg == 'user' ) ) : ?>
+							<?php if ( get_option( 'users_can_register' ) && ! is_multisite() ) : ?>
 								<div id="register" class="modal-login-content pafl-modal-content" style="display:none;">
 
 									<h2><?php echo $pafl_sk->get('register_form_title'); ?></h2>
@@ -320,7 +323,8 @@ class Pressapps_Fullscreen_Login_Public {
 		                                ?>
 		                                                                
 										<?php do_action( 'pafl_register_form' ); ?>
-										<?php if( in_array('register', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+										<?php //if( in_array('register', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+										<?php if( $pafl_sk->get('recaptcha_enable_on') ){ ?>
 										<p class="recaptcha">
 											 <?php echo $captcha->html(); ?>
 										</p>
@@ -424,14 +428,15 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @return Json 
 	 */
 	public function ajax_login() {
-		global $paml_options;
+		global $paml_options, $post;
 		// Check our nonce and make sure it's correct.
-                if(is_user_logged_in()){
+                if( is_user_logged_in() ){
                     echo json_encode( array(
                             'loggedin' => false,
                             'message'  => __( 'You are already logged in', 'pressapps' ),
                     ) );
                     die();
+
                 }
 		check_ajax_referer( 'ajax-form-nonce', 'security' );
 
@@ -453,10 +458,17 @@ class Pressapps_Fullscreen_Login_Public {
 					'message'  => __( 'Wrong Username or Password!', 'pressapps' ),
 				) );
 			} else {
+
+
+				$skelet_obj 	      = new Skelet( 'pafl' );
+				$after_login_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_login_redirection_url' ) );
 				echo json_encode( array(
 					'loggedin' => true,
 					'message'  => __( 'Login Successful!', 'pressapps' ),
+					'redirect' => esc_url( $after_login_redirect )
 				) );
+
+
 			}
 		}
 
@@ -475,15 +487,20 @@ class Pressapps_Fullscreen_Login_Public {
 					'message'   => $user_register->get_error_message(),
 				) );
 			} else {
-                if( $allow_user_set_password ){
+                if( isset( $allow_user_set_password ) && $allow_user_set_password ){
                     $success_message = __( 'Registration complete.', 'pressapps' );
                 }else{
                     $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
                 }
+
+				$skelet_obj 	      	 = new Skelet( 'pafl' );
+				$after_register_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_login_redirection_url' ) );
+
 				echo json_encode( array(
 					'registerd'     => true,
-                                        'redirect'      => ( $allow_user_set_password ?TRUE:FALSE),
-					'message'	=> $success_message,
+					//'redirect'    => ( $allow_user_set_password ? TRUE : FALSE ),
+					'redirect'      => esc_url( $after_register_redirect ),
+					'message'	    => $success_message,
 				) );
 			}
 		}
@@ -516,6 +533,22 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 		die();
+	}
+
+	/**
+	 * Filter the url set by the user
+	 * @param $url
+	 * @return string
+     */
+	public function filter_redirect_url( $url )
+	{
+		if ( filter_var( $url, FILTER_VALIDATE_URL ) ){
+			$url_redirect = $url;
+		} else {
+			$url_redirect = '';
+		}
+
+		return $url_redirect;
 	}
 	
 	/**
@@ -722,6 +755,5 @@ class Pressapps_Fullscreen_Login_Public {
 
 		return true;
 	}
-
 }
 
