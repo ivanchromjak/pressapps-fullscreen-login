@@ -105,7 +105,7 @@ class Pressapps_Fullscreen_Login_Public {
 			), $atts, 'pafl_link' 
 		);
 
-		if( $atts['register'] ){
+		if( $atts['register'] && ! is_user_logged_in() ){
 			    echo "<a href='javascript:;'  data-form='register'  title='pafl-trigger-overlay'>".$atts['register_text']."</a>";
 		}else{
 			if( is_user_logged_in() ){
@@ -125,10 +125,10 @@ class Pressapps_Fullscreen_Login_Public {
 	public function modal_styles(){
 
 
-		   	$pafl_sk = new Skelet("pafl");
+		 $pafl_sk = new Skelet("pafl");
 		 $custom_css = "";
-		$custom_css .= $pafl_sk->get('modal_form_custom_css');
-		$modal_class = $pafl_sk->get('modal_effect');
+		 $custom_css .= $pafl_sk->get('modal_form_custom_css');
+		 $modal_class = $pafl_sk->get('modal_effect');
 		 $modal_bckd = $pafl_sk->get('form_modal_background');
 		 $modal_text = $pafl_sk->get('text_color');
 		 $modal_form_border_color = $pafl_sk->get('modal_form_border_color');
