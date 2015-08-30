@@ -44,7 +44,16 @@ $skelet_paths[] = array(
  * Load Skelet Framework
  */
 if( ! class_exists( 'Skelet_LoadConfig' ) ){
-        include_once dirname( __FILE__ ) .'/admin/skelet/skelet.php';
+	include_once dirname( __FILE__ ) . '/admin/skelet/skelet.php';
+}
+
+/**
+ * Load Recaptcha
+ */
+if ( ! class_exists( 'Captcha' ) ){
+	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Captcha.php';
+	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Exception.php';
+	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Response.php';
 }
 
 /**

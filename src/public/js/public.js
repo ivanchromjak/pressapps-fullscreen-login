@@ -71,7 +71,8 @@ var PA_FULLSCREEN_LOGIN = {
 								$('#overlay, .login-popup').delay(5000).fadeOut('300m', function() {
 									$('#overlay').remove();
 								});
-								window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
+								//window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
+								PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
 							} else {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
@@ -96,12 +97,11 @@ var PA_FULLSCREEN_LOGIN = {
 								$('.modal-login-content > h2').after('<p class="message success"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
 								$('#register #form input:not(#user-submit)').val('');
-								if(results.redirect === true) {
-									$('#overlay, .login-popup').delay(5000).fadeOut('300m', function() {
-										$('#overlay').remove();
-									});
-									window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
-								}
+								$('#overlay, .login-popup').delay(5000).fadeOut('300m', function() {
+									$('#overlay').remove();
+								});
+								//window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
+								PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
 							} else {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
@@ -211,9 +211,24 @@ var PA_FULLSCREEN_LOGIN = {
 						classie.add( container, 'pafl-overlay-open' );
 					}
 				}
-		}
+		},
+
+		redirectFunc : function( location ){
+
+			//if location is valid will redirect to location if not will redirect to current page
+
+			if ( location !== '' ){
+			  window.location.assign( location );
+			} else {
+			  window.location.assign( PA_FULLSCREEN_LOGIN.common.currentPage() );
+			}
+		},
+
+	    currentPage : function(){
+			   return window.location.href;
+	    }
     }
-}
+};
 
 // The routing fires all common scripts, followed by the page specific scripts.
 // Add additional events for more control over timing e.g. a finalize event

@@ -51,7 +51,6 @@ class Pressapps_Fullscreen_Login_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -74,9 +73,17 @@ class Pressapps_Fullscreen_Login_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
+		$pafl_sk = new Skelet("pafl");
+		$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
 
 		wp_enqueue_script( $this->plugin_name,  plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
+
+		if ( is_array( $recaptcha_status ) && ! empty( $recaptcha_status ) ){
+			wp_enqueue_script( 'captcha',  '//www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit', array(), null, true );
+		}
+
 	}
 
 	/**
@@ -110,7 +117,19 @@ class Pressapps_Fullscreen_Login_Public {
 			echo "<a href='javascript:void(0)'  data-form='register'  title='pafl-trigger-overlay'>". __( $atts['register_text'] , 'pressapps' ) ."</a>";
 		} else {
 			if ( is_user_logged_in() ){
-			    echo "<a href='". esc_url( wp_logout_url() ) ."' >". __( $atts['logout_text'] , 'pressapps' ) ."</a>";
+
+				$skelet_obj 		   = new Skelet( 'pafl' );
+				$after_logout_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_logout_redirection_url' ) );
+
+				//check if after logout redirect url is present
+				if ( ! empty( $after_logout_redirect ) ){
+					$logout_url = wp_logout_url( $after_logout_redirect );
+				} else {
+					$logout_url = wp_logout_url();
+				}
+
+			    echo "<a href='". esc_url( $logout_url ) ."' >". __( $atts['logout_text'] , 'pressapps' ) ."</a>";
+
 			} else {
 				echo "<a href='javascript:void(0)'  data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps' ) ."</a>";
 			}
@@ -124,7 +143,6 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @return [type] [description]
 	 */
 	public function modal_styles(){
-
 
 		 $pafl_sk     = new Skelet("pafl");
 	     $custom_css  = "";
@@ -191,20 +209,21 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Append modal html to footer in all pages
 	 */
 	public function append_to_footer(){
-					  $pafl_sk = new Skelet("pafl");
-				  $modal_class = $pafl_sk->get('modal_effect');
-		 $recaptcha_public_key = $pafl_sk->get('recaptcha_public_key');
-		$recaptcha_private_key = $pafl_sk->get('recaptcha_private_key');
+	  	$pafl_sk     = new Skelet("pafl");
+	    $modal_class = $pafl_sk->get( 'modal_effect' );
+	    $public_key  = $pafl_sk->get( 'recaptcha_public_key' );
+		$private_key = $pafl_sk->get( 'recaptcha_private_key' );
 
-		include_once plugin_dir_path( dirname( __FILE__ ) )."public/lib/recaptcha/Captcha.php";
+		//Captcha Object
 		$captcha = new Captcha\Captcha();
-		$captcha->setPublicKey( $recaptcha_public_key );
-		$captcha->setPrivateKey(  $recaptcha_public_key );
+		$captcha->setPublicKey( $public_key );
+		$captcha->setPrivateKey( $private_key );
 
-/*		if (!isset($_SERVER['REMOTE_ADDR'])) {
-		    $captcha->setRemoteIp('192.168.1.1');
+		//check if recaptcha was enabled on the options
+		if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) ){
+			$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
 		}
-*/
+
 		
 		echo "<div class=\"pafl-overlay pafl-overlay-".$modal_class."\">\n";
 			echo "<button type=\"button\" class=\"pafl-overlay-close\">Close</button>\n";
@@ -214,7 +233,7 @@ class Pressapps_Fullscreen_Login_Public {
 				// Form Logo
 				$form_logo = $pafl_sk->get('form_logo');
 				if( ! empty( $form_logo ) ){
-					echo "<img src='".$form_logo."'/>";
+					echo "<img src='" . esc_attr( $form_logo ) . "'/>";
 				}
 				
 				?>
@@ -248,7 +267,7 @@ class Pressapps_Fullscreen_Login_Public {
 									</p>
 
 									<?php do_action( 'pafl_login_form' ); ?>
-									<?php $show_rememberme = $pafl_sk->get('rememberme_visibility'); ?>
+									<?php $show_rememberme = $pafl_sk->get( 'rememberme_visibility' ); ?>
 
 									<?php if( $show_rememberme ): ?>
 									<p id="forgetmenot">
@@ -256,9 +275,18 @@ class Pressapps_Fullscreen_Login_Public {
 									</p>
 									<?php endif; ?>
 
-									<?php if( $pafl_sk->get('recaptcha_enable_on') ): ?>
+
+									<?php
+									//check if recaptcha is enabled and public key and private key are present
+									if (
+									isset( $recaptcha_status ) &&
+									in_array( 'login' , $recaptcha_status ) &&
+									! empty( $public_key ) &&
+									! empty( $private_key ) ):
+
+									?>
 									<p class="recaptcha">
-										 <?php echo $captcha->html(); ?>
+										 <?php echo $captcha->html( 'captcha-login' ); ?>
 									</p>
 									<?php endif; ?>
 									
@@ -272,7 +300,7 @@ class Pressapps_Fullscreen_Login_Public {
 									</p><!--[END .submit]-->
 
 									<p class="form-links">
-									<?php $label_forgot   = $pafl_sk->get('form_forgot_link_text'); ?>
+									<?php $label_forgot   = $pafl_sk->get( 'form_forgot_link_text' ); ?>
 									<?php if( empty( $label_forgot ) ){
 										$label_forgot = __("Forgot password?",'pressapps');
 									}	
@@ -282,8 +310,8 @@ class Pressapps_Fullscreen_Login_Public {
 										$label_register = __("Register",'pressapps');
 									}	
 									?>
-										<a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot;	?></a>
-										<a href="#" data-form="register" class='create-account'> <?php echo $label_register;	?></a>
+										<a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot; ?></a>
+										<a href="#" data-form="register" class='create-account'> <?php echo $label_register; ?></a>
 									</p><!--[END .form-links]-->
 									
 									<?php do_action( 'pafl_inside_modal_login_last' ); ?>
@@ -313,22 +341,24 @@ class Pressapps_Fullscreen_Login_Public {
 										</p>
 		                                <?php
 		                                $allow_user_set_password = $pafl_sk->get('allow_user_set_password');
-		                                if( $allow_user_set_password ){
-		                                ?>
+		                                if( $allow_user_set_password ):?>
 		                                <p class="mlregpsw">
-											<input type="password" name="reg_password" id="reg_password" class="input" placeholder="<?php echo $pafl_sk->get('register_form_password_placeholder_text'); ?>"  />
+											<input type="password" name="reg_password" id="reg_password" class="input" placeholder="<?php echo $pafl_sk->get( 'register_form_password_placeholder_text' ); ?>"  />
 										</p>
-		                               <?php 
-		                                }
-		                                ?>
-		                                                                
+		                               <?php endif; ?>
 										<?php do_action( 'pafl_register_form' ); ?>
-										<?php //if( in_array('register', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
-										<?php if( $pafl_sk->get('recaptcha_enable_on') ){ ?>
+										<?php
+										if(
+										isset( $recaptcha_status ) &&
+										in_array( 'register' , $recaptcha_status ) &&
+										! empty( $public_key  ) &&
+										! empty( $private_key ) ):
+
+										?>
 										<p class="recaptcha">
-											 <?php echo $captcha->html(); ?>
+											 <?php echo $captcha->html( 'captcha-register' ); ?>
 										</p>
-										<?php } ?>
+										<?php endif; ?>
 										<p class="submit">
 
 											<?php do_action( 'pafl_inside_modal_register_submit' ); ?>
@@ -377,11 +407,15 @@ class Pressapps_Fullscreen_Login_Public {
 									</p>
 
 									<?php do_action( 'pafl_login_form', 'resetpass' ); ?>
-									<?php if( in_array('forgot', $pafl_sk->get('recaptcha_enable_on') ) ){ ?>
+									<?php
+										if( isset( $recaptcha_status ) &&
+											in_array( 'forgot' , $recaptcha_status ) &&
+											! empty( $public_key ) &&
+											! empty( $private_key ) ):?>
 										<p class="recaptcha">
-											 <?php echo $captcha->html(); ?>
+											 <?php echo $captcha->html( 'captcha-forgot' ); ?>
 										</p>
-									<?php } ?>
+									<?php endif; ?>
 									<p class="submit">
 
 										<?php do_action( 'pafl_inside_modal_forgotten_submit' ); ?>
@@ -489,16 +523,14 @@ class Pressapps_Fullscreen_Login_Public {
 			} else {
                 if( isset( $allow_user_set_password ) && $allow_user_set_password ){
                     $success_message = __( 'Registration complete.', 'pressapps' );
-                }else{
+                } else {
                     $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
                 }
 
 				$skelet_obj 	      	 = new Skelet( 'pafl' );
-				$after_register_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_login_redirection_url' ) );
-
+				$after_register_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_registration_redirection_url' ) );
 				echo json_encode( array(
 					'registerd'     => true,
-					//'redirect'    => ( $allow_user_set_password ? TRUE : FALSE ),
 					'redirect'      => esc_url( $after_register_redirect ),
 					'message'	    => $success_message,
 				) );

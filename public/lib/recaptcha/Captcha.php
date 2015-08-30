@@ -247,20 +247,49 @@ class Captcha
     /**
      * Generates reCaptcha form to output to your end user
      *
+     * @param $id
      * @throws Exception
      * @return string
      */
-    public function html()
+    public function html( $id = '' )
     {
         if (!$this->getPublicKey()) {
             throw new Exception('You must set public key provided by reCaptcha');
         }
 
         return
-            '<script src="https://www.google.com/recaptcha/api.js" async defer></script>' .
-            '<div class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme .
+            '<div id="' . $id . '" class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme .
             '" data-type="' . $this->type . '" data-size="' . $this->size . '" data-tabIndex="' . $this->tabIndex .
             '"></div>';
+    }
+
+    /**
+     * Loads script for multiple captcha on same page
+     *
+     * @param $id
+     * @param $sitekey
+     * @return null|string
+     */
+    public function load_scripts( $ids, $sitekey )
+    {
+        if ( is_array( $ids ) && ! empty( $sitekey ) ){
+
+            $output  = "<script type=\"text/javascript\">";
+            $output .= "var CaptchaCallback = function(){";
+
+            foreach ( $ids as $id ){
+                $output .= "grecaptcha.render( document.getElementById('$id'), {'sitekey' : '$sitekey' );";
+            }
+
+            $output .=  "};";
+            $output .=  "</script>";
+
+            return $output;
+
+        } else {
+            return null;
+        }
+
     }
 
     /**
