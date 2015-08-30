@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -79,10 +78,6 @@ class Pressapps_Fullscreen_Login_Public {
 		$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
 
 		wp_enqueue_script( $this->plugin_name,  plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
-
-		if ( is_array( $recaptcha_status ) && ! empty( $recaptcha_status ) ){
-			wp_enqueue_script( 'captcha',  '//www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit', array(), null, true );
-		}
 
 	}
 
@@ -188,7 +183,7 @@ class Pressapps_Fullscreen_Login_Public {
 	public function add_inline_script(){
 		$pafl_sk = new Skelet("pafl");
 		$modal_class = $pafl_sk->get('modal_effect');
-		
+
 		// Only run our ajax stuff when the user isn't logged in.
 		if ( ! is_user_logged_in() ) {
 			echo "<script type='text/javascript'>\n";
@@ -218,9 +213,10 @@ class Pressapps_Fullscreen_Login_Public {
 		$captcha = new Captcha\Captcha();
 		$captcha->setPublicKey( $public_key );
 		$captcha->setPrivateKey( $private_key );
+		$captcha->setTheme( $pafl_sk->get( 'recaptcha_theme' ) );
 
 		//check if recaptcha was enabled on the options
-		if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) ){
+		if ( $this->is_captcha_enabled() ){
 			$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
 		}
 
@@ -278,15 +274,10 @@ class Pressapps_Fullscreen_Login_Public {
 
 									<?php
 									//check if recaptcha is enabled and public key and private key are present
-									if (
-									isset( $recaptcha_status ) &&
-									in_array( 'login' , $recaptcha_status ) &&
-									! empty( $public_key ) &&
-									! empty( $private_key ) ):
-
+									if ( isset( $recaptcha_status ) && in_array( 'login' , $recaptcha_status ) && ! empty( $public_key ) && ! empty( $private_key ) ):
 									?>
 									<p class="recaptcha">
-										 <?php echo $captcha->html( 'captcha-login' ); ?>
+										 <?php echo $captcha->html( 'loginCaptcha' ); ?>
 									</p>
 									<?php endif; ?>
 									
@@ -348,15 +339,10 @@ class Pressapps_Fullscreen_Login_Public {
 		                               <?php endif; ?>
 										<?php do_action( 'pafl_register_form' ); ?>
 										<?php
-										if(
-										isset( $recaptcha_status ) &&
-										in_array( 'register' , $recaptcha_status ) &&
-										! empty( $public_key  ) &&
-										! empty( $private_key ) ):
-
+										if( isset( $recaptcha_status ) && in_array( 'register' , $recaptcha_status ) && ! empty( $public_key  ) && ! empty( $private_key ) ):
 										?>
 										<p class="recaptcha">
-											 <?php echo $captcha->html( 'captcha-register' ); ?>
+											 <?php echo $captcha->html( 'registerCaptcha' ); ?>
 										</p>
 										<?php endif; ?>
 										<p class="submit">
@@ -408,12 +394,9 @@ class Pressapps_Fullscreen_Login_Public {
 
 									<?php do_action( 'pafl_login_form', 'resetpass' ); ?>
 									<?php
-										if( isset( $recaptcha_status ) &&
-											in_array( 'forgot' , $recaptcha_status ) &&
-											! empty( $public_key ) &&
-											! empty( $private_key ) ):?>
+										if( isset( $recaptcha_status ) && in_array( 'forgot' , $recaptcha_status ) && ! empty( $public_key ) && ! empty( $private_key ) ):?>
 										<p class="recaptcha">
-											 <?php echo $captcha->html( 'captcha-forgot' ); ?>
+											 <?php echo $captcha->html( 'forgotCaptcha' ); ?>
 										</p>
 									<?php endif; ?>
 									<p class="submit">
@@ -464,18 +447,19 @@ class Pressapps_Fullscreen_Login_Public {
 	public function ajax_login() {
 		global $paml_options, $post;
 		// Check our nonce and make sure it's correct.
-                if( is_user_logged_in() ){
-                    echo json_encode( array(
-                            'loggedin' => false,
-                            'message'  => __( 'You are already logged in', 'pressapps' ),
-                    ) );
-                    die();
+		if( is_user_logged_in() ){
+			echo json_encode( array(
+					'loggedin' => false,
+					'message'  => __( 'You are already logged in', 'pressapps' ),
+			) );
+			die();
 
-                }
+		}
 		check_ajax_referer( 'ajax-form-nonce', 'security' );
 
 		// Get our form data.
 		$data = array();
+
 
 		// Check that we are submitting the login form
 		if ( isset( $_REQUEST['login'] ) )  {
@@ -485,25 +469,61 @@ class Pressapps_Fullscreen_Login_Public {
 			$data['remember']           = (sanitize_text_field( $_REQUEST['rememberme'] )=='TRUE')?TRUE:FALSE;
 			$user_login                 = wp_signon( $data, is_ssl() );
 
-			// Check the results of our login and provide the needed feedback
-			if ( is_wp_error( $user_login ) ) {
-				echo json_encode( array(
-					'loggedin' => false,
-					'message'  => __( 'Wrong Username or Password!', 'pressapps' ),
-				) );
-			} else {
+			//validate captcha on login
+			$captcha_response 			= $this->validate_captcha( urlencode( $_POST['g-recaptcha-response'] ) );
 
+			$pafl_sk 	      			= new Skelet( 'pafl' );
 
-				$skelet_obj 	      = new Skelet( 'pafl' );
-				$after_login_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_login_redirection_url' ) );
-				echo json_encode( array(
-					'loggedin' => true,
-					'message'  => __( 'Login Successful!', 'pressapps' ),
-					'redirect' => esc_url( $after_login_redirect )
-				) );
+			//validate if captcha is enabled and login credentials are correct and will provide feedback
+			if ( $this->is_captcha_enabled() ) {
 
+				if ( $captcha_response ){
+
+					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+
+					echo json_encode( array(
+						'loggedin' => true,
+						'message'  => __( 'Login Successful!', 'pressapps' ),
+						'redirect' => esc_url( $after_login_redirect )
+					) );
+				} elseif ( $captcha_response && is_user_logged_in() ) {
+
+					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+
+					echo json_encode( array(
+						'loggedin' => true,
+						'message'  => __( 'Login Successful!', 'pressapps' ),
+						'redirect' => esc_url( $after_login_redirect )
+					) );
+
+				} else {
+					echo json_encode(array(
+						'loggedin' => false,
+						'message' => __('Please verify that your not a robot', 'pressapps'),
+					));
+				}
+
+			} elseif( ! $this->is_captcha_enabled() ) {
+
+				if ( is_wp_error( $user_login ) ) {
+					echo json_encode( array(
+						'loggedin' => false,
+						'message'  => __( 'Wrong Username or Password!', 'pressapps' ),
+					) );
+
+				} else {
+
+					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+					echo json_encode( array(
+						'loggedin' => true,
+						'message'  => __( 'Login Successful!', 'pressapps' ),
+						'redirect' => esc_url( $after_login_redirect )
+					) );
+
+				}
 
 			}
+
 		}
 
 		// Check if we are submitting the register form
@@ -527,8 +547,8 @@ class Pressapps_Fullscreen_Login_Public {
                     $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
                 }
 
-				$skelet_obj 	      	 = new Skelet( 'pafl' );
-				$after_register_redirect = $this->filter_redirect_url( $skelet_obj->get( 'redirect_allow_after_registration_redirection_url' ) );
+				$pafl_sk 	      	 = new Skelet( 'pafl' );
+				$after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
 				echo json_encode( array(
 					'registerd'     => true,
 					'redirect'      => esc_url( $after_register_redirect ),
@@ -786,6 +806,78 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Load custom scripts for captcha
+     */
+	public function captcha_scripts()
+	{
+		if ( $this->is_captcha_enabled() ){
+			// Get Skelet object for Captcha
+			$pafl_sk 	 = new Skelet( 'pafl' );
+			$public_key  = $pafl_sk->get( 'recaptcha_public_key' );
+			$private_key = $pafl_sk->get( 'recaptcha_private_key' );
+			$theme 		 = $pafl_sk->get( 'recaptcha_theme' );
+
+			// Set the Captcha Object
+			$captcha = new Captcha\Captcha();
+			$captcha->setPublicKey( $public_key );
+			$captcha->setPrivateKey( $private_key );
+			$captcha->setTheme( $theme );
+			$captcha->setID( array( 'loginCaptcha', 'registerCaptcha', 'forgotCaptcha' ) );
+			$captcha->load_scripts();
+		}
+
+	}
+
+	/**
+	 * Load Google Captcha scripts
+     */
+	public function captcha_google_scripts()
+	{
+		if ( $this->is_captcha_enabled() ){
+			echo '<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>';
+		}
+
+	}
+
+	/**
+	 * Check if captcha is enabled
+	 * @return bool
+     */
+	public function is_captcha_enabled()
+	{
+		$pafl_sk = new Skelet( 'pafl' );
+		if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) && ! empty( $pafl_sk->get( 'recaptcha_enable_on' ) ) ){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Validate Captcha
+	 *
+	 * @return \Captcha\Response
+	 * @throws \Captcha\Exception
+     */
+	public function validate_captcha( $post )
+	{
+		$pafl_sk 	= new Skelet( 'pafl' );
+		$secret_key = $pafl_sk->get( 'recaptcha_private_key' );
+
+		$captcha = new \Captcha\Captcha();
+		$captcha->setPrivateKey( $secret_key );
+		$captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
+
+		$response = $captcha->check( $post );
+		if ( $response->isValid() ){
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }
 

@@ -195,6 +195,12 @@ class Pressapps_Fullscreen_Login {
 
 		// Add inline header scripts
 		$this->loader->add_action( 'wp_head' , $plugin_public, 'add_inline_script', 10, 2 );
+
+		// Load Captcha scripts
+		$this->loader->add_action( 'wp_head', $plugin_public, 'captcha_scripts' );
+
+		// Load Google Captcha scripts
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'captcha_google_scripts' );
 	}
 
 	/**

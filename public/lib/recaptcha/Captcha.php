@@ -149,6 +149,13 @@ class Captcha
     );
 
     /**
+     * An array of supported $ids.
+     *
+     * @var string[]
+     */
+    protected $id = array();
+
+    /**
      * Set public key
      *
      * @param string $key
@@ -251,45 +258,45 @@ class Captcha
      * @throws Exception
      * @return string
      */
-    public function html( $id = '' )
+    public function html( $id )
     {
         if (!$this->getPublicKey()) {
             throw new Exception('You must set public key provided by reCaptcha');
         }
 
         return
-            '<div id="' . $id . '" class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme .
-            '" data-type="' . $this->type . '" data-size="' . $this->size . '" data-tabIndex="' . $this->tabIndex .
-            '"></div>';
+            '<div id="' . $id . '" class="g-recaptcha"></div>';
     }
 
+
     /**
-     * Loads script for multiple captcha on same page
+     * Load the Render Scripts for Captcha.
      *
-     * @param $id
-     * @param $sitekey
-     * @return null|string
      */
-    public function load_scripts( $ids, $sitekey )
+    public function load_scripts()
     {
-        if ( is_array( $ids ) && ! empty( $sitekey ) ){
+    ?>
+        <script type="text/javascript">
+            var onloadCallback = function () {
+                <?php
+                    if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
+                        foreach ( $this->getID() as $item_id ): ?>
 
-            $output  = "<script type=\"text/javascript\">";
-            $output .= "var CaptchaCallback = function(){";
+                grecaptcha.render(<?php echo $item_id; ?>, {
+                    'sitekey': '<?php echo $this->getPublicKey(); ?>',
+                    'theme': '<?php echo $this->theme; ?>',
+                    'callback': function (response) {
+                        console.log(response);
+                    }
+                });
+                <?php
+                        endforeach;
+                    endif;
+                ?>
+            };
+        </script>
 
-            foreach ( $ids as $id ){
-                $output .= "grecaptcha.render( document.getElementById('$id'), {'sitekey' : '$sitekey' );";
-            }
-
-            $output .=  "};";
-            $output .=  "</script>";
-
-            return $output;
-
-        } else {
-            return null;
-        }
-
+    <?php
     }
 
     /**
@@ -478,6 +485,26 @@ class Captcha
         $this->tabIndex = (int)$tabIndex;
 
         return $this;
+    }
+
+    /**
+     * Get the ID that was set.
+     * @return \string[]
+     */
+    public function getID()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the ID of the Captcha
+     * @param array $id
+     */
+    public function setID( $id )
+    {
+        if ( is_array( $id ) && ! empty( $id ) ){
+            $this->id = array_merge( $this->id, $id );
+        }
     }
 }
 
