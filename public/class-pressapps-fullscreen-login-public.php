@@ -108,8 +108,8 @@ class Pressapps_Fullscreen_Login_Public {
 		);
 
 		if ( $atts['register'] && ! is_user_logged_in() ){
-			echo "<a href='#' onclick='return false' data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps' ) ."</a><br>";
-			echo "<a href='#' onclick='return false' data-form='register'  title='pafl-trigger-overlay'>". __( $atts['register_text'] , 'pressapps' ) ."</a>";
+			echo "<a href='#' onclick='return false' data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps-fullscreen-login' ) ."</a><br>";
+			echo "<a href='#' onclick='return false' data-form='register'  title='pafl-trigger-overlay'>". __( $atts['register_text'] , 'pressapps-fullscreen-login' ) ."</a>";
 		} else {
 			if ( is_user_logged_in() ){
 
@@ -123,10 +123,10 @@ class Pressapps_Fullscreen_Login_Public {
 					$logout_url = wp_logout_url();
 				}
 
-			    echo "<a href='". esc_url( $logout_url ) ."' >". __( $atts['logout_text'] , 'pressapps' ) ."</a>";
+			    echo "<a href='". esc_url( $logout_url ) ."' >". __( $atts['logout_text'] , 'pressapps-fullscreen-login' ) ."</a>";
 
 			} else {
-				echo "<a href='#' onclick='return false'  data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps' ) ."</a>";
+				echo "<a href='#' onclick='return false'  data-form='login'  title='pafl-trigger-overlay'>". __( $atts['login_text'] , 'pressapps-fullscreen-login' ) ."</a>";
 			}
 		}
 	}
@@ -192,7 +192,7 @@ class Pressapps_Fullscreen_Login_Public {
 				array(
 					'ajax' 		 => admin_url( 'admin-ajax.php' ),
 					'loader' 	 => plugin_dir_url( __FILE__ ) . 'img/spin.gif',
-					'loadingmessage' => __( 'Checking Credentials...', 'pressapps' ),
+					'loadingmessage' => __( 'Checking Credentials...', 'pressapps-fullscreen-login' ),
 				)
 			);
 			echo ";";
@@ -252,13 +252,13 @@ class Pressapps_Fullscreen_Login_Public {
 									<?php do_action( 'pafl_inside_modal_login_first' ); ?>
 
 									<p class="mluser">
-										<!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps' ); ?></label>
+										<!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>
 										 -->
 										 <input type="text" name="log" id="login_user" class="input" placeholder="<?php echo $pafl_sk->get('login_form_username_placeholder_text');?>" value="<?php if ( isset( $user_login ) ) echo esc_attr( $user_login ); ?>" size="20" />
 									</p>
 
 									<p class="mlpsw">
-										<!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps' ); ?></label>
+										<!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>
 										 -->
 										 <input type="password" name="pwd" id="login_pass" class="input" placeholder="<?php echo $pafl_sk->get('login_form_password_placeholder_text');?>" value="" size="20" />
 									</p>
@@ -294,12 +294,12 @@ class Pressapps_Fullscreen_Login_Public {
 									<p class="form-links">
 									<?php $label_forgot   = $pafl_sk->get( 'form_forgot_link_text' ); ?>
 									<?php if( empty( $label_forgot ) ){
-										$label_forgot = __("Forgot password?",'pressapps');
+										$label_forgot = __("Forgot password?",'pressapps-fullscreen-login');
 									}	
 									?>
 									<?php $label_register = $pafl_sk->get('form_register_link_text'); ?>
 									<?php if( empty( $label_register ) ){
-										$label_register = __("Register",'pressapps');
+										$label_register = __("Register",'pressapps-fullscreen-login');
 									}	
 									?>
 										<a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot; ?></a>
@@ -359,16 +359,16 @@ class Pressapps_Fullscreen_Login_Public {
 										<p class="form-links">
 										<?php $label_login   = $pafl_sk->get('form_login_link_text'); ?>
 										<?php if( empty( $label_login ) ){
-											$label_login = __("Login",'pressapps');
+											$label_login = __("Login",'pressapps-fullscreen-login');
 										}	
 										?>
 										<?php $label_forgot = $pafl_sk->get('form_forgot_link_text'); ?>
 										<?php if( empty( $label_forgot ) ){
-											$label_forgot = __("Forgot password?",'pressapps');
+											$label_forgot = __("Forgot password?",'pressapps-fullscreen-login');
 										}	
 										?>
-											<a href="#" data-form="login" class='btn-login'>	<?php echo $label_login;	?></a>
-											<a href="#" data-form="forgot" class='forgot-password'>		<?php echo $label_forgot;	?></a>
+											<a href="#" data-form="login" class='btn-login'><?php echo $label_login; ?></a>
+											<a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot; ?></a>
 										</p><!--[END .form-links]-->
 										
 										<?php do_action( 'pafl_inside_modal_register_last' ); ?>
@@ -413,7 +413,7 @@ class Pressapps_Fullscreen_Login_Public {
 									<p class="form-links">
 										<?php $label_login   = $pafl_sk->get('form_login_link_text'); ?>
 										<?php if( empty( $label_login ) ){
-											$label_login = __("Login",'pressapps');
+											$label_login = __("Login",'pressapps-fullscreen-login');
 										}	
 										?>
                                         <a href="#" data-form="login" class="btn-login"><?php echo $label_login; ?></a>
@@ -426,7 +426,7 @@ class Pressapps_Fullscreen_Login_Public {
 	
 					<?php }else{ ?>
 					<div id="already-logged-in" class="modal-login-content">
-						<?php echo __("You're already logged in.","pressapps"); ?>
+						<?php echo __("You're already logged in.","pressapps-fullscreen-login"); ?>
 					</div>
 					<?php } ?>
 	
@@ -452,7 +452,7 @@ class Pressapps_Fullscreen_Login_Public {
 		if( is_user_logged_in() ){
 			echo json_encode( array(
 					'loggedin' => false,
-					'message'  => __( 'You are already logged in', 'pressapps' ),
+					'message'  => __( 'You are already logged in', 'pressapps-fullscreen-login' ),
 			) );
 			die();
 
@@ -501,7 +501,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						echo json_encode( array(
 							'loggedin' 	 => false,
-							'message'    => __( 'Wrong Username or Password!', 'pressapps' ),
+							'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 							'validation' => false
 						) );
 
@@ -509,7 +509,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						echo json_encode( array(
 							'loggedin' 	 => true,
-							'message'    => __( 'Login Successful!', 'pressapps' ),
+							'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 							'redirect'   => esc_url( $after_login_redirect ),
 							'validation' => true
 						) );
@@ -520,7 +520,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					echo json_encode(array(
 						'loggedin'   => false,
-						'message'    => __('Please verify that your not a robot', 'pressapps'),
+						'message'    => __('Please verify that your not a robot', 'pressapps-fullscreen-login'),
 						'validation' => false
 					));
 
@@ -533,7 +533,7 @@ class Pressapps_Fullscreen_Login_Public {
 				if ( is_wp_error( $user_login ) ) {
 					echo json_encode( array(
 						'loggedin' 	 => false,
-						'message'    => __( 'Wrong Username or Password!', 'pressapps' ),
+						'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 						'validation' => true // set to true if captcha is disabled
 					) );
 
@@ -542,7 +542,7 @@ class Pressapps_Fullscreen_Login_Public {
 					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
 					echo json_encode( array(
 						'loggedin'   => true,
-						'message'    => __( 'Login Successful!', 'pressapps' ),
+						'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 						'redirect'   => esc_url( $after_login_redirect ),
 						'validation' => true // set to true if captcha is disabled
 					) );
@@ -577,9 +577,9 @@ class Pressapps_Fullscreen_Login_Public {
                         ) );
                     } else {
                         if( isset( $allow_user_set_password ) && $allow_user_set_password ){
-                            $success_message = __( 'Registration complete.', 'pressapps' );
+                            $success_message = __( 'Registration complete.', 'pressapps-fullscreen-login' );
                         } else {
-                            $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
+                            $success_message = __( 'Registration complete. Check your email.', 'pressapps-fullscreen-login' );
                         }
 
                         $after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
@@ -594,7 +594,7 @@ class Pressapps_Fullscreen_Login_Public {
                 } else {
                     echo json_encode(array(
                         'registerd'   => false,
-                        'message'    => __('Please verify that your not a robot', 'pressapps'),
+                        'message'    => __('Please verify that your not a robot', 'pressapps-fullscreen-login'),
                         'validation' => false
                     ));
                 }
@@ -613,9 +613,9 @@ class Pressapps_Fullscreen_Login_Public {
                     ) );
                 } else {
                     if( isset( $allow_user_set_password ) && $allow_user_set_password ){
-                        $success_message = __( 'Registration complete.', 'pressapps' );
+                        $success_message = __( 'Registration complete.', 'pressapps-fullscreen-login' );
                     } else {
-                        $success_message = __( 'Registration complete. Check your email.', 'pressapps' );
+                        $success_message = __( 'Registration complete. Check your email.', 'pressapps-fullscreen-login' );
                     }
 
                     $after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
@@ -659,14 +659,14 @@ class Pressapps_Fullscreen_Login_Public {
                     } else {
                         echo json_encode( array(
                             'reset'      => true,
-                            'message'    => __( 'Password Reset. Please check your email.', 'pressapps' ),
+                            'message'    => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
                             'validation' => true
                         ) );
                     }
                 } else {
                     echo json_encode(array(
                         'registerd'   => false,
-                        'message'    => __('Please verify that your not a robot', 'pressapps'),
+                        'message'    => __('Please verify that your not a robot', 'pressapps-fullscreen-login'),
                         'validation' => false
                     ));
                 }
@@ -683,7 +683,7 @@ class Pressapps_Fullscreen_Login_Public {
                 } else {
                     echo json_encode( array(
                         'reset'   => true,
-                        'message' => __( 'Password Reset. Please check your email.', 'pressapps' ),
+                        'message' => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
                         'validation' => true
                     ) );
                 }
@@ -727,22 +727,22 @@ class Pressapps_Fullscreen_Login_Public {
 
 		// Check the username was sanitized
 		if ( $sanitized_user_login == '' ) {
-			$errors->add( 'empty_username', __( 'Please enter a username.', 'pressapps' ) );
+			$errors->add( 'empty_username', __( 'Please enter a username.', 'pressapps-fullscreen-login' ) );
 		} elseif ( ! validate_username( $user_login ) ) {
-			$errors->add( 'invalid_username', __( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'pressapps' ) );
+			$errors->add( 'invalid_username', __( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'pressapps-fullscreen-login' ) );
 			$sanitized_user_login = '';
 		} elseif ( username_exists( $sanitized_user_login ) ) {
-			$errors->add( 'username_exists', __( 'This username is already registered. Please choose another one.', 'pressapps' ) );
+			$errors->add( 'username_exists', __( 'This username is already registered. Please choose another one.', 'pressapps-fullscreen-login' ) );
 		}
 
 		// Check the email address
 		if ( $user_email == '' ) {
-			$errors->add( 'empty_email', __( 'Please type your email address.', 'pressapps' ) );
+			$errors->add( 'empty_email', __( 'Please type your email address.', 'pressapps-fullscreen-login' ) );
 		} elseif ( ! is_email( $user_email ) ) {
-			$errors->add( 'invalid_email', __( 'The email address isn\'t correct.', 'pressapps' ) );
+			$errors->add( 'invalid_email', __( 'The email address isn\'t correct.', 'pressapps-fullscreen-login' ) );
 			$user_email = '';
 		} elseif ( email_exists( $user_email ) ) {
-			$errors->add( 'email_exists', __( 'This email is already registered, please choose another one.', 'pressapps' ) );
+			$errors->add( 'email_exists', __( 'This email is already registered, please choose another one.', 'pressapps-fullscreen-login' ) );
 		}
         /**
          * password Validation if the User Defined Password Is Allowed
@@ -751,9 +751,9 @@ class Pressapps_Fullscreen_Login_Public {
 
         if( $allow_user_set_password ){
             if( empty($_REQUEST['password']) ){
-                $errors->add( 'empty_password', __( 'Please type your password.', 'pressapps' ) );
+                $errors->add( 'empty_password', __( 'Please type your password.', 'pressapps-fullscreen-login' ) );
             }elseif ( strlen( $_REQUEST['password'] ) < 6 ) {
-                $errors->add( 'minlength_password', __( 'Password must be 6 character long.', 'pressapps' ) );
+                $errors->add( 'minlength_password', __( 'Password must be 6 character long.', 'pressapps-fullscreen-login' ) );
             }
         }
                 
@@ -767,7 +767,7 @@ class Pressapps_Fullscreen_Login_Public {
 		$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 
 		if ( ! $user_id ) {
-			$errors->add( 'registerfail', __( 'Couldn\'t register you... please contact the site administrator', 'pressapps' ) );
+			$errors->add( 'registerfail', __( 'Couldn\'t register you... please contact the site administrator', 'pressapps-fullscreen-login' ) );
 			return $errors;
 		}
 
@@ -784,23 +784,23 @@ class Pressapps_Fullscreen_Login_Public {
                 // we want to reverse this for the plain text arena of emails.
                 $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-                $message  = sprintf(__('New user registration on your site %s:', 'pressapps'), $blogname) . "\r\n\r\n";
-                $message .= sprintf(__('Username: %s', 'pressapps'), $user->user_login) . "\r\n\r\n";
-                $message .= sprintf(__('Email: %s', 'pressapps'), $user->user_email) . "\r\n";
+                $message  = sprintf(__('New user registration on your site %s:', 'pressapps-fullscreen-login'), $blogname) . "\r\n\r\n";
+                $message .= sprintf(__('Username: %s', 'pressapps-fullscreen-login'), $user->user_login) . "\r\n\r\n";
+                $message .= sprintf(__('Email: %s', 'pressapps-fullscreen-login'), $user->user_email) . "\r\n";
 
-                @wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'pressapps'), $blogname), $message);
+                @wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'pressapps-fullscreen-login'), $blogname), $message);
 
                 if ( empty($user_pass) )
                         return;
 
-                $message  = sprintf(__('Username: %s', 'pressapps'), $user->user_login) . "\r\n";
-                $message .= sprintf(__('Password: %s', 'pressapps'), $user_pass) . "\r\n";
+                $message  = sprintf(__('Username: %s', 'pressapps-fullscreen-login'), $user->user_login) . "\r\n";
+                $message .= sprintf(__('Password: %s', 'pressapps-fullscreen-login'), $user_pass) . "\r\n";
                 $message .= wp_login_url() . "\r\n";
 
                 
                 
                 $email_detail   = array(
-                    'subject'   => sprintf(__('[%s] Your username and password', 'pressapps'), $blogname),
+                    'subject'   => sprintf(__('[%s] Your username and password', 'pressapps-fullscreen-login'), $blogname),
                     'body'      => $message,
                 );
                 
@@ -841,11 +841,11 @@ class Pressapps_Fullscreen_Login_Public {
 		$errors = new WP_Error();
 
 		if ( empty( $user_data ) ) {
-			$errors->add( 'empty_username', __( 'Please enter a username or e-mail address.', 'pressapps' ) );
+			$errors->add( 'empty_username', __( 'Please enter a username or e-mail address.', 'pressapps-fullscreen-login' ) );
 		} else if ( strpos( $user_data, '@' ) ) {
 			$user_data = get_user_by( 'email', trim( $user_data ) );
 			if ( empty( $user_data ) )
-				$errors->add( 'invalid_email', __( 'There is no user registered with that email address.', 'pressapps'  ) );
+				$errors->add( 'invalid_email', __( 'There is no user registered with that email address.', 'pressapps-fullscreen-login' ) );
 		} else {
 			$login = trim( $user_data );
 			$user_data = get_user_by( 'login', $login );
@@ -857,7 +857,7 @@ class Pressapps_Fullscreen_Login_Public {
 			return $errors;
 
 		if ( ! $user_data ) {
-			$errors->add( 'invalidcombo', __( 'Invalid username or e-mail.', 'pressapps' ) );
+			$errors->add( 'invalidcombo', __( 'Invalid username or e-mail.', 'pressapps-fullscreen-login' ) );
 			return $errors;
 		}
 
@@ -871,7 +871,7 @@ class Pressapps_Fullscreen_Login_Public {
 		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
 
 		if ( ! $allow )
-			return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user', 'pressapps' ) );
+			return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user', 'pressapps-fullscreen-login' ) );
 		else if ( is_wp_error( $allow ) )
 			return $allow;
 
@@ -887,11 +887,11 @@ class Pressapps_Fullscreen_Login_Public {
         // Now insert the new md5 key into the db
         $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
      
-     	$message = __( 'Someone requested that the password be reset for the following account:', 'pressapps' ) . "\r\n\r\n";
+     	$message = __( 'Someone requested that the password be reset for the following account:', 'pressapps-fullscreen-login' ) . "\r\n\r\n";
 		$message .= network_home_url( '/' ) . "\r\n\r\n";
-		$message .= sprintf( __( 'Username: %s', 'pressapps' ), $user_login ) . "\r\n\r\n";
-		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'pressapps' ) . "\r\n\r\n";
-		$message .= __( 'To reset your password, visit the following address:', 'pressapps' ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Username: %s', 'pressapps-fullscreen-login' ), $user_login ) . "\r\n\r\n";
+		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'pressapps-fullscreen-login' ) . "\r\n\r\n";
+		$message .= __( 'To reset your password, visit the following address:', 'pressapps-fullscreen-login' ) . "\r\n\r\n";
 		$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
 		if ( is_multisite() ) {
@@ -902,12 +902,12 @@ class Pressapps_Fullscreen_Login_Public {
 			$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		}
 
-		$title   = sprintf( __( '[%s] Password Reset', 'pressapps' ), $blogname );
+		$title   = sprintf( __( '[%s] Password Reset', 'pressapps-fullscreen-login' ), $blogname );
 		$title   = apply_filters( 'retrieve_password_title', $title );
 		$message = apply_filters( 'retrieve_password_message', $message, $key );
 
 		if ( $message && ! wp_mail( $user_email, $title, $message ) ) {
-			$errors->add( 'noemail', __( 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.', 'pressapps' ) );
+			$errors->add( 'noemail', __( 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.', 'pressapps-fullscreen-login' ) );
 
 			return $errors;
 

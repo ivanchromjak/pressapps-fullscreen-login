@@ -104,7 +104,7 @@ class Pressapps_Fullscreen_Login_Admin {
 	 * Register Modal link metabox
 	 */
 	public function register_wp_menu_links(){
-		add_meta_box('metabox_modal_link', __('Fullscreen Login Link', 'pressapps' ), array( $this, 'callback_metabox_modal_link' ), 'nav-menus', 'side', 'high');
+		add_meta_box('metabox_modal_link', __('Fullscreen Login Link', 'pressapps-fullscreen-login' ), array( $this, 'callback_metabox_modal_link' ), 'nav-menus', 'side', 'high');
 	}
 
 	/**
@@ -117,19 +117,19 @@ class Pressapps_Fullscreen_Login_Admin {
 				<ul id ="pafl-modal-link-checklist" class="categorychecklist form-no-clear">
 					<li>
 						<label class="menu-item-title">
-						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="-1"> <?php _e('Login', 'pressapps' ); ?> / <?php _e('Logout', 'pressapps' ); ?>
+						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="-1"> <?php _e('Login', 'pressapps-fullscreen-login' ); ?> / <?php _e('Logout', 'pressapps-fullscreen-login' ); ?>
 						</label>
 						<input type="hidden" class="menu-item-type" name="menu-item[-1][menu-item-type]" value="custom">
-						<input type="hidden" class="menu-item-title" name="menu-item[-1][menu-item-title]" value="<?php _e('Login', 'pressapps' ); ?> // <?php _e('Logout', 'pressapps' ); ?>">
+						<input type="hidden" class="menu-item-title" name="menu-item[-1][menu-item-title]" value="<?php _e('Login', 'pressapps-fullscreen-login' ); ?> // <?php _e('Logout', 'pressapps-fullscreen-login' ); ?>">
 						<input type="hidden" class="menu-item-url" name="menu-item[-1][menu-item-url]" value="#pafl_modal_login">
 						<input type="hidden" class="menu-item-attr-title" name="menu-item[-1][menu-item-attr-title]" value="pafl-trigger-overlay">
 					</li>
 					<li>
 						<label class="menu-item-title">
-						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-2][menu-item-object-id]" value="-2"> <?php _e('Register', 'pressapps' ); ?>
+						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-2][menu-item-object-id]" value="-2"> <?php _e('Register', 'pressapps-fullscreen-login' ); ?>
 						</label>
 						<input type="hidden" class="menu-item-type" name="menu-item[-2][menu-item-type]" value="custom">
-						<input type="hidden" class="menu-item-title" name="menu-item[-2][menu-item-title]" value="<?php _e('Register', 'pressapps' ); ?>">
+						<input type="hidden" class="menu-item-title" name="menu-item[-2][menu-item-title]" value="<?php _e('Register', 'pressapps-fullscreen-login' ); ?>">
 						<input type="hidden" class="menu-item-url" name="menu-item[-2][menu-item-url]" value="#pafl_modal_register">
 						<input type="hidden" class="menu-item-attr-title" name="menu-item[-2][menu-item-attr-title]" value="pafl-trigger-overlay">
 					</li>

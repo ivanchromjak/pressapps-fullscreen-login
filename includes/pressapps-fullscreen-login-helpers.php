@@ -22,9 +22,9 @@ if( ! function_exists('pafl_link_text') ){
 		$atts = shortcode_atts(
 			array(
 				'login_text' 	=> 'Login',
-				'logout_text' 	=> __('Logout','pressapps'),
+				'logout_text' 	=> __('Logout','pressapps-fullscreen-login'),
 				'register'		=> false,
-				'register_text' => __('Create an Account','pressapps')
+				'register_text' => __('Create an Account','pressapps-fullscreen-login')
 			), $atts, 'pafl_link' 
 		);
 

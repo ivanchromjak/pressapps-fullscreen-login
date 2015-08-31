@@ -81,7 +81,7 @@ var PA_FULLSCREEN_LOGIN = {
                                 grecaptcha.reset(loginCaptcha);
 							}
 						}
-                        //@todo: add preloader
+                        //@todo: will add preloader on later version
 					});
 				} else if ( form_id === 'register' ) {
 					$.ajax({
