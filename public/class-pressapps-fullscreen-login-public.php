@@ -143,7 +143,7 @@ class Pressapps_Fullscreen_Login_Public {
 	     $custom_css  = "";
 		 $custom_css .= $pafl_sk->get('modal_form_custom_css');
 		 $modal_class = $pafl_sk->get('modal_effect');
-	     $modal_bckd  = $pafl_sk->get('form_modal_background');
+		 $modal_bckd  = $pafl_sk->get('form_modal_background');
 	     $modal_text  = $pafl_sk->get('text_color');
 		 $modal_form_border_color = $pafl_sk->get('modal_form_border_color');
 		 $modal_form_border_thickness = $pafl_sk->get('modal_form_border_thickness');
@@ -151,26 +151,26 @@ class Pressapps_Fullscreen_Login_Public {
 		 $modal_form_button_background_color = $pafl_sk->get('modal_form_button_background_color');
 
 		if( ! empty( $modal_bckd ) ){
-			$custom_css .= ".pafl-overlay{ background: ".$modal_bckd." !important; }";
+			$custom_css .= ".pafl-overlay{ background: ". implode( '', (array) $modal_bckd ) ." !important; }";
 		}
 		if( ! empty( $modal_text ) ){
-			$custom_css .= ".pafl-overlay *:not(input){ color: ".$modal_text." !important}";
+			$custom_css .= ".pafl-overlay *:not(input){ color: " . implode( '', (array) $modal_text ) . " !important}";
 		}
 
 		if( ! empty( $modal_form_border_color ) ){
-			$custom_css .= ".pafl-modal-content{  border-color: ".$modal_form_border_color." !important }";
+			$custom_css .= ".pafl-modal-content{  border-color: " . implode( '', (array) $modal_form_border_color ) . " !important }";
 		}
 
 		if( ! empty( $modal_form_border_thickness ) ){
-				$custom_css .= ".pafl-modal-content{ border: ".$modal_form_border_thickness."px solid !important }";
+				$custom_css .= ".pafl-modal-content{ border: " . $modal_form_border_thickness . "px solid !important }";
 		}
 
 		if( ! empty( $modal_form_button_background_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ background: ".$modal_form_button_background_color."; }";
+				$custom_css .= ".pafl-modal-content input[type=submit]{ background: " . implode( '', (array) $modal_form_button_background_color ) . "; }";
 		}
 
 		if( ! empty( $modal_form_button_text_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ color: ".$modal_form_button_text_color."; }";
+				$custom_css .= ".pafl-modal-content input[type=submit]{ color: " . implode( '', (array) $modal_form_button_text_color ) . "; }";
 		}
 
 		wp_add_inline_style( 'pafl-'.$modal_class , $custom_css );

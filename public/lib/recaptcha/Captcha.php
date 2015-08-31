@@ -39,6 +39,7 @@ use Captcha\Exception;
  * @throws Exception
  * @package library
  */
+
 class Captcha
 {
     /**
@@ -415,13 +416,14 @@ class Captcha
      */
     public function setTheme($theme)
     {
-        if (!self::isValidTheme($theme)) {
-            throw new Exception(
-                'Theme ' . $theme . ' is not valid. Please use one of [' . join(', ', self::$themes) . ']'
-            );
-        }
+        //@todo: work on a better way to display error
+//        if (!self::isValidTheme($theme)) {
+//            throw new Exception(
+//                'Theme ' . implode( '' , (array) $theme ) . ' is not valid. Please use one of [' . join(', ', self::$themes) . ']'
+//            );
+//        }
 
-        $this->theme = (string)$theme;
+        $this->theme = implode( '', (array) $theme );
 
         return $this;
     }
