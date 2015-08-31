@@ -293,13 +293,13 @@ $options[]      = array(
         array(
             'id'      => 'recaptcha_public_key', 
             'type'    => 'text',
-            'title'   => 'Public Key',
+            'title'   => 'Site Key',
             'default' => '',
         ),
         array(
             'id'      => 'recaptcha_private_key', 
             'type'    => 'text',
-            'title'   => 'Private Key',
+            'title'   => 'Secret Key',
             'default' => '',
         ),
         array(

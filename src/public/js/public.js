@@ -47,7 +47,8 @@ var PA_FULLSCREEN_LOGIN = {
 				// Remove any messages that currently exist.
 				$('.modal-login-content > p.message').remove();
 
-				// Check if we are trying to login. If so, process all the needed form fields and return a faild or success message.
+
+				// Check if we are trying to login. If so, process all the needed form fields and return a failed or success message.
 				if ( form_id === 'login' ) {
 					$.ajax({
 						type: 'GET',
@@ -59,12 +60,13 @@ var PA_FULLSCREEN_LOGIN = {
 							'password'   : $('#form #login_pass').val(),
 							'rememberme' : ($('#form #rememberme').is(':checked'))?"TRUE":"FALSE",
 							'login'      : $('#form input[name="login"]').val(),
-							'security'   : $('#form #security').val()
+							'security'   : $('#form #security').val(),
+                            'g-recaptcha-response' : $('#g-recaptcha-response').val() //captcha response on user validation
 						},
 						success: function(results) {
 
 							// Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
-							if(results.loggedin === true) {
+							if( results.loggedin && results.validation ) {
 								$('.modal-login-content > h2').after('<p class="message success"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
 
@@ -76,8 +78,10 @@ var PA_FULLSCREEN_LOGIN = {
 							} else {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
+                                grecaptcha.reset(loginCaptcha);
 							}
 						}
+                        //@todo: add preloader
 					});
 				} else if ( form_id === 'register' ) {
 					$.ajax({
@@ -91,9 +95,10 @@ var PA_FULLSCREEN_LOGIN = {
 							'register' : $('#form input[name="register"]').val(),
 							'security' : $('#form #security').val(),
 							'password' : $('#form #reg_password').val(),
+                            'g-recaptcha-response' : $('#g-recaptcha-response-1').val() //captcha response on user validation
 						},
 						success: function(results) {
-							if(results.registerd === true) {
+							if( results.registerd && results.validation ) {
 								$('.modal-login-content > h2').after('<p class="message success"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
 								$('#register #form input:not(#user-submit)').val('');
@@ -105,6 +110,8 @@ var PA_FULLSCREEN_LOGIN = {
 							} else {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
+                                //@todo: when error will reset captcha (status: not working)
+                                grecaptcha.reset(registerCaptcha);
 							}
 						},
 						error: function(e){
@@ -120,16 +127,19 @@ var PA_FULLSCREEN_LOGIN = {
 							'action'    : 'ajaxlogin', // Calls our wp_ajax_nopriv_ajaxlogin
 							'username'  : $('#form #forgot_login').val(),
 							'forgotten' : $('#form input[name="forgotten"]').val(),
-							'security'  : $('#form #security').val()
-						},
+							'security'  : $('#form #security').val(),
+                            'g-recaptcha-response' : $('#g-recaptcha-response-2').val()
+                        },
 						success: function(results) {
-							if(results.reset === true) {
+							if(results.reset && results.validation) {
 								$('.modal-login-content > h2').after('<p class="message success"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
 								$('#forgotten #form input:not(#user-submit)').val('');
 							} else {
 								$('.modal-login-content > h2').after('<p class="message error"></p>');
 								$('.modal-login-content > p.message').text(results.message).show();
+                                //@todo: when error will reset captcha (status: not working)
+                                grecaptcha.reset(forgotCaptcha);
 							}
 						},
 						error: function(e){

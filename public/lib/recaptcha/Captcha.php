@@ -265,7 +265,7 @@ class Captcha
         }
 
         return
-            '<div id="' . $id . '" class="g-recaptcha"></div>';
+            '<div id="' . $id . '" class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme . '" data-response=""></div>';
     }
 
 
@@ -275,28 +275,30 @@ class Captcha
      */
     public function load_scripts()
     {
-    ?>
-        <script type="text/javascript">
-            var onloadCallback = function () {
-                <?php
-                    if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
-                        foreach ( $this->getID() as $item_id ): ?>
+        $output = "<script id=\"recaptcha-inline-script\" type=\"text/javascript\">";
+        $output .= "/** ReCaptcha */\n";
+            foreach( $this->getID() as $var_item_id ):
+        $output .= "var " . $var_item_id .";";
+            endforeach;
+        $output .=  "var onloadCallback = function() {";
+        if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
+            $i = 0;
+            foreach ( $this->getID() as $item_id ):
 
-                grecaptcha.render(<?php echo $item_id; ?>, {
-                    'sitekey': '<?php echo $this->getPublicKey(); ?>',
-                    'theme': '<?php echo $this->theme; ?>',
-                    'callback': function (response) {
-                        console.log(response);
-                    }
-                });
-                <?php
+            $output .= "var " . $item_id . " = grecaptcha.render('" . $item_id . "', {";
+            $output .= "'sitekey': document.getElementById('" . $item_id . "').getAttribute('data-sitekey'),";
+            $output .= "'theme': document.getElementById('" . $item_id . "').getAttribute('data-theme'),";
+            $output .= "'callback': function (response) {";
+            $output .= "document.getElementById('g-recaptcha-response" . ( $i >= 1 ? '-' . $i : '' ) . "').setAttribute( 'value', response );";
+            $output .= "}";
+            $output .= "});";
+                        $i++;
                         endforeach;
                     endif;
-                ?>
-            };
-        </script>
+            $output .= "};";
+        $output .= "</script>";
 
-    <?php
+        echo $output;
     }
 
     /**

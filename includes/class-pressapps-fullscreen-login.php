@@ -189,7 +189,7 @@ class Pressapps_Fullscreen_Login {
 		// Add overlay html to footer
 		$this->loader->add_action( 'wp_footer' , $plugin_public, 'append_to_footer', 10, 2 );
 
-		// Run Ajax on the login.
+		// Run Ajax on the login
 		$this->loader->add_action( 'wp_ajax_nopriv_ajaxlogin'  ,  $plugin_public, 'ajax_login', 10, 2 );
 		$this->loader->add_action( 'wp_ajax_ajaxlogin'         ,  $plugin_public, 'ajax_login', 10, 2 );
 
