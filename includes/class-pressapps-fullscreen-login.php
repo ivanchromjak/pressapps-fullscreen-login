@@ -201,6 +201,15 @@ class Pressapps_Fullscreen_Login {
 
 		// Load Google Captcha scripts
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'captcha_google_scripts' );
+
+		// Display right label for login/logout WP_Menu
+		$this->loader->add_filter( 'wp_nav_menu_objects', $plugin_public, 'pafl_filter_frontend_modal_link_label', 10, 1 );
+
+		// Filter Menu attributes
+		$this->loader->add_filter( 'nav_menu_link_attributes', $plugin_public, 'pafl_filter_frontend_modal_link_atts', 10, 3 );
+
+		// Hide Register from Menu when user is logged in
+		$this->loader->add_filter( 'wp_nav_menu_objects', $plugin_public, 'pafl_filter_frontend_modal_link_register_hide', 10, 1 );
 	}
 
 	/**

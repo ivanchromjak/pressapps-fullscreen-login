@@ -988,5 +988,61 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 	}
+
+	public function pafl_filter_frontend_modal_link_label( $items ) {
+		foreach ( $items as $i => $item ) {
+			if( '#pafl_modal_login' === $item->url ) {
+				$item_parts = explode( ' // ', $item->title );
+				if ( is_user_logged_in() ) {
+					$items[ $i ]->title = array_pop( $item_parts );
+				} else {
+					$items[ $i ]->title = array_shift( $item_parts );
+				}
+			}
+		}
+		return $items;
+	}
+
+	public function pafl_filter_frontend_modal_link_atts( $atts, $item, $args ) {
+
+		// Only apply when URL is #pafl_modal_login/#pafl_modal_register
+		if( '#pafl_modal_login' === $atts[ 'href'] ) {
+			// Check if we have an over riding logout redirection set. Other wise, default to the home page.
+			$pafl_sk = new Skelet( 'pafl' );
+			$logout_url = $pafl_sk->get('redirect_allow_after_logout_redirection_url');
+
+			if ( isset( $logout_url ) && $logout_url == '' ){
+				$logout_url = home_url();
+			}
+
+			// Is the user logged in? If so, serve them the logout button, else we'll show the login button.
+			if ( is_user_logged_in() ) {
+				$atts[ 'href' ] = wp_logout_url( esc_url( $logout_url ) );
+			} else {
+				$atts[ 'href' ] = '#';
+				$atts[ 'data-form' ] = 'login';
+				$atts[ 'onclick' ] = 'false';
+				$atts[ 'title' ] = 'pafl-trigger-overlay';
+			}
+		} else if ( '#pafl_modal_register' === $atts[ 'href'] ) {
+            $atts[ 'href' ] = '#';
+            $atts[ 'data-form' ] = 'register';
+            $atts[ 'onclick' ] = 'false';
+            $atts[ 'title' ] = 'pafl-trigger-overlay';
+		}
+
+		return $atts;
+	}
+
+    public function pafl_filter_frontend_modal_link_register_hide( $items ) {
+        foreach ( $items as $i => $item ) {
+            if( '#pafl_modal_register' === $item->url ) {
+                if ( is_user_logged_in() ) {
+                    unset( $items[ $i ] );
+                }
+            }
+        }
+        return $items;
+    }
 }
 
