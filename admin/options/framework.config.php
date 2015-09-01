@@ -345,9 +345,9 @@ $options[]      = array(
             'rgba'    => false
         ),
         array(
-            'id'      => 'modal_form_border_color', 
+            'id'      => 'modal_text_border_color',
             'type'    => 'color_picker',
-            'title'   => 'Form Border Color',
+            'title'   => 'Text Field Border Color',
             'help'    => 'Applies to text form fields only',
             'rgba'    => false
         ),

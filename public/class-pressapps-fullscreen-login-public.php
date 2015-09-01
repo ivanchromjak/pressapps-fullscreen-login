@@ -145,7 +145,7 @@ class Pressapps_Fullscreen_Login_Public {
 		 $modal_class = $pafl_sk->get('modal_effect');
 		 $modal_bckd  = $pafl_sk->get('form_modal_background');
 	     $modal_text  = $pafl_sk->get('text_color');
-		 $modal_form_border_color = $pafl_sk->get('modal_form_border_color');
+		 $modal_text_border_color = $pafl_sk->get('modal_text_border_color');
 		 $modal_form_border_thickness = $pafl_sk->get('modal_form_border_thickness');
 		 $modal_form_button_text_color = $pafl_sk->get('modal_form_button_text_color');
 		 $modal_form_button_background_color = $pafl_sk->get('modal_form_button_background_color');
@@ -157,8 +157,8 @@ class Pressapps_Fullscreen_Login_Public {
 			$custom_css .= ".pafl-overlay *:not(input){ color: " . implode( '', (array) $modal_text ) . " !important}";
 		}
 
-		if( ! empty( $modal_form_border_color ) ){
-			$custom_css .= ".pafl-modal-content{  border-color: " . implode( '', (array) $modal_form_border_color ) . " !important }";
+		if( ! empty( $modal_text_border_color ) ){
+			$custom_css .= "#form .input{  border-color: " . implode( '', (array) $modal_text_border_color ) . " !important }";
 		}
 
 		if( ! empty( $modal_form_border_thickness ) ){
