@@ -416,14 +416,12 @@ class Captcha
      */
     public function setTheme($theme)
     {
-        //@todo: work on a better way to display error
-//        if (!self::isValidTheme($theme)) {
-//            throw new Exception(
-//                'Theme ' . implode( '' , (array) $theme ) . ' is not valid. Please use one of [' . join(', ', self::$themes) . ']'
-//            );
-//        }
-
-        $this->theme = implode( '', (array) $theme );
+        // Check if the $theme that was pass is in the set and if not will set to default 'light'
+        if ( in_array( $theme, self::$themes ) ){
+            $this->theme = implode( '', (array) $theme );
+        } else {
+            $this->theme = 'light';
+        }
 
         return $this;
     }
