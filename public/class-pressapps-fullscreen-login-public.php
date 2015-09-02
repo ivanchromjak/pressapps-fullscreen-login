@@ -141,24 +141,24 @@ class Pressapps_Fullscreen_Login_Public {
 
 		 $pafl_sk     = new Skelet("pafl");
 	     $custom_css  = "";
-		 $custom_css .= $pafl_sk->get('modal_form_custom_css');
-		 $modal_class = $pafl_sk->get('modal_effect');
-		 $modal_bckd  = $pafl_sk->get('form_modal_background');
-	     $modal_text  = $pafl_sk->get('text_color');
-		 $modal_text_border_color = $pafl_sk->get('modal_text_border_color');
-		 $modal_form_border_thickness = $pafl_sk->get('modal_form_border_thickness');
-		 $modal_form_button_text_color = $pafl_sk->get('modal_form_button_text_color');
-		 $modal_form_button_background_color = $pafl_sk->get('modal_form_button_background_color');
+		 $custom_css .= $this->filtered_string( $pafl_sk->get('modal_form_custom_css') );
+		 $modal_class = $this->filtered_string( $pafl_sk->get('modal_effect') );
+		 $modal_bckd  = $this->filtered_string( $pafl_sk->get('form_modal_background') );
+	     $modal_text  = $this->filtered_string( $pafl_sk->get('text_color') );
+		 $modal_text_border_color = $this->filtered_string( $pafl_sk->get('modal_text_border_color') );
+		 $modal_form_border_thickness = $this->filtered_string( $pafl_sk->get('modal_form_border_thickness') );
+		 $modal_form_button_text_color = $this->filtered_string( $pafl_sk->get('modal_form_button_text_color') );
+		 $modal_form_button_background_color = $this->filtered_string( $pafl_sk->get('modal_form_button_background_color') );
 
 		if( ! empty( $modal_bckd ) ){
-			$custom_css .= ".pafl-overlay{ background: ". implode( '', (array) $modal_bckd ) ." !important; }";
+			$custom_css .= ".pafl-overlay{ background: ". $modal_bckd  ." !important; }";
 		}
 		if( ! empty( $modal_text ) ){
-			$custom_css .= ".pafl-overlay *:not(input){ color: " . implode( '', (array) $modal_text ) . " !important}";
+			$custom_css .= ".pafl-overlay *:not(input){ color: " . $modal_text . " !important}";
 		}
 
 		if( ! empty( $modal_text_border_color ) ){
-			$custom_css .= "#form .input{  border-color: " . implode( '', (array) $modal_text_border_color ) . " !important }";
+			$custom_css .= "#form .input{  border-color: " . $modal_text_border_color . " !important }";
 		}
 
 		if( ! empty( $modal_form_border_thickness ) ){
@@ -166,15 +166,14 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 		if( ! empty( $modal_form_button_background_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ background: " . implode( '', (array) $modal_form_button_background_color ) . "; }";
+				$custom_css .= ".pafl-modal-content input[type=submit]{ background: " . $modal_form_button_background_color . "; }";
 		}
 
 		if( ! empty( $modal_form_button_text_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ color: " . implode( '', (array) $modal_form_button_text_color ) . "; }";
+				$custom_css .= ".pafl-modal-content input[type=submit]{ color: " . $modal_form_button_text_color . "; }";
 		}
 
 		wp_add_inline_style( 'pafl-'.$modal_class , $custom_css );
-
 
 	}
 	/**
@@ -210,14 +209,16 @@ class Pressapps_Fullscreen_Login_Public {
 	    $public_key  = $pafl_sk->get( 'recaptcha_public_key' );
 		$private_key = $pafl_sk->get( 'recaptcha_private_key' );
 
-		//Captcha Object
-		$captcha = new Captcha\Captcha();
-		$captcha->setPublicKey( $public_key );
-		$captcha->setPrivateKey( $private_key );
-		$captcha->setTheme( $pafl_sk->get( 'recaptcha_theme' ) );
-
 		//check if recaptcha was enabled on the options
 		if ( $this->is_captcha_enabled() ){
+
+            //create the Captcha object
+            $captcha = new Captcha\Captcha();
+            $captcha->setPublicKey( $public_key );
+            $captcha->setPrivateKey( $private_key );
+            $captcha->setTheme( $pafl_sk->get( 'recaptcha_theme' ) );
+
+            //use to check on which page the captcha is enabled
 			$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
 		}
 
@@ -228,11 +229,12 @@ class Pressapps_Fullscreen_Login_Public {
 				echo "<ul>\n";
 				echo "<li>\n";
 				// Form Logo
-				$form_logo = $pafl_sk->get('form_logo');
-				if( ! empty( $form_logo ) ){
-					echo "<img src='" . esc_attr( $form_logo ) . "'/>";
-				}
-				
+				$form_logo = $this->filtered_string( $pafl_sk->get('form_logo') );
+
+                if ( ! empty( $form_logo ) ){
+                    echo "<img src='" . esc_attr( $form_logo ) . "'/>"  ;
+                }
+
 				?>
 				<?php do_action( 'pafl_before_modal_title' ); ?>
 
@@ -319,7 +321,7 @@ class Pressapps_Fullscreen_Login_Public {
 							</div><!--[END #login]-->
 						<?php // Registration form ?>
 							<?php //if ( ( get_option( 'users_can_register' ) && ! is_multisite() ) || ( $multisite_reg == 'all' || $multisite_reg == 'blog' || $multisite_reg == 'user' ) ) : ?>
-							<?php if ( get_option( 'users_can_register' ) && ! is_multisite() ) : ?>
+							<?php if ( get_option( 'users_can_register' ) ): ?>
 								<div id="register" class="modal-login-content pafl-modal-content" style="display:none;">
 
 									<h2><?php echo $pafl_sk->get('register_form_title'); ?></h2>
@@ -479,20 +481,25 @@ class Pressapps_Fullscreen_Login_Public {
 		// Get our form data.
 		$data = array();
 
-		// Captcha Response Param
-        $captcha_response = $_REQUEST['g-recaptcha-response'];
+        // Skelet Object
+        $pafl_sk = new Skelet( 'pafl' );
 
-		// Skelet Object
-		$pafl_sk 	= new Skelet( 'pafl' );
-		$secret_key = $pafl_sk->get( 'recaptcha_private_key' );
+        // Check if Captcha is enabled and will
+		if ( $this->is_captcha_enabled() ) {
 
-		// Captcha Object
-		$captcha = new \Captcha\Captcha();
-		$captcha->setPrivateKey( $secret_key );
-		$captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
+            // Captcha Response Param
+            $captcha_response = $_REQUEST['g-recaptcha-response'];
+            $secret_key       = $pafl_sk->get( 'recaptcha_private_key' );
+
+            // Captcha Object
+            $captcha          = new \Captcha\Captcha();
+            $captcha->setPrivateKey( $secret_key );
+            $captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
+
+        }
 
 		// Validate Captcha through Google and get a Response Object
-		if ( isset( $captcha_response ) ){
+		if ( isset( $captcha_response ) && isset( $captcha ) ){
 			$response = $captcha->check( $captcha_response );
 		}
 
@@ -821,11 +828,15 @@ class Pressapps_Fullscreen_Login_Public {
                     'body'      => $message,
                 );
                 
-                
-                $pattern        = array('#\%username\%#','#\%password\%#','#\%loginlink\%#');
-                $replacement    = array($user->user_login,$user_pass,wp_login_url());
-                $subject        = trim( $sk->get('custom_email_subject') );
-                $body           = trim( $sk->get('custom_email_body') );
+
+                //Custom Email
+                $custom_email_body      = $this->filtered_string( $sk->get('custom_email_body') );
+                $custom_email_subject   = $this->filtered_string( $sk->get('custom_email_subject') );
+
+                $pattern                = array('#\%username\%#','#\%password\%#','#\%loginlink\%#');
+                $replacement            = array($user->user_login,$user_pass,wp_login_url());
+                $subject                = trim( $custom_email_subject );
+                $body                   = trim( $custom_email_body );
                 $enable_custom_template = $sk->get('custom_email_template');
 
                 if( $enable_custom_template ){
@@ -983,6 +994,23 @@ class Pressapps_Fullscreen_Login_Public {
 
 	}
 
+    /**
+     * Filter function to fixed Array to string conversion notice
+     *
+     * @param $string
+     * @return string
+     */
+    public function filtered_string( $string )
+    {
+        if ( is_string( $string ) && strtolower( $string ) === 'array' ){
+            $string = "";
+        } elseif( is_array( $string ) ) {
+            $string = "";
+        }
+
+        return $string;
+    }
+
 	/**
 	 * Validate Captcha
 	 *
@@ -1007,7 +1035,13 @@ class Pressapps_Fullscreen_Login_Public {
 
 	}
 
-	public function pafl_filter_frontend_modal_link_label( $items ) {
+    /**
+     * Filter modal link label
+     *
+     * @param $items
+     * @return mixed
+     */
+    public function pafl_filter_frontend_modal_link_label( $items ) {
 		foreach ( $items as $i => $item ) {
 			if( '#pafl_modal_login' === $item->url ) {
 				$item_parts = explode( ' // ', $item->title );
@@ -1021,7 +1055,15 @@ class Pressapps_Fullscreen_Login_Public {
 		return $items;
 	}
 
-	public function pafl_filter_frontend_modal_link_atts( $atts, $item, $args ) {
+    /**
+     * Filter modal attribute
+     *
+     * @param $atts
+     * @param $item
+     * @param $args
+     * @return mixed
+     */
+    public function pafl_filter_frontend_modal_link_atts( $atts, $item, $args ) {
 
 		// Only apply when URL is #pafl_modal_login/#pafl_modal_register
 		if( '#pafl_modal_login' === $atts[ 'href'] ) {
@@ -1035,23 +1077,30 @@ class Pressapps_Fullscreen_Login_Public {
 
 			// Is the user logged in? If so, serve them the logout button, else we'll show the login button.
 			if ( is_user_logged_in() ) {
-				$atts[ 'href' ] = wp_logout_url( esc_url( $logout_url ) );
+				$atts[ 'href' ]  = wp_logout_url( $logout_url );
+                $atts[ 'title' ] = null;
 			} else {
-				$atts[ 'href' ] = '#';
+				$atts[ 'href' ]      = '#';
 				$atts[ 'data-form' ] = 'login';
-				$atts[ 'onclick' ] = 'false';
-				$atts[ 'title' ] = 'pafl-trigger-overlay';
+				$atts[ 'onclick' ]   = 'false';
+				$atts[ 'title' ]     = 'pafl-trigger-overlay';
 			}
 		} else if ( '#pafl_modal_register' === $atts[ 'href'] ) {
-            $atts[ 'href' ] = '#';
+            $atts[ 'href' ]      = '#';
             $atts[ 'data-form' ] = 'register';
-            $atts[ 'onclick' ] = 'false';
-            $atts[ 'title' ] = 'pafl-trigger-overlay';
+            $atts[ 'onclick' ]   = 'false';
+            $atts[ 'title' ]     = 'pafl-trigger-overlay';
 		}
 
 		return $atts;
 	}
 
+    /**
+     * Filter modal register link and hide when logged in
+     *
+     * @param $items
+     * @return mixed
+     */
     public function pafl_filter_frontend_modal_link_register_hide( $items ) {
         foreach ( $items as $i => $item ) {
             if( '#pafl_modal_register' === $item->url ) {
