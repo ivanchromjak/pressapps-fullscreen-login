@@ -74,9 +74,6 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function enqueue_scripts()
 	{
-		$pafl_sk = new Skelet("pafl");
-		$recaptcha_status = $pafl_sk->get( 'recaptcha_enable_on' );
-
 		wp_enqueue_script( $this->plugin_name,  plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -87,12 +84,47 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @since  1.0.0
 	 */
 	public function register_shortcodes(){
-		
-		add_shortcode("pafl_link",	array($this,'add_link_shortcode'));
-	
+		add_shortcode( 'pafl_login_link', array( $this, 'pafl_login_link' ) );
+		add_shortcode( 'pafl_register_link', array( $this, 'pafl_register_link' ) );
 	}
 
-	/**
+    /**
+     * Login link shortcode
+     *
+     * @param Array $atts
+     */
+    function pafl_login_link( $atts ) {
+        $atts = shortcode_atts(
+            array(
+                'login_text' 	=> __( 'Login', 'pressapps-fullscreen-login' ),
+                'logout_text' 	=> __('Logout','pressapps-fullscreen-login')
+            ), $atts, 'pafl_login_link'
+        );
+
+        if ( is_user_logged_in() ){
+            echo '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
+        } else {
+            echo '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
+        }
+    }
+
+    /**
+     * Register link shortcode
+     *
+     * @param Array $atts
+     */
+    public function pafl_register_link( $atts ) {
+        $atts = shortcode_atts(
+            array(
+                'register_text' => __('Create an Account','pressapps-fullscreen-login')
+            ), $atts, 'pafl_register_link'
+        );
+
+        echo '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+    }
+
+
+    /**
 	 * Add login/logout & register link
 	 * @param Array $atts    
 	 * @param String $text 
