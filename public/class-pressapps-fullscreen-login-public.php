@@ -287,6 +287,13 @@ class Pressapps_Fullscreen_Login_Public {
 
 										<input type="submit" name="wp-sumbit" id="wp-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get('login_button_text');?>" />
 										<input type="hidden" name="login" value="true" />
+
+                                        <?php
+                                        //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
+                                        if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+										<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="false" />
+                                        <?php endif; ?>
+
 										<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 									</p><!--[END .submit]-->
@@ -352,6 +359,11 @@ class Pressapps_Fullscreen_Login_Public {
 
 											<input type="submit" name="user-sumbit" id="user-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get('register_button_text'); ?>" />
 											<input type="hidden" name="register" value="true" />
+                                            <?php
+                                            //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
+                                            if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                                                <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-1" value="false" />
+                                            <?php endif; ?>
 											<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 										</p><!--[END .submit]-->
@@ -406,6 +418,11 @@ class Pressapps_Fullscreen_Login_Public {
 
 										<input type="submit" name="user-submit" id="user-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get('forgot_button_text'); ?>">
 										<input type="hidden" name="forgotten" value="true" />
+                                        <?php
+                                        //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
+                                        if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-2" value="false" />
+                                        <?php endif; ?>
 										<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 									</p>
@@ -502,7 +519,7 @@ class Pressapps_Fullscreen_Login_Public {
 						echo json_encode( array(
 							'loggedin' 	 => false,
 							'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
-							'validation' => false
+							'validation' => false,
 						) );
 
 					} else {
@@ -511,7 +528,7 @@ class Pressapps_Fullscreen_Login_Public {
 							'loggedin' 	 => true,
 							'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 							'redirect'   => esc_url( $after_login_redirect ),
-							'validation' => true
+							'validation' => true,
 						) );
 
 					}
@@ -521,7 +538,7 @@ class Pressapps_Fullscreen_Login_Public {
 					echo json_encode(array(
 						'loggedin'   => false,
 						'message'    => __('Please verify that your not a robot', 'pressapps-fullscreen-login'),
-						'validation' => false
+						'validation' => false,
 					));
 
 				}
@@ -534,7 +551,7 @@ class Pressapps_Fullscreen_Login_Public {
 					echo json_encode( array(
 						'loggedin' 	 => false,
 						'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
-						'validation' => true // set to true if captcha is disabled
+						'validation' => true, // set to true if captcha is disabled
 					) );
 
 				} else {
@@ -544,7 +561,7 @@ class Pressapps_Fullscreen_Login_Public {
 						'loggedin'   => true,
 						'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 						'redirect'   => esc_url( $after_login_redirect ),
-						'validation' => true // set to true if captcha is disabled
+						'validation' => true, // set to true if captcha is disabled
 					) );
 
 				}
@@ -958,11 +975,12 @@ class Pressapps_Fullscreen_Login_Public {
 	public function is_captcha_enabled()
 	{
 		$pafl_sk = new Skelet( 'pafl' );
-		if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) && ! empty( $pafl_sk->get( 'recaptcha_enable_on' ) ) ){
+		if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) && $pafl_sk->get( 'recaptcha_enable_on' ) !== false ){
 			return true;
 		} else {
 			return false;
 		}
+
 	}
 
 	/**

@@ -80,6 +80,9 @@ var PA_FULLSCREEN_LOGIN = {
 								$('.modal-login-content > p.message').text(results.message).show();
                                 grecaptcha.reset(loginCaptcha);
 							}
+						},
+						error: function( e ){
+							console.log(e);
 						}
                         //@todo: will add preloader on later version
 					});
