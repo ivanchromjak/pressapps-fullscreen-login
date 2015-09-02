@@ -2,16 +2,18 @@
 
 ###Login Link Shortcode
 
+**Description**
+
 Shortcode use to generate the login and logout link.
 
+**Options**
 
 | Attributes  | Description |
 | ----------- | ----------- |
 | login_text  | text to be displayed on a login link |
 | logout_text | text to be displayed on a logout link |
 
-**Login Link Function**
-
+**Function**
 
 ```
 function pafl_login_link( $atts ) {
@@ -30,18 +32,22 @@ function pafl_login_link( $atts ) {
 }
 ```
 
+---
+
 ###Register Link Shortcode
 
-Shortcode use to generate the Registration Link
+**Description**
 
+Shortcode use to generate the registration link
 
-| Attributes  | Description |
+**Option**
+
+| Attribute  | Description |
 | ----------- | ----------- |
 | register_text  | text to be displayed on a Registration link |
 
 
-**Register Link Function**
-
+**Function**
 
 ```
 function pafl_register_link( $atts ) {
