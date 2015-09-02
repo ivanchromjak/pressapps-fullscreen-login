@@ -278,15 +278,17 @@ class Captcha
     {
         $output = "<script id=\"recaptcha-inline-script\" type=\"text/javascript\">";
         $output .= "/** ReCaptcha */\n";
-            foreach( $this->getID() as $var_item_id ):
-        $output .= "var " . $var_item_id .";";
-            endforeach;
+
+        foreach( $this->getID() as $var_item_id ):
+            $output .= "var " . $var_item_id .";";
+        endforeach;
+
         $output .=  "var onloadCallback = function() {";
         if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
             $i = 0;
             foreach ( $this->getID() as $item_id ):
 
-            $output .= "var " . $item_id . " = grecaptcha.render('" . $item_id . "', {";
+            $output .= $item_id . " = grecaptcha.render('" . $item_id . "', {";
             $output .= "'sitekey': document.getElementById('" . $item_id . "').getAttribute('data-sitekey'),";
             $output .= "'theme': document.getElementById('" . $item_id . "').getAttribute('data-theme'),";
             $output .= "'callback': function (response) {";
@@ -294,8 +296,8 @@ class Captcha
             $output .= "}";
             $output .= "});";
                         $i++;
-                        endforeach;
-                    endif;
+            endforeach;
+        endif;
             $output .= "};";
         $output .= "</script>";
 
