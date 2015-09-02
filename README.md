@@ -1,8 +1,6 @@
 #Pressapps Fullsrcreen Plugin
 
-##Shortcode Usage
-
-###Login Link Shortcode
+##Login Link Shortcode
 
 Shortcode use to generate the login and logout link.
 
@@ -32,7 +30,7 @@ function pafl_login_link( $atts ) {
 }
 ```
 
-###Login Link Shortcode
+##Register Link Shortcode
 
 Shortcode use to generate the Registration Link
 
