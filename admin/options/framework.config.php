@@ -224,24 +224,24 @@ $options[]      = array(
         array(
             'id'      => 'redirect_allow_after_login_redirection_url', 
             'type'    => 'text',
-            'title'   => 'After Login Redirect URL',
-            'after'   => ' e.g. ( http://yoursitename.com/page )',
+            'title'   => 'Login Redirect URL',
+            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
             'help'    => 'Set optional login redirect URL, if not set you will be redirected to current page',
         ),
 
         array(
             'id'      => 'redirect_allow_after_logout_redirection_url', 
             'type'    => 'text',
-            'title'   => 'After Logout Redirect URL',
-            'after'   => ' e.g. ( http://yoursitename.com/page )',
+            'title'   => 'Logout Redirect URL',
+            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
             'help'    => 'Set optional logout redirect URL, if not set you will be redirected to home page',
         ),
 
         array(
             'id'      => 'redirect_allow_after_registration_redirection_url', 
             'type'    => 'text',
-            'title'   => 'After Registration Redirect URL',
-            'after'   => ' e.g. ( http://yoursitename.com/page )',
+            'title'   => 'Registration Redirect URL',
+            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
             'help'    => 'Set optional registration redirect URL, if not set you will be redirected to the current page.',
         ),
     )
