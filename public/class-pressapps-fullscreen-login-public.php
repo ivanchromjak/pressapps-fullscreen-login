@@ -175,36 +175,36 @@ class Pressapps_Fullscreen_Login_Public {
 
 		 $pafl_sk     = new Skelet("pafl");
 	     $custom_css  = "";
-		 $custom_css .= $this->filtered_string( $pafl_sk->get('modal_form_custom_css') );
+		 $custom_css .= $this->filtered_string( $pafl_sk->get('custom_css') );
 		 $modal_class = $this->filtered_string( $pafl_sk->get('modal_effect') );
-		 $modal_bckd  = $this->filtered_string( $pafl_sk->get('form_modal_background') );
+		 $modal_background  = $this->filtered_string( $pafl_sk->get('modal_background') );
 	     $modal_text  = $this->filtered_string( $pafl_sk->get('text_color') );
-		 $modal_text_border_color = $this->filtered_string( $pafl_sk->get('modal_text_border_color') );
-		 $modal_form_border_thickness = $this->filtered_string( $pafl_sk->get('modal_form_border_thickness') );
-		 $modal_form_button_text_color = $this->filtered_string( $pafl_sk->get('modal_form_button_text_color') );
-		 $modal_form_button_background_color = $this->filtered_string( $pafl_sk->get('modal_form_button_background_color') );
+		 $input_border_color = $this->filtered_string( $pafl_sk->get('input_border_color') );
+		 $input_border_width = $this->filtered_string( $pafl_sk->get('input_border_width') );
+		 $button_text_color = $this->filtered_string( $pafl_sk->get('button_text_color') );
+		 $button_background_color = $this->filtered_string( $pafl_sk->get('button_background_color') );
 
-		if( ! empty( $modal_bckd ) ){
-			$custom_css .= ".pafl-overlay{ background: ". $modal_bckd  ." !important; }";
+		if( ! empty( $modal_background ) ){
+			$custom_css .= ".pafl-overlay{ background: ". $modal_background  ."; }";
 		}
 		if( ! empty( $modal_text ) ){
-			$custom_css .= ".pafl-overlay *:not(input){ color: " . $modal_text . " !important}";
+			$custom_css .= ".pafl-overlay *:not(input){ color: " . $modal_text . "; }";
 		}
 
-		if( ! empty( $modal_text_border_color ) ){
-			$custom_css .= "#form .input{  border-color: " . $modal_text_border_color . " !important }";
+		if( ! empty( $input_border_color ) ){
+			$custom_css .= ".pafl-modal-content .input { border-color: " . $input_border_color . "; }";
 		}
 
-		if( ! empty( $modal_form_border_thickness ) ){
-				$custom_css .= ".pafl-modal-content{ border: " . $modal_form_border_thickness . "px solid !important }";
+		if( ! empty( $input_border_width ) ){
+				$custom_css .= ".pafl-modal-content .input { border-style: solid; border-width: " . $input_border_width . "px; }";
 		}
 
-		if( ! empty( $modal_form_button_background_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ background: " . $modal_form_button_background_color . "; }";
+		if( ! empty( $button_background_color ) ){
+				$custom_css .= ".pafl-modal-content input[type=submit] { background: " . $button_background_color . "; }";
 		}
 
-		if( ! empty( $modal_form_button_text_color ) ){
-				$custom_css .= ".pafl-modal-content input[type=submit]{ color: " . $modal_form_button_text_color . "; }";
+		if( ! empty( $button_text_color ) ){
+				$custom_css .= ".pafl-modal-content input[type=submit] { color: " . $button_text_color . "; }";
 		}
 
 		wp_add_inline_style( 'pafl-'.$modal_class , $custom_css );
