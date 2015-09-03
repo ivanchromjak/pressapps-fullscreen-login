@@ -102,9 +102,9 @@ class Pressapps_Fullscreen_Login_Public {
         );
 
         if ( is_user_logged_in() ){
-            echo '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
+            return '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
         } else {
-            echo '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
+            return '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
         }
     }
 
@@ -120,13 +120,15 @@ class Pressapps_Fullscreen_Login_Public {
             ), $atts, 'pafl_register_link'
         );
 
-        echo '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+        if ( ! is_user_logged_in() ){
+			return '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+		}
     }
 
 
     /**
 	 * Add login/logout & register link
-	 * @param Array $atts    
+	 * @param Array $atts
 	 * @param String $text 
 	 */
 	public function add_link_shortcode( $atts ){

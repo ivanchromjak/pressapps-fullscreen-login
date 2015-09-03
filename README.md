@@ -1,17 +1,17 @@
-#Pressapps Fullsrcreen Plugin
+#Pressapps Fullscreen Plugin
 
 ###Login Link Shortcode
 
 **Description**
 
-Shortcode use to generate the login and logout link.
+`[pafl_login_link login_text="" logout_text=""]` use to generate the login link and logout link.
 
 **Options**
 
 | Attributes  | Description |
 | ----------- | ----------- |
-| login_text  | text to be displayed on a login link |
-| logout_text | text to be displayed on a logout link |
+| `login_text`  | text to be displayed on a login link |
+| `logout_text` | text to be displayed on a logout link |
 
 **Function**
 
@@ -25,9 +25,9 @@ function pafl_login_link( $atts ) {
   );
 
   if ( is_user_logged_in() ){
-      echo '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
+      return '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
   } else {
-      echo '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
+      return '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
   }
 }
 ```
@@ -38,13 +38,13 @@ function pafl_login_link( $atts ) {
 
 **Description**
 
-Shortcode use to generate the registration link
+`[pafl_register_link register_text=""]` use to generate the registration link.
 
 **Option**
 
 | Attribute  | Description |
 | ----------- | ----------- |
-| register_text  | text to be displayed on a Registration link |
+| `register_text`  | text to be displayed on a Registration link |
 
 
 **Function**
@@ -57,6 +57,8 @@ function pafl_register_link( $atts ) {
     ), $atts, 'pafl_register_link'
   );
     
-  echo '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+  if ( ! is_user_logged_in() ){
+     return '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+  }
 }
 ```

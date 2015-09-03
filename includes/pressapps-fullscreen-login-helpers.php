@@ -49,7 +49,9 @@ if ( ! function_exists( 'pafl_register_link' ) ) {
             ), $atts, 'pafl_register_link'
         );
 
-        echo '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+        if ( ! is_user_logged_in() ){
+            return '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+        }
     }
 
 }
