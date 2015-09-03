@@ -333,9 +333,9 @@ $options[]      = array(
     'icon'        => 'fa fa-paint-brush',
     'fields'      => array(
         array(
-            'id'      => 'form_modal_background', 
+            'id'      => 'modal_background', 
             'type'    => 'color_picker',
-            'title'   => 'Modal Background',
+            'title'   => 'Background Color',
         ),
         array(
             'id'      => 'text_color', 
@@ -345,32 +345,28 @@ $options[]      = array(
             'rgba'    => false
         ),
         array(
-            'id'      => 'modal_text_border_color',
+            'id'      => 'input_border_color',
             'type'    => 'color_picker',
-            'title'   => 'Text Field Border Color',
-            'help'    => 'Applies to text form fields only',
+            'title'   => 'Input Border Color',
             'rgba'    => false
         ),
         array(
-            'id'      => 'modal_form_border_thickness',
+            'id'      => 'input_border_width',
             'type'    => 'number',
-            'title'   => 'Form Fields Border Thickness',
+            'title'   => 'Input Border Width',
             'after'   => ' <i class="sk-text-muted">(px)</i>',
             'default' => 1,
-            'help'    => 'Applies to text form fields only',
         ),
         array(
-            'id'      => 'modal_form_button_text_color', 
+            'id'      => 'button_text_color', 
             'type'    => 'color_picker',
-            'title'   => 'Form Button Text Color',
-            'help'    => 'A color picker for button text color',
+            'title'   => 'Button Text Color',
             'rgba'    => false
         ),
         array(
-            'id'      => 'modal_form_button_background_color', 
+            'id'      => 'button_background_color', 
             'type'    => 'color_picker',
-            'title'   => 'Form Button Background Color',
-            'help'    => 'A color picker for background text color',
+            'title'   => 'Button Background Color',
             'rgba'    => false
         ),
         array(
@@ -390,7 +386,7 @@ $options[]      = array(
             'default'    => 'hugeinc',
         ),
         array(
-            'id'      => 'modal_form_custom_css', 
+            'id'      => 'custom_css', 
             'type'    => 'textarea',
             'title'   => 'Custom CSS',
             'attributes'    => array(
