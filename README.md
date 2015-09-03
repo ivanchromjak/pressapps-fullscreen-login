@@ -44,7 +44,7 @@ function pafl_login_link( $atts ) {
 
 | Attribute  | Description |
 | ----------- | ----------- |
-| `register_text`  | text to be displayed on a Registration link |
+| `register_text`  | text to be displayed on a registration link |
 
 
 **Function**
