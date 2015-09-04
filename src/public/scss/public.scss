@@ -4,25 +4,78 @@
  */
 .pafl-overlay {
   overflow: auto;
-}
-.pafl-overlay  form .form-links a{
-  font-size:17px;
-}
+  z-index: 99999999;
 
-.pafl-overlay nav{
-  height:80%;
-}
-.pafl-overlay  #login form .form-links a.forgot-password,.pafl-overlay  #register form .form-links a.btn-login{
-  float: left;
-}
+  .pafl-form {
+    text-align: center;
+  }
 
-.pafl-overlay  #login form .form-links a.create-account,.pafl-overlay  #register form .form-links a.forgot-password{
-  float: right;
-}
-.pafl-overlay  #forgot form .form-links a.btn-login{
-  text-align: center;
-}
-.section-container {
-  max-width: 500px;
-  margin: 0 auto;
-}
+  .pafl-form-links a {
+    border: 1px solid;
+    padding: 5px 15px;
+    font-size: .8em;
+    text-transform: uppercase;
+
+    &.pafl-forgot-password,
+    &.btn-login {
+      float: left;
+    }
+
+    &.pafl-create-account {
+      float: right;
+    }
+
+    &.btn-login {
+      text-align: center;
+    }
+  } //.pafl-form-links a
+
+  .pafl-input {
+    width: 100%;
+    margin-bottom: 20px;
+    border-width: 2px;
+    padding: 18px 0;
+    text-align: center;
+    background-color: #fff;
+    -webkit-transition: border-width .3s;
+    -moz-transition: border-width .3s;
+    -ms-transition: border-width .3s;
+    -o-transition: border-width .3s;
+    transition: border-width .3s;
+  }
+
+  .pafl-submit-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 22px 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  .pafl-sub-link {
+    display: block;
+    border: 1px solid;
+    padding: 5px 10px;
+    text-transform: uppercase;
+  }
+
+  .g-recaptcha {
+    display: block;
+    width: 304px;
+    margin: 0 auto 20px;
+  }
+
+  nav {
+    height:80%;
+  }
+
+  .section-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+} //.pafl-overlay
+

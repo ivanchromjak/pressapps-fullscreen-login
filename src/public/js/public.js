@@ -36,7 +36,7 @@ var PA_FULLSCREEN_LOGIN = {
 			});
 
 			// Run our login ajax
-			$('.pafl-modal-content #form').on('submit', function(e) {
+			$('.pafl-modal-content #pafl-form').on('submit', function(e) {
 
 				// Stop the form from submitting so we can use ajax.
 				e.preventDefault();
@@ -45,39 +45,38 @@ var PA_FULLSCREEN_LOGIN = {
 				var form_id = $(this).parent().attr('id');
 
 				// Remove any messages that currently exist.
-				$('.modal-login-content > p.message').remove();
+				$('.pafl-modal-wrap > p.message').remove();
 
 
 				// Check if we are trying to login. If so, process all the needed form fields and return a failed or success message.
-				if ( form_id === 'login' ) {
+				if ( form_id === 'pafl-login' ) {
 					$.ajax({
 						type: 'GET',
 						dataType: 'json',
 						url: pafl_modal_login_script.ajax,
 						data: {
 							'action'     : 'ajaxlogin', // Calls our wp_ajax_nopriv_ajaxlogin
-							'username'   : $('#form #login_user').val(),
-							'password'   : $('#form #login_pass').val(),
-							'rememberme' : ($('#form #rememberme').is(':checked'))?"TRUE":"FALSE",
-							'login'      : $('#form input[name="login"]').val(),
-							'security'   : $('#form #security').val(),
+							'username'   : $('#pafl-form #login_user').val(),
+							'password'   : $('#pafl-form #login_pass').val(),
+							'rememberme' : ($('#pafl-form #pafl-rememberme').is(':checked'))?"TRUE":"FALSE",
+							'login'      : $('#pafl-form input[name="login"]').val(),
+							'security'   : $('#pafl-form #security').val(),
                             'g-recaptcha-response' : $('#g-recaptcha-response').val() //captcha response on user validation
 						},
 						success: function(results) {
 
 							// Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
 							if( results.loggedin && results.validation ) {
-								$('.modal-login-content > h2').after('<p class="message success"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
+								$('.pafl-modal-wrap > h2').after('<p class="message success"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
 
 								$('#overlay, .login-popup').delay(5000).fadeOut('300m', function() {
 									$('#overlay').remove();
 								});
-								//window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
 								PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
 							} else {
-								$('.modal-login-content > h2').after('<p class="message error"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
+								$('.pafl-modal-wrap > h2').after('<p class="message error"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
                                 grecaptcha.reset(loginCaptcha);
 							}
 						},
@@ -86,34 +85,32 @@ var PA_FULLSCREEN_LOGIN = {
 						}
                         //@todo: will add preloader on later version
 					});
-				} else if ( form_id === 'register' ) {
+				} else if ( form_id === 'pafl-register' ) {
 					$.ajax({
 						type: 'GET',
 						dataType: 'json',
 						url: pafl_modal_login_script.ajax,
 						data: {
 							'action'   : 'ajaxlogin', // Calls our wp_ajax_nopriv_ajaxlogin
-							'username' : $('#form #reg_user').val(),
-							'email'    : $('#form #reg_email').val(),
-							'register' : $('#form input[name="register"]').val(),
-							'security' : $('#form #security').val(),
-							'password' : $('#form #reg_password').val(),
+							'username' : $('#pafl-form #reg_user').val(),
+							'email'    : $('#pafl-form #reg_email').val(),
+							'register' : $('#pafl-form input[name="register"]').val(),
+							'security' : $('#pafl-form #security').val(),
+							'password' : $('#pafl-form #reg_password').val(),
                             'g-recaptcha-response' : $('#g-recaptcha-response-1').val() //captcha response on user validation
 						},
 						success: function(results) {
 							if( results.registerd && results.validation ) {
-								$('.modal-login-content > h2').after('<p class="message success"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
-								$('#register #form input:not(#user-submit)').val('');
+								$('.pafl-modal-wrap > h2').after('<p class="message success"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
+								$('#pafl-register #pafl-form input:not(#user-submit)').val('');
 								$('#overlay, .login-popup').delay(5000).fadeOut('300m', function() {
 									$('#overlay').remove();
 								});
-								//window.location.href = updateQueryStringParameter( pafl_modal_login_script.redirecturl, 'nocache', ( new Date() ).getTime() );
 								PA_FULLSCREEN_LOGIN.common.redirectFunc( results.redirect );
 							} else {
-								$('.modal-login-content > h2').after('<p class="message error"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
-                                //@todo: when error will reset captcha (status: not working)
+								$('.pafl-modal-wrap > h2').after('<p class="message error"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
                                 grecaptcha.reset(registerCaptcha);
 							}
 						},
@@ -121,27 +118,26 @@ var PA_FULLSCREEN_LOGIN = {
 							console.log(e);
 						}
 					});
-				} else if ( form_id === 'forgotten' ) {
+				} else if ( form_id === 'pafl-forgotten' ) {
 					$.ajax({
 						type: 'GET',
 						dataType: 'json',
 						url: pafl_modal_login_script.ajax,
 						data: {
 							'action'    : 'ajaxlogin', // Calls our wp_ajax_nopriv_ajaxlogin
-							'username'  : $('#form #forgot_login').val(),
-							'forgotten' : $('#form input[name="forgotten"]').val(),
-							'security'  : $('#form #security').val(),
+							'username'  : $('#pafl-form #forgot_login').val(),
+							'forgotten' : $('#pafl-form input[name="forgotten"]').val(),
+							'security'  : $('#pafl-form #security').val(),
                             'g-recaptcha-response' : $('#g-recaptcha-response-2').val()
                         },
 						success: function(results) {
 							if(results.reset && results.validation) {
-								$('.modal-login-content > h2').after('<p class="message success"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
-								$('#forgotten #form input:not(#user-submit)').val('');
+								$('.pafl-modal-wrap > h2').after('<p class="message success"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
+								$('#pafl-forgotten #pafl-form input:not(#user-submit)').val('');
 							} else {
-								$('.modal-login-content > h2').after('<p class="message error"></p>');
-								$('.modal-login-content > p.message').text(results.message).show();
-                                //@todo: when error will reset captcha (status: not working)
+								$('.pafl-modal-wrap > h2').after('<p class="message error"></p>');
+								$('.pafl-modal-wrap > p.message').text(results.message).show();
                                 grecaptcha.reset(forgotCaptcha);
 							}
 						},
@@ -151,8 +147,8 @@ var PA_FULLSCREEN_LOGIN = {
 					});
 				} else {
 					// if all else fails and we've hit here... something strange happen and notify the user.
-					$('.modal-login-content > h2').after('<p class="message error"></p>');
-					$('.modal-login-content > p.message').text('Something  Please refresh your window and try again.');
+					$('.pafl-modal-wrap > h2').after('<p class="message error"></p>');
+					$('.pafl-modal-wrap > p.message').text('Something  Please refresh your window and try again.');
 				}
 			});
 
@@ -167,11 +163,11 @@ var PA_FULLSCREEN_LOGIN = {
         	$("div.pafl-overlay div[class*=pafl-modal-content]").hide();
 
         	if( get_screen == 'login' || get_screen == '#pafl_modal_login' ){
-        		$("div.pafl-overlay div#login").show();
+        		$("div.pafl-overlay div#pafl-login").show();
         	}else if( get_screen == 'register' || get_screen == '#pafl_modal_register' ){
-        		$("div.pafl-overlay div#register").show();
+        		$("div.pafl-overlay div#pafl-register").show();
         	}else if( get_screen == 'forgot' || get_screen == '#pafl_modal_forgot' ){
-        		$("div.pafl-overlay div#forgotten").show();
+        		$("div.pafl-overlay div#pafl-forgotten").show();
         	}
 
         },
