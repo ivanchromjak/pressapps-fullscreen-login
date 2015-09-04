@@ -200,19 +200,20 @@ class Pressapps_Fullscreen_Login_Public
         }
 
         if ( ! empty( $input_border_color ) ) {
-            $custom_css .= ".pafl-modal-content .input { border-color: " . $input_border_color . "; }";
+            $custom_css .= "#pafl-form .pafl-input { border-color: " . $input_border_color . "; }";
+            $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $input_border_color . "; }";
         }
 
         if ( ! empty( $input_border_width ) ) {
-            $custom_css .= ".pafl-modal-content .input { border-style: solid; border-width: " . $input_border_width . "px; }";
+            $custom_css .= "#pafl-form .pafl-input { border-style: solid; border-width: " . $input_border_width . "px; }";
         }
 
         if ( ! empty( $button_background_color ) ) {
-            $custom_css .= ".pafl-modal-content input[type=submit] { background: " . $button_background_color . "; }";
+            $custom_css .= "#pafl-form .pafl-submit-button { background: " . $button_background_color . ";}";
         }
 
         if ( ! empty( $button_text_color ) ) {
-            $custom_css .= ".pafl-modal-content input[type=submit] { color: " . $button_text_color . "; }";
+            $custom_css .= "#pafl-form input[type=submit] { color: " . $button_text_color . " !important; }";
         }
 
         wp_add_inline_style( 'pafl-' . $modal_class, $custom_css );
@@ -299,55 +300,43 @@ class Pressapps_Fullscreen_Login_Public
 
                 <?php do_action( 'pafl_inside_modal_login_first' ); ?>
 
-                <p class="mluser">
-                    <!-- @todo: label for poedit translation -->
-                    <!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>-->
-                    <input type="text" name="log" id="login_user" class="input" placeholder="<?php echo $pafl_sk->get( 'login_form_username_placeholder_text' ); ?>" value="<?php echo ( isset( $user_login ) ? esc_attr( $user_login ) : '' ); ?>" size="20"/>
-                </p>
+                <?php //@todo: label for poedit translation ?>
+                <!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>-->
+                <input type="text" name="log" id="login_user" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'login_form_username_placeholder_text' ); ?>" value="<?php echo ( isset( $user_login ) ? esc_attr( $user_login ) : '' ); ?>" size="20"/>
 
-                <p class="mlpsw">
-                    <!-- @todo: label for poedit translation -->
-                    <!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>-->
-                    <input type="password" name="pwd" id="login_pass" class="input" placeholder="<?php echo $pafl_sk->get( 'login_form_password_placeholder_text' ); ?>" value="" size="20"/>
-                </p>
+                <?php //@todo: label for poedit translation ?>
+                <!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>-->
+                <input type="password" name="pwd" id="login_pass" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'login_form_password_placeholder_text' ); ?>" value="" size="20"/>
 
                 <?php do_action( 'pafl_login_form' ); ?>
                 <?php $show_rememberme = $pafl_sk->get( 'rememberme_visibility' ); ?>
 
                 <?php if ( $show_rememberme ): ?>
-                    <p id="forgetmenot">
-                        <label class="forgetmenot-label" for="rememberme">
-                            <input name="rememberme" type="checkbox" placeholder="<?php echo esc_attr( $pafl_sk->get( 'rememberme_placeholder_text' ) ); ?>" id="rememberme" value="forever"/> <?php echo $pafl_sk->get( 'rememberme_placeholder_text' ); ?>
-                        </label>
-                    </p>
+                    <label class="forgetmenot-label" for="rememberme">
+                        <input name="rememberme" type="checkbox" placeholder="<?php echo esc_attr( $pafl_sk->get( 'rememberme_placeholder_text' ) ); ?>" id="pafl-rememberme" value="forever"/> <?php echo $pafl_sk->get( 'rememberme_placeholder_text' ); ?>
+                    </label>
                 <?php endif; ?>
-
 
                 <?php
                 //check if recaptcha is enabled and public key and private key are present
                 if ( isset( $recaptcha_status ) && isset( $captcha ) && in_array( 'login', $recaptcha_status ) && ! empty( $public_key ) && ! empty( $private_key ) ): ?>
-                    <p class="recaptcha">
-                        <?php echo $captcha->html( 'loginCaptcha' ); ?>
-                    </p>
+                    <?php echo $captcha->html( 'loginCaptcha' ); ?>
                 <?php endif; ?>
 
-                <p class="submit">
-                    <?php do_action( 'pafl_inside_modal_login_submit' ); ?>
+                <?php do_action( 'pafl_inside_modal_login_submit' ); ?>
 
-                    <input type="submit" name="wp-sumbit" id="wp-submit" class="button button-primary button-large" value="<?php echo $pafl_sk->get( 'login_button_text' ); ?>"/>
-                    <input type="hidden" name="login" value="true"/>
+                <input type="submit" name="wp-sumbit" id="wp-submit" class="pafl-submit-button" value="<?php echo $pafl_sk->get( 'login_button_text' ); ?>"/>
+                <input type="hidden" name="login" value="true"/>
 
-                    <?php
-                    //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-                    if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
-                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="false"/>
-                    <?php endif; ?>
+                <?php
+                //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
+                if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="false"/>
+                <?php endif; ?>
 
-                    <?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
+                <?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
-                </p><!--[END .submit]-->
-
-                <p class="form-links">
+                <p class="pafl-form-links">
                     <?php $label_forgot = $pafl_sk->get( 'form_forgot_link_text' ); ?>
                     <?php if ( empty( $label_forgot ) ) {
                         $label_forgot = __( "Forgot password?", 'pressapps-fullscreen-login' );
@@ -358,8 +347,8 @@ class Pressapps_Fullscreen_Login_Public
                         $label_register = __( "Register", 'pressapps-fullscreen-login' );
                     }
                     ?>
-                    <a href="#" data-form="forgot" class='forgot-password'><?php echo $label_forgot; ?></a>
-                    <a href="#" data-form="register" class='create-account'> <?php echo $label_register; ?></a>
+                    <a href="#" data-form="forgot" class="pafl-forgot-password"><?php echo $label_forgot; ?></a>
+                    <a href="#" data-form="register" class="pafl-create-account"> <?php echo $label_register; ?></a>
                 </p><!--[END .form-links]-->
 
                 <?php do_action( 'pafl_inside_modal_login_last' ); ?>

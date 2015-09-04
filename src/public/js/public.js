@@ -58,7 +58,7 @@ var PA_FULLSCREEN_LOGIN = {
 							'action'     : 'ajaxlogin', // Calls our wp_ajax_nopriv_ajaxlogin
 							'username'   : $('#pafl-form #login_user').val(),
 							'password'   : $('#pafl-form #login_pass').val(),
-							'rememberme' : ($('#pafl-form #rememberme').is(':checked'))?"TRUE":"FALSE",
+							'rememberme' : ($('#pafl-form #pafl-rememberme').is(':checked'))?"TRUE":"FALSE",
 							'login'      : $('#pafl-form input[name="login"]').val(),
 							'security'   : $('#pafl-form #security').val(),
                             'g-recaptcha-response' : $('#g-recaptcha-response').val() //captcha response on user validation
