@@ -1,5 +1,9 @@
 #Pressapps Fullscreen Plugin
 
+##Form CSS Style
+
+| ID / Class | Description |
+
 ###Login Link Shortcode
 
 **Description**
@@ -24,18 +28,18 @@
 
 ```
 function pafl_login_link( $atts ) {
-  $atts = shortcode_atts(
+    $atts = shortcode_atts(
       array(
-          'login_text'      => __( 'Login', 'pressapps-fullscreen-login' ),
-          'logout_text' 	=> __( 'Logout', 'pressapps-fullscreen-login' )
+          'login_text'  => __( 'Login', 'pressapps-fullscreen-login' ),
+          'logout_text' => __( 'Logout', 'pressapps-fullscreen-login' )
       ), $atts, 'pafl_login_link'
-  );
-
-  if ( is_user_logged_in() ){
-      return '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
-  } else {
-      return '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
-  }
+    );
+  
+    if ( is_user_logged_in() ) {
+      return '<a href="' . wp_logout_url() . '" class="pafl-logout-link" >' . $atts['logout_text'] . '</a>';
+    } else {
+      return '<a href="#" onclick="return false" data-form="login"  class="pafl-trigger-overlay pafl-login-link" >' . $atts['login_text'] . '</a>';
+    }
 }
 ```
 
@@ -63,14 +67,14 @@ function pafl_login_link( $atts ) {
 
 ```
 function pafl_register_link( $atts ) {
-  $atts = shortcode_atts(
-    array(
-        'register_text' => __( 'Create an Account', 'pressapps-fullscreen-login' )
-    ), $atts, 'pafl_register_link'
-  );
-    
-  if ( ! is_user_logged_in() ){
-     return '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
-  }
+    $atts = shortcode_atts(
+      array(
+          'register_text' => __( 'Create an Account', 'pressapps-fullscreen-login' )
+      ), $atts, 'pafl_register_link'
+    );
+  
+    if ( ! is_user_logged_in() ) {
+      return '<a href="#" onclick="return false" data-form="register"  class="pafl-trigger-overlay pafl-register-link">' . $atts['register_text'] . '</a>';
+    }
 }
 ```
