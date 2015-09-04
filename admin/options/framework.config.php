@@ -24,12 +24,12 @@ $options        = array();
 $options[]      = array(
     'name'        => 'forms',
     'title'       => 'Forms',
-    'icon'        => 'fa fa-list-alt',
+    'icon'        => 'si-menu7',
         'sections' => array(
             array(
                 'name'      => 'general_options',
                 'title'     => 'General',
-                'icon'      => 'fa fa-gear',
+                'icon'      => 'si-cog3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
@@ -67,7 +67,7 @@ $options[]      = array(
             array(
                 'name'      => 'login_options',
                 'title'     => 'Login',
-                'icon'      => 'fa fa-gear',
+                'icon'      => 'si-user',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
@@ -121,7 +121,7 @@ $options[]      = array(
             array(
                 'name'      => 'register_options',
                 'title'     => 'Register',
-                'icon'      => 'fa fa-gear',
+                'icon'      => 'si-pencil3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
@@ -177,7 +177,7 @@ $options[]      = array(
             array(
                 'name'      => 'forgot_options',
                 'title'     => 'Forgot',
-                'icon'      => 'fa fa-gear',
+                'icon'      => 'si-question3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
@@ -218,7 +218,7 @@ $options[]      = array(
 $options[]      = array(
     'name'        => 'redirect',
     'title'       => 'Redirect',
-    'icon'        => 'fa fa-external-link-square',
+    'icon'        => 'si-redo2',
     'fields'      => array(
 
         array(
@@ -254,7 +254,7 @@ $options[]      = array(
 $options[]      = array(
     'name'             => 'email',
     'title'            => 'Email',
-    'icon'             => 'fa fa-envelope-o ',
+    'icon'             => 'si-envelop2',
     'fields'           => array(
 
         array(
@@ -288,7 +288,7 @@ $options[]      = array(
 $options[]      = array(
     'name'        => 'captcha',
     'title'       => 'Captcha',
-    'icon'        => 'fa fa-shield',
+    'icon'        => 'si-lock2',
     'fields'      => array(
         array(
             'id'      => 'recaptcha_public_key', 
@@ -330,7 +330,7 @@ $options[]      = array(
 $options[]      = array(
     'name'        => 'styling',
     'title'       => 'Styling',
-    'icon'        => 'fa fa-paint-brush',
+    'icon'        => 'si-brush',
     'fields'      => array(
         array(
             'id'      => 'modal_background', 
