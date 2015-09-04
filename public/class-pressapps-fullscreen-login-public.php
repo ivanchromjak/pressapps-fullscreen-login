@@ -450,10 +450,7 @@ class Pressapps_Fullscreen_Login_Public
 
                 <?php do_action( 'pafl_inside_modal_forgotton_first' ); ?>
 
-                <input type="text" name="forgot_login" id="forgot_login" class="pafl-input"
-                       placeholder="<?php echo $pafl_sk->get( 'forgot_form_username_placeholder_text' ); ?>"
-                       value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>"
-                       size="20"/>
+                <input type="text" name="forgot_login" id="forgot_login" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'forgot_form_username_placeholder_text' ); ?>" value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>" size="20"/>
 
                 <?php do_action( 'pafl_login_form', 'resetpass' ); ?>
                 <?php

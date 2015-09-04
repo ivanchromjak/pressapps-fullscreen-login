@@ -16,8 +16,8 @@
                 } );
 
                 closeBttn.on( 'click', function() {
-                    PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
                     $('.pafl-message' ).remove();
+                    PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
                     return false;
                 } );
 
@@ -164,7 +164,7 @@
                                     $( '#pafl-forgotten #pafl-form input:not(#user-submit)' ).val( '' );
                                 } else {
                                     $( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
-                                    $( '.pafl-modal-wrap > p.message' ).text( results.message ).show();
+                                    $( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
                                     grecaptcha.reset( forgotCaptcha );
                                 }
                             },
