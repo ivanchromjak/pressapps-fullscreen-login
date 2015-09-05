@@ -3,293 +3,326 @@
  * included in this file.
  */
 
-//Mixins
-
-@mixin input {
-  width: 100%;
-  margin-bottom: 20px;
-  border-width: 2px;
-  padding: 18px 0;
-  text-align: center;
-  background-color: #fff;
-  -webkit-transition: border-width .3s;
-  -moz-transition: border-width .3s;
-  -ms-transition: border-width .3s;
-  -o-transition: border-width .3s;
-  transition: border-width .3s;
-}
 .pafl-overlay {
-  overflow: auto;
-  z-index: 99999999;
-  
-  .pafl-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  overflow : auto;
+  z-index  : 99999999;
+}
+
+.pafl-loader {
+  position          : absolute;
+  top               : 50%;
+  left              : 50%;
+  -webkit-transform : translate(-50%, -50%);
+  -moz-transform    : translate(-50%, -50%);
+  -ms-transform     : translate(-50%, -50%);
+  -o-transform      : translate(-50%, -50%);
+  transform         : translate(-50%, -50%);
+}
+
+.pafl-overlay-close {
+  -webkit-transform  : none;
+  -moz-transform     : none;
+  -ms-transform      : none;
+  -o-transform       : none;
+  transform          : none;
+  -webkit-transition : transform .3s;
+  -moz-transition    : transform .3s;
+  -ms-transition     : transform .3s;
+  -o-transition      : transform .3s;
+  transition         : transform .3s;
+  &:hover {
+    cursor            : pointer;
+    -webkit-transform : rotate(180deg);
+    -moz-transform    : rotate(180deg);
+    -ms-transform     : rotate(180deg);
+    -o-transform      : rotate(180deg);
+    transform         : rotate(180deg);
   }
-  .pafl-overlay-close {
-    -webkit-transform: none;
-    -moz-transform: none;
-    -ms-transform: none;
-    -o-transform: none;
-    transform: none;
-    -webkit-transition: transform .3s;
-    -moz-transition: transform .3s;
-    -ms-transition: transform .3s;
-    -o-transition: transform .3s;
-    transition: transform .3s;
-    &:hover {
-      cursor: pointer;
-      -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
-      transform: rotate(180deg);
-    }
-  }
-  .pafl-title {
-    margin: 15px 0;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-  }
-  .pafl-subtitle {
-    font-style: italic;
-  }
+}
 
-  //Form Style
-  .pafl-form {
-    text-align: center;
-  }
+.pafl-title {
+  font-size      : 20px;
+  margin         : 15px 0;
+  letter-spacing : 5px;
+  text-transform : uppercase;
+}
 
-  //Form links style
-  .pafl-form-links a {
-    border: 1px solid;
-    padding: 5px 15px;
-    margin-bottom: 20px;
-    font-size: .8em;
-    text-transform: uppercase;
+.pafl-subtitle {
+  font-style : italic;
+  font-size  : 16px;
+}
 
-    &.pafl-forgot-left {
-      float: left;
-    }
-    &.pafl-allow-login {
-      float: left;
-    }
+//Form Style
+.pafl-form {
+  text-align : center;
+}
 
-    &.pafl-forgot-right {
-      float: right;
-    }
-
-    &.pafl-create-account {
-      float: right;
-    }
-
-    &.pafl-allow-login {
-      text-align: center;
-    }
-  } //.pafl-form-links a
-
-  //Input
-  .pafl-input {
-    @include input;
+//Form links style
+.pafl-form-links a {
+  opacity            : 1;
+  border             : 1px solid;
+  padding            : 5px 15px;
+  margin-bottom      : 20px;
+  font-size          : 16px;
+  text-transform     : uppercase;
+  -webkit-transition : opacity .3s;
+  -moz-transition    : opacity .3s;
+  -ms-transition     : opacity .3s;
+  -o-transition      : opacity .3s;
+  transition         : opacity .3s;
+  &:hover {
+    opacity         : .5;
+    text-decoration : none;
   }
 
-  //Checkbox
-  input[type="checkbox"]#pafl-rememberme {
-    display: none;
-
-    & + label p {
-      display: inline-block;
-      position: relative;
-      top: -8px;
-      margin-left: 10px;
-    }
-
-    & + label span {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      background-color: #fff;
-    }
-
-    &:checked + label span {
-      background: #fff url('../img/check.png') no-repeat center center;
-    }
+  &.pafl-forgot-left {
+    float : left;
+  }
+  &.pafl-allow-login {
+    float : left;
   }
 
-  .pafl-submit {
-    display: block;
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 22px 0;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+  &.pafl-forgot-right {
+    float : right;
   }
 
-  .pafl-sub-link {
-    display: block;
-    border: 1px solid;
-    padding: 5px 10px;
-    text-transform: uppercase;
+  &.pafl-create-account {
+    float : right;
   }
 
-  .g-recaptcha {
-    display: block;
-    width: 304px;
-    margin: 0 auto 20px;
+  &.pafl-allow-login {
+    text-align : center;
+  }
+}
+
+//.pafl-form-links a
+
+//Input
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+textarea {
+  &.pafl-input {
+    font-size          : 16px;
+    width              : 100%;
+    margin-bottom      : 20px;
+    border-width       : 2px;
+    padding            : 18px 0;
+    text-align         : center;
+    background-color   : #ffffff;
+    -webkit-transition : border-width .3s;
+    -moz-transition    : border-width .3s;
+    -ms-transition     : border-width .3s;
+    -o-transition      : border-width .3s;
+    transition         : border-width .3s;
+  }
+}
+
+
+//Checkbox
+input[type="checkbox"]#pafl-rememberme {
+  display : none;
+
+  & + label p {
+    font-size   : 16px;
+    display     : inline-block;
+    position    : relative;
+    top         : -8px;
+    margin-left : 10px;
   }
 
-  .pafl-section-container {
-    width: 80%;
-    max-width: 600px;
-    margin: 0 auto;
+  & + label span {
+    display          : inline-block;
+    width            : 32px;
+    height           : 32px;
+    background-color : #ffffff;
   }
 
-  .pafl-message {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+  &:checked + label span {
+    background : #ffffff url('../img/check.png') no-repeat center center;
   }
+}
 
-  .pafl-success {
-    font-weight: bold;
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-    -webkit-animation-name: flipInY;
-    animation-name: flipInY;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+input[type="submit"].pafl-submit {
+  display               : block;
+  opacity               : 1;
+  border                : 0;
+  width                 : 100%;
+  margin-bottom         : 20px;
+  padding               : 22px 0;
+  font-size             : 16px;
+  font-weight           : bold;
+  text-transform        : uppercase;
+  -webkit-transition    : opacity .3s;
+  -moz-transition       : opacity .3s;
+  -ms-transition        : opacity .3s;
+  -o-transition         : opacity .3s;
+  transition            : opacity .3s;
+
+  &:hover {
+    opacity : .5;
   }
+}
 
-  .pafl-error {
-    font-weight: bold;
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    -webkit-animation-name: shake;
-    animation-name: shake;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-  }
+.pafl-sub-link {
+  display        : block;
+  border         : 1px solid;
+  padding        : 5px 10px;
+  text-transform : uppercase;
+}
 
-} //.pafl-overlay
+.g-recaptcha {
+  display : block;
+  width   : 304px;
+  margin  : 0 auto 20px;
+}
+
+.pafl-section-container {
+  width     : 100%;
+  max-width : 600px;
+  margin    : 0 auto;
+}
+
+.pafl-message {
+  font-size             : 14px;
+  padding               : 15px;
+  margin-bottom         : 20px;
+  border                : 1px solid transparent;
+  -webkit-border-radius : 4px;
+  -moz-border-radius    : 4px;
+  border-radius         : 4px;
+}
+
+.pafl-success {
+  font-weight                 : bold;
+  color                       : #3c763d;
+  background-color            : #dff0d8;
+  border-color                : #d6e9c6;
+  -webkit-backface-visibility : visible !important;
+  backface-visibility         : visible !important;
+  -webkit-animation-name      : flipInY;
+  animation-name              : flipInY;
+  -webkit-animation-duration  : 1s;
+  animation-duration          : 1s;
+  -webkit-animation-fill-mode : both;
+  animation-fill-mode         : both;
+}
+
+.pafl-error {
+  font-weight                 : bold;
+  color                       : #a94442;
+  background-color            : #f2dede;
+  border-color                : #ebccd1;
+  -webkit-animation-name      : shake;
+  animation-name              : shake;
+  -webkit-animation-duration  : 1s;
+  animation-duration          : 1s;
+  -webkit-animation-fill-mode : both;
+  animation-fill-mode         : both;
+}
 
 // Custom Animation
 //Shake
 @-webkit-keyframes shake {
   from, to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    -webkit-transform : translate3d(0, 0, 0);
+    transform         : translate3d(0, 0, 0);
   }
 
   10%, 30%, 50%, 70%, 90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
+    -webkit-transform : translate3d(-10px, 0, 0);
+    transform         : translate3d(-10px, 0, 0);
   }
 
   20%, 40%, 60%, 80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
+    -webkit-transform : translate3d(10px, 0, 0);
+    transform         : translate3d(10px, 0, 0);
   }
 }
 
 @keyframes shake {
   from, to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    -webkit-transform : translate3d(0, 0, 0);
+    transform         : translate3d(0, 0, 0);
   }
 
   10%, 30%, 50%, 70%, 90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
+    -webkit-transform : translate3d(-10px, 0, 0);
+    transform         : translate3d(-10px, 0, 0);
   }
 
   20%, 40%, 60%, 80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
+    -webkit-transform : translate3d(10px, 0, 0);
+    transform         : translate3d(10px, 0, 0);
   }
 }
 
 //flipInY
 @-webkit-keyframes flipInY {
   from {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
+    -webkit-transform                 : perspective(400px) rotate3d(0, 1, 0, 90deg);
+    transform                         : perspective(400px) rotate3d(0, 1, 0, 90deg);
+    -webkit-animation-timing-function : ease-in;
+    animation-timing-function         : ease-in;
+    opacity                           : 0;
   }
 
   40% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
+    -webkit-transform                 : perspective(400px) rotate3d(0, 1, 0, -20deg);
+    transform                         : perspective(400px) rotate3d(0, 1, 0, -20deg);
+    -webkit-animation-timing-function : ease-in;
+    animation-timing-function         : ease-in;
   }
 
   60% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
-    opacity: 1;
+    -webkit-transform : perspective(400px) rotate3d(0, 1, 0, 10deg);
+    transform         : perspective(400px) rotate3d(0, 1, 0, 10deg);
+    opacity           : 1;
   }
 
   80% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+    -webkit-transform : perspective(400px) rotate3d(0, 1, 0, -5deg);
+    transform         : perspective(400px) rotate3d(0, 1, 0, -5deg);
   }
 
   to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
+    -webkit-transform : perspective(400px);
+    transform         : perspective(400px);
   }
 }
 
 @keyframes flipInY {
   from {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
+    -webkit-transform                 : perspective(400px) rotate3d(0, 1, 0, 90deg);
+    transform                         : perspective(400px) rotate3d(0, 1, 0, 90deg);
+    -webkit-animation-timing-function : ease-in;
+    animation-timing-function         : ease-in;
+    opacity                           : 0;
   }
 
   40% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
+    -webkit-transform                 : perspective(400px) rotate3d(0, 1, 0, -20deg);
+    transform                         : perspective(400px) rotate3d(0, 1, 0, -20deg);
+    -webkit-animation-timing-function : ease-in;
+    animation-timing-function         : ease-in;
   }
 
   60% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
-    opacity: 1;
+    -webkit-transform : perspective(400px) rotate3d(0, 1, 0, 10deg);
+    transform         : perspective(400px) rotate3d(0, 1, 0, 10deg);
+    opacity           : 1;
   }
 
   80% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+    -webkit-transform : perspective(400px) rotate3d(0, 1, 0, -5deg);
+    transform         : perspective(400px) rotate3d(0, 1, 0, -5deg);
   }
 
   to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
+    -webkit-transform : perspective(400px);
+    transform         : perspective(400px);
   }
 }
 

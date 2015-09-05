@@ -351,6 +351,13 @@ $options[]      = array(
             'rgba'    => false
         ),
         array(
+            'id'      => 'input_border_radius',
+            'type'    => 'number',
+            'title'   => 'Input Border Radius',
+            'after'   => ' <i class="sk-text-muted">(px)</i>',
+            'default' => 1,
+        ),
+        array(
             'id'      => 'input_border_width',
             'type'    => 'number',
             'title'   => 'Input Border Width',
