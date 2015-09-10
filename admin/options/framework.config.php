@@ -377,6 +377,12 @@ $options[]      = array(
             'rgba'    => false
         ),
         array(
+            'id'      => 'button_background_color_hover',
+            'type'    => 'color_picker',
+            'title'   => 'Button Background Color Hover',
+            'rgba'    => false
+        ),
+        array(
             'id'      => 'modal_effect',
             'type'    => 'select',
             'title'   => 'Effect',

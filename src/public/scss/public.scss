@@ -41,7 +41,7 @@
 }
 
 .pafl-title {
-  font-size      : 20px;
+  font-size      : 30px;
   margin         : 15px 0;
   letter-spacing : 5px;
   text-transform : uppercase;
@@ -50,6 +50,7 @@
 .pafl-subtitle {
   font-style : italic;
   font-size  : 16px;
+  margin     : 25px 0;
 }
 
 //Form Style
@@ -59,19 +60,22 @@
 
 //Form links style
 .pafl-form-links a {
-  opacity            : 1;
-  border             : 1px solid;
-  padding            : 5px 15px;
-  margin-bottom      : 20px;
-  font-size          : 16px;
-  text-transform     : uppercase;
-  -webkit-transition : opacity .3s;
-  -moz-transition    : opacity .3s;
-  -ms-transition     : opacity .3s;
-  -o-transition      : opacity .3s;
-  transition         : opacity .3s;
+  opacity                     : .5;
+  -webkit-backface-visibility : hidden;
+  border                      : 1px solid;
+  padding                     : 5px 15px;
+  margin-bottom               : 20px;
+  font-size                   : 16px;
+  width                       : 48%;
+  text-transform              : uppercase;
+  -webkit-transition          : opacity .3s;
+  -moz-transition             : opacity .3s;
+  -ms-transition              : opacity .3s;
+  -o-transition               : opacity .3s;
+  transition                  : opacity .3s;
   &:hover {
-    opacity         : .5;
+    opacity         : 1;
+    filter          : alpha(opacity=100);
     text-decoration : none;
   }
 
@@ -120,7 +124,6 @@ textarea {
   }
 }
 
-
 //Checkbox
 input[type="checkbox"]#pafl-rememberme {
   display : none;
@@ -146,24 +149,22 @@ input[type="checkbox"]#pafl-rememberme {
 }
 
 input[type="submit"].pafl-submit {
-  display               : block;
-  opacity               : 1;
-  border                : 0;
-  width                 : 100%;
-  margin-bottom         : 20px;
-  padding               : 22px 0;
-  font-size             : 16px;
-  font-weight           : bold;
-  text-transform        : uppercase;
-  -webkit-transition    : opacity .3s;
-  -moz-transition       : opacity .3s;
-  -ms-transition        : opacity .3s;
-  -o-transition         : opacity .3s;
-  transition            : opacity .3s;
-
-  &:hover {
-    opacity : .5;
-  }
+  display                     : block;
+  border                      : 0;
+  width                       : 100%;
+  margin-bottom               : 20px;
+  padding                     : 18px 0;
+  font-size                   : 16px;
+  font-weight                 : bold;
+  text-transform              : uppercase;
+  -webkit-transition          : background-color .3s;
+  -moz-transition             : background-color .3s;
+  -ms-transition              : background-color .3s;
+  -o-transition               : background-color .3s;
+  transition                  : background-color .3s;
+  -webkit-box-shadow          : none;
+  -moz-box-shadow             : none;
+  box-shadow                  : none;
 }
 
 .pafl-sub-link {
@@ -212,15 +213,18 @@ input[type="submit"].pafl-submit {
 
 .pafl-error {
   font-weight                 : bold;
-  color                       : #a94442;
-  background-color            : #f2dede;
-  border-color                : #ebccd1;
+  color                       : #ffffff;
+  background-color            : transparent;
+  border                      : 1px solid #f10128;
   -webkit-animation-name      : shake;
   animation-name              : shake;
   -webkit-animation-duration  : 1s;
   animation-duration          : 1s;
   -webkit-animation-fill-mode : both;
   animation-fill-mode         : both;
+  -webkit-border-radius       : 5px;
+  -moz-border-radius          : 5px;
+  border-radius               : 5px;
 }
 
 // Custom Animation
@@ -326,3 +330,6 @@ input[type="submit"].pafl-submit {
   }
 }
 
+.pafl-form-links .pafl-full-width {
+  width : 100% !important;
+}

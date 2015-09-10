@@ -50,7 +50,6 @@ class Pressapps_Fullscreen_Login_Public
      */
     public function __construct( $plugin_name, $version )
     {
-
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
     }
@@ -182,16 +181,17 @@ class Pressapps_Fullscreen_Login_Public
     public function modal_styles()
     {
 
-        $pafl_sk                 = new Skelet( "pafl" );
-        $custom_css              = $this->filtered_string( $pafl_sk->get( 'custom_css' ) );
-        $modal_class             = $this->filtered_string( $pafl_sk->get( 'modal_effect' ) );
-        $modal_background        = $this->filtered_string( $pafl_sk->get( 'modal_background' ) );
-        $modal_text              = $this->filtered_string( $pafl_sk->get( 'text_color' ) );
-        $input_border_radius     = $this->filtered_string( $pafl_sk->get( 'input_border_radius' ) );
-        $input_border_color      = $this->filtered_string( $pafl_sk->get( 'input_border_color' ) );
-        $input_border_width      = $this->filtered_string( $pafl_sk->get( 'input_border_width' ) );
-        $button_text_color       = $this->filtered_string( $pafl_sk->get( 'button_text_color' ) );
-        $button_background_color = $this->filtered_string( $pafl_sk->get( 'button_background_color' ) );
+        $pafl_sk                       = new Skelet( "pafl" );
+        $custom_css                    = $this->filtered_string( $pafl_sk->get( 'custom_css' ) );
+        $modal_class                   = $this->filtered_string( $pafl_sk->get( 'modal_effect' ) );
+        $modal_background              = $this->filtered_string( $pafl_sk->get( 'modal_background' ) );
+        $modal_text                    = $this->filtered_string( $pafl_sk->get( 'text_color' ) );
+        $input_border_radius           = $this->filtered_string( $pafl_sk->get( 'input_border_radius' ) );
+        $input_border_color            = $this->filtered_string( $pafl_sk->get( 'input_border_color' ) );
+        $input_border_width            = $this->filtered_string( $pafl_sk->get( 'input_border_width' ) );
+        $button_text_color             = $this->filtered_string( $pafl_sk->get( 'button_text_color' ) );
+        $button_background_color       = $this->filtered_string( $pafl_sk->get( 'button_background_color' ) );
+        $button_background_color_hover = $this->filtered_string( $pafl_sk->get( 'button_background_color_hover' ) );
 
         if ( ! empty( $modal_background ) ) {
             $custom_css .= ".pafl-overlay{ background: " . $modal_background . "; }";
@@ -201,22 +201,41 @@ class Pressapps_Fullscreen_Login_Public
         }
 
         if ( ! empty( $input_border_color ) ) {
-            $custom_css .= "#pafl-form .pafl-input { border-color: " . $input_border_color . "; }";
-            $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $modal_text . "; color: " .  $modal_text ."; }";
-            $custom_css .= "#pafl-form #pafl-rememberme + label span { border-color: " . $input_border_color . "; }";
+            // if border width is equal to 0 or less then will hide border
+            if ( intval( $input_border_width ) >= 1 ) {
+                $custom_css .= "#pafl-form .pafl-input { border-color: " . $input_border_color . "; }";
+                $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $modal_text . "; color: " .  $modal_text ."; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border-color: " . $input_border_color . "; }";
+            } else {
+                $custom_css .= "#pafl-form .pafl-input { border: 0; }";
+                $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $modal_text . "; color: " .  $modal_text ."; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border: 0; }";
+            }
         }
 
         if ( ! empty( $input_border_radius ) ){
             $custom_css .= "#pafl-form .pafl-input { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
             $custom_css .= "#pafl-form .pafl-submit { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-allow-login { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-forgot-left { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-forgot-right { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-create-account { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
         }
         if ( ! empty( $input_border_width ) ) {
-            $custom_css .= "#pafl-form .pafl-input { border-style: solid; border-width: " . $input_border_width . "px; }";
-            $custom_css .= "#pafl-form #pafl-rememberme + label span { border-style: solid; border-width: " . $input_border_width . "px; }";
+
+            if ( intval( $input_border_width ) >= 1 ) {
+                $custom_css .= "#pafl-form .pafl-input { border-style: solid; border-width: " . $input_border_width . "px; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border-style: solid; border-width: " . $input_border_width . "px; }";
+            }
+
         }
 
         if ( ! empty( $button_background_color ) ) {
-            $custom_css .= "#pafl-form .pafl-submit { background: " . $button_background_color . ";}";
+            $custom_css .= "#pafl-form .pafl-submit { background-color: " . $button_background_color . ";}";
+        }
+
+        if ( ! empty( $button_background_color_hover ) ) {
+            $custom_css .= "#pafl-form .pafl-submit:hover { background-color: " . $button_background_color_hover . ";}";
         }
 
         if ( ! empty( $button_text_color ) ) {
@@ -363,8 +382,10 @@ class Pressapps_Fullscreen_Login_Public
                         $label_register = __( "Register", 'pressapps-fullscreen-login' );
                     }
                     ?>
-                    <a href="#" data-form="forgot" class="pafl-forgot-left"><?php echo $label_forgot; ?></a>
+                    <a href="#" data-form="forgot" class="pafl-forgot-left <?php echo get_option('users_can_register') ? '' : 'pafl-full-width'; ?>"><?php echo $label_forgot; ?></a>
+                    <?php if ( get_option('users_can_register') ): ?>
                     <a href="#" data-form="register" class="pafl-create-account"> <?php echo $label_register; ?></a>
+                    <?php endif; ?>
                 </p><!--[END .form-links]-->
 
                 <?php do_action( 'pafl_inside_modal_login_last' ); ?>
@@ -481,7 +502,7 @@ class Pressapps_Fullscreen_Login_Public
                         $label_login = __( "Login", 'pressapps-fullscreen-login' );
                     }
                     ?>
-                    <a href="#" data-form="login" class="pafl-allow-login"><?php echo $label_login; ?></a>
+                    <a href="#" data-form="login" class="pafl-allow-login pafl-full-width"><?php echo $label_login; ?></a>
                 </p><!--[END .form-links]-->
 
                 <?php do_action( 'pafl_inside_modal_forgotten_last' ); ?>
