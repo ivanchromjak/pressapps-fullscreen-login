@@ -336,13 +336,15 @@ $options[]      = array(
             'id'      => 'modal_background', 
             'type'    => 'color_picker',
             'title'   => 'Background Color',
+            'default' => '#99cc33',
         ),
         array(
             'id'      => 'text_color', 
             'type'    => 'color_picker',
             'title'   => 'Text Color',
             'help'    => 'Change color for content color, applies to form title, subtitle, remember me label and links under forms',
-            'rgba'    => false
+            'rgba'    => false,
+            'default' => '#ffffff',
         ),
         array(
             'id'      => 'input_border_color',
@@ -362,25 +364,28 @@ $options[]      = array(
             'type'    => 'number',
             'title'   => 'Input Border Width',
             'after'   => ' <i class="sk-text-muted">(px)</i>',
-            'default' => 1,
+            'default' => 0,
         ),
         array(
             'id'      => 'button_text_color', 
             'type'    => 'color_picker',
             'title'   => 'Button Text Color',
-            'rgba'    => false
+            'rgba'    => false,
+            'default' => '#ffffff',
         ),
         array(
             'id'      => 'button_background_color', 
             'type'    => 'color_picker',
             'title'   => 'Button Background Color',
-            'rgba'    => false
+            'rgba'    => false,
+            'default' => '#111111',
         ),
         array(
             'id'      => 'button_background_color_hover',
             'type'    => 'color_picker',
             'title'   => 'Button Background Color Hover',
-            'rgba'    => false
+            'rgba'    => false,
+            'default' => '#444444',
         ),
         array(
             'id'      => 'modal_effect',
@@ -402,9 +407,6 @@ $options[]      = array(
             'id'      => 'custom_css', 
             'type'    => 'textarea',
             'title'   => 'Custom CSS',
-            'attributes'    => array(
-                'placeholder' => '/* Insert custom styles here */'
-            ),
         ),
     ),
 );
