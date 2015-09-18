@@ -98,7 +98,7 @@ module.exports = function(grunt) {
         'sftp-deploy': {
           demo: {
             auth: {
-              host: 'fullscreen-login.pressapps.io',
+              host: 'plugins.pressapps.io',
               port: 22,
               authKey: 'demo'
             },
