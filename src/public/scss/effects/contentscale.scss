@@ -37,7 +37,6 @@
 	list-style: none;
 	padding: 0;
 	margin: 0 auto;
-	display: inline-block;
 	height: 100%;
 	position: relative;
 }
@@ -47,20 +46,6 @@
 	height: 20%;
 	height: calc(100% / 5);
 	min-height: 54px;
-}
-
-.pafl-overlay ul li a {
-	font-size: 54px;
-	font-weight: 300;
-	display: block;
-	color: #fff;
-	-webkit-transition: color 0.2s;
-	transition: color 0.2s;
-}
-
-.pafl-overlay ul li a:hover,
-.pafl-overlay ul li a:focus {
-	color: #f0f0f0;
 }
 
 /* Effects */

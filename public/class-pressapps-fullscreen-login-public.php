@@ -50,7 +50,6 @@ class Pressapps_Fullscreen_Login_Public
      */
     public function __construct( $plugin_name, $version )
     {
-
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
     }
@@ -182,15 +181,17 @@ class Pressapps_Fullscreen_Login_Public
     public function modal_styles()
     {
 
-        $pafl_sk                 = new Skelet( "pafl" );
-        $custom_css              = $this->filtered_string( $pafl_sk->get( 'custom_css' ) );
-        $modal_class             = $this->filtered_string( $pafl_sk->get( 'modal_effect' ) );
-        $modal_background        = $this->filtered_string( $pafl_sk->get( 'modal_background' ) );
-        $modal_text              = $this->filtered_string( $pafl_sk->get( 'text_color' ) );
-        $input_border_color      = $this->filtered_string( $pafl_sk->get( 'input_border_color' ) );
-        $input_border_width      = $this->filtered_string( $pafl_sk->get( 'input_border_width' ) );
-        $button_text_color       = $this->filtered_string( $pafl_sk->get( 'button_text_color' ) );
-        $button_background_color = $this->filtered_string( $pafl_sk->get( 'button_background_color' ) );
+        $pafl_sk                       = new Skelet( "pafl" );
+        $custom_css                    = $this->filtered_string( $pafl_sk->get( 'custom_css' ) );
+        $modal_class                   = $this->filtered_string( $pafl_sk->get( 'modal_effect' ) );
+        $modal_background              = $this->filtered_string( $pafl_sk->get( 'modal_background' ) );
+        $modal_text                    = $this->filtered_string( $pafl_sk->get( 'text_color' ) );
+        $input_border_radius           = $this->filtered_string( $pafl_sk->get( 'input_border_radius' ) );
+        $input_border_color            = $this->filtered_string( $pafl_sk->get( 'input_border_color' ) );
+        $input_border_width            = $this->filtered_string( $pafl_sk->get( 'input_border_width' ) );
+        $button_text_color             = $this->filtered_string( $pafl_sk->get( 'button_text_color' ) );
+        $button_background_color       = $this->filtered_string( $pafl_sk->get( 'button_background_color' ) );
+        $button_background_color_hover = $this->filtered_string( $pafl_sk->get( 'button_background_color_hover' ) );
 
         if ( ! empty( $modal_background ) ) {
             $custom_css .= ".pafl-overlay{ background: " . $modal_background . "; }";
@@ -200,24 +201,45 @@ class Pressapps_Fullscreen_Login_Public
         }
 
         if ( ! empty( $input_border_color ) ) {
-            $custom_css .= "#pafl-form .pafl-input { border-color: " . $input_border_color . "; }";
-            $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $input_border_color . "; }";
-            $custom_css .= "#pafl-form #pafl-rememberme + label span { border-color: " . $input_border_color . "; }";
+            // if border width is equal to 0 or less then will hide border
+            if ( intval( $input_border_width ) >= 1 ) {
+                $custom_css .= "#pafl-form .pafl-input { border-color: " . $input_border_color . "; }";
+                $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $modal_text . "; color: " .  $modal_text ."; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border-color: " . $input_border_color . "; }";
+            } else {
+                $custom_css .= "#pafl-form .pafl-input { border: 0; }";
+                $custom_css .= "#pafl-form .pafl-form-links a { border-color: " . $modal_text . "; color: " .  $modal_text ."; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border: 0; }";
+            }
         }
 
+        if ( ! empty( $input_border_radius ) ){
+            $custom_css .= "#pafl-form .pafl-input { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-submit { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-allow-login { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-forgot-left { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-forgot-right { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+            $custom_css .= "#pafl-form .pafl-create-account { border-radius: " . $input_border_radius . "px; -webkit-border-radius: " . $input_border_radius . "px; }";
+        }
         if ( ! empty( $input_border_width ) ) {
-            $custom_css .= "#pafl-form .pafl-input { border-style: solid; border-width: " . $input_border_width . "px; }";
-            $custom_css .= "#pafl-form #pafl-rememberme + label span { border-style: solid; border-width: " . $input_border_width . "px; }";
+
+            if ( intval( $input_border_width ) >= 1 ) {
+                $custom_css .= "#pafl-form .pafl-input { border-style: solid; border-width: " . $input_border_width . "px; }";
+                $custom_css .= "#pafl-form #pafl-rememberme + label span { border-style: solid; border-width: " . $input_border_width . "px; }";
+            }
+
         }
 
         if ( ! empty( $button_background_color ) ) {
-            $custom_css .= "#pafl-form .pafl-submit { background: " . $button_background_color . ";}";
-            $custom_css .= "#pafl-form .pafl-submit:hover { background: " . $button_text_color . ";}";
+            $custom_css .= "#pafl-form .pafl-submit { background-color: " . $button_background_color . ";}";
+        }
+
+        if ( ! empty( $button_background_color_hover ) ) {
+            $custom_css .= "#pafl-form .pafl-submit:hover { background-color: " . $button_background_color_hover . ";}";
         }
 
         if ( ! empty( $button_text_color ) ) {
-            $custom_css .= "#pafl-form .pafl-submit { color: " . $button_text_color . " !important; }";
-            $custom_css .= "#pafl-form .pafl-submit:hover { color: " . $button_background_color . " !important; }";
+            $custom_css .= "#pafl-form .pafl-submit { color: " . $button_text_color . "; }";
         }
 
         wp_add_inline_style( 'pafl-' . $modal_class, $custom_css );
@@ -343,7 +365,7 @@ class Pressapps_Fullscreen_Login_Public
 
                 <?php
                 //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-                if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                if ( $this->is_captcha_enabled() === false ): ?>
                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="false"/>
                 <?php endif; ?>
 
@@ -360,8 +382,10 @@ class Pressapps_Fullscreen_Login_Public
                         $label_register = __( "Register", 'pressapps-fullscreen-login' );
                     }
                     ?>
-                    <a href="#" data-form="forgot" class="pafl-forgot-left"><?php echo $label_forgot; ?></a>
+                    <a href="#" data-form="forgot" class="pafl-forgot-left <?php echo get_option('users_can_register') ? '' : 'pafl-full-width'; ?>"><?php echo $label_forgot; ?></a>
+                    <?php if ( get_option('users_can_register') ): ?>
                     <a href="#" data-form="register" class="pafl-create-account"> <?php echo $label_register; ?></a>
+                    <?php endif; ?>
                 </p><!--[END .form-links]-->
 
                 <?php do_action( 'pafl_inside_modal_login_last' ); ?>
@@ -411,7 +435,7 @@ class Pressapps_Fullscreen_Login_Public
                     <input type="hidden" name="register" value="true"/>
                     <?php
                     //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-                    if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                    if ( $this->is_captcha_enabled() === false ): ?>
                         <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-1" value="false"/>
                     <?php endif; ?>
                     <?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
@@ -467,7 +491,7 @@ class Pressapps_Fullscreen_Login_Public
                 <input type="hidden" name="forgotten" value="true"/>
                 <?php
                 //If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-                if ( ! isset( $recaptcha_status ) && $this->is_captcha_enabled() === false ): ?>
+                if ( $this->is_captcha_enabled() === false ): ?>
                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-2" value="false"/>
                 <?php endif; ?>
                 <?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
@@ -478,7 +502,7 @@ class Pressapps_Fullscreen_Login_Public
                         $label_login = __( "Login", 'pressapps-fullscreen-login' );
                     }
                     ?>
-                    <a href="#" data-form="login" class="pafl-allow-login"><?php echo $label_login; ?></a>
+                    <a href="#" data-form="login" class="pafl-allow-login pafl-full-width"><?php echo $label_login; ?></a>
                 </p><!--[END .form-links]-->
 
                 <?php do_action( 'pafl_inside_modal_forgotten_last' ); ?>
@@ -525,6 +549,13 @@ class Pressapps_Fullscreen_Login_Public
         // Skelet Object
         $pafl_sk = new Skelet( 'pafl' );
 
+        //Check if there is a g-recaptcha-response sent via GET and check if it is set to false
+        if ( isset( $_REQUEST['g-recaptcha-response'] ) && filter_var( $_REQUEST['g-recaptcha-response'], FILTER_VALIDATE_BOOLEAN ) !== false ) {
+            $g_recaptcha_response = true;
+        } else {
+            $g_recaptcha_response = false;
+        }
+
         // Check if Captcha is enabled and will
         if ( $this->is_captcha_enabled() ) {
             // Captcha Response Param
@@ -563,18 +594,20 @@ class Pressapps_Fullscreen_Login_Public
                     if ( is_wp_error( $user_login ) ) {
 
                         echo json_encode( array(
-                            'loggedin'   => false,
-                            'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
-                            'validation' => false,
+                            'loggedin'             => false,
+                            'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
+                            'validation'           => false,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
 
                     } else {
 
                         echo json_encode( array(
-                            'loggedin'   => true,
-                            'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
-                            'redirect'   => esc_url( $after_login_redirect ),
-                            'validation' => true,
+                            'loggedin'             => true,
+                            'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
+                            'redirect'             => esc_url( $after_login_redirect ),
+                            'validation'           => true,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
 
                     }
@@ -582,9 +615,10 @@ class Pressapps_Fullscreen_Login_Public
                 } else {
 
                     echo json_encode( array(
-                        'loggedin'   => false,
-                        'message'    => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
-                        'validation' => false,
+                        'loggedin'             => false,
+                        'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
+                        'validation'           => false,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
 
                 }
@@ -596,19 +630,21 @@ class Pressapps_Fullscreen_Login_Public
                 if ( is_wp_error( $user_login ) ) {
 
                     echo json_encode( array(
-                        'loggedin'   => false,
-                        'message'    => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
-                        'validation' => true, // set to true if captcha is disabled
+                        'loggedin'             => false,
+                        'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
+                        'validation'           => true, // set to true if captcha is disabled
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
 
                 } else {
 
                     $after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
                     echo json_encode( array(
-                        'loggedin'   => true,
-                        'message'    => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
-                        'redirect'   => esc_url( $after_login_redirect ),
-                        'validation' => true, // set to true if captcha is disabled
+                        'loggedin'             => true,
+                        'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
+                        'redirect'             => esc_url( $after_login_redirect ),
+                        'validation'           => true, // set to true if captcha is disabled
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
 
                 }
@@ -633,9 +669,10 @@ class Pressapps_Fullscreen_Login_Public
                     // Check if there were any issues with creating the new user
                     if ( is_wp_error( $user_register ) ) {
                         echo json_encode( array(
-                            'registerd'  => false,
-                            'message'    => $user_register->get_error_message(),
-                            'validation' => false
+                            'registerd'            => false,
+                            'message'              => $user_register->get_error_message(),
+                            'validation'           => false,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
                     } else {
                         if ( isset( $allow_user_set_password ) && $allow_user_set_password ) {
@@ -646,18 +683,20 @@ class Pressapps_Fullscreen_Login_Public
 
                         $after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
                         echo json_encode( array(
-                            'registerd'  => true,
-                            'redirect'   => esc_url( $after_register_redirect ),
-                            'message'    => $success_message,
-                            'validation' => true
+                            'registerd'            => true,
+                            'redirect'             => esc_url( $after_register_redirect ),
+                            'message'              => $success_message,
+                            'validation'           => true,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
                     }
 
                 } else {
                     echo json_encode( array(
-                        'registerd'  => false,
-                        'message'    => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
-                        'validation' => false
+                        'registerd'            => false,
+                        'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
+                        'validation'           => false,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 }
 
@@ -668,9 +707,10 @@ class Pressapps_Fullscreen_Login_Public
                 // Check if there were any issues with creating the new user
                 if ( is_wp_error( $user_register ) ) {
                     echo json_encode( array(
-                        'registerd'  => false,
-                        'message'    => $user_register->get_error_message(),
-                        'validation' => true // set to true if captcha is disabled
+                        'registerd'            => false,
+                        'message'              => $user_register->get_error_message(),
+                        'validation'           => true, // set to true if captcha is disabled,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 } else {
                     if ( isset( $allow_user_set_password ) && $allow_user_set_password ) {
@@ -681,10 +721,11 @@ class Pressapps_Fullscreen_Login_Public
 
                     $after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
                     echo json_encode( array(
-                        'registerd'  => true,
-                        'redirect'   => esc_url( $after_register_redirect ),
-                        'message'    => $success_message,
-                        'validation' => true // set to true if captcha is disabled
+                        'registerd'            => true,
+                        'redirect'             => esc_url( $after_register_redirect ),
+                        'message'              => $success_message,
+                        'validation'           => true, // set to true if captcha is disabled
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 }
             }
@@ -709,22 +750,25 @@ class Pressapps_Fullscreen_Login_Public
                     // Check if there were any errors when requesting a new password
                     if ( is_wp_error( $user_forgotten ) ) {
                         echo json_encode( array(
-                            'reset'      => false,
-                            'message'    => $user_forgotten->get_error_message(),
-                            'validation' => false
+                            'reset'                => false,
+                            'message'              => $user_forgotten->get_error_message(),
+                            'validation'           => false,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
                     } else {
                         echo json_encode( array(
-                            'reset'      => true,
-                            'message'    => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
-                            'validation' => true
+                            'reset'                => true,
+                            'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
+                            'validation'           => true,
+                            'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                         ) );
                     }
                 } else {
                     echo json_encode( array(
-                        'reset'  => false,
-                        'message'    => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
-                        'validation' => false
+                        'reset'                => false,
+                        'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
+                        'validation'           => false,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 }
 
@@ -733,15 +777,17 @@ class Pressapps_Fullscreen_Login_Public
                 // Check if there were any errors when requesting a new password
                 if ( is_wp_error( $user_forgotten ) ) {
                     echo json_encode( array(
-                        'reset'      => false,
-                        'message'    => $user_forgotten->get_error_message(),
-                        'validation' => true
+                        'reset'                => false,
+                        'message'              => $user_forgotten->get_error_message(),
+                        'validation'           => true,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 } else {
                     echo json_encode( array(
-                        'reset'      => true,
-                        'message'    => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
-                        'validation' => true
+                        'reset'                => true,
+                        'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
+                        'validation'           => true,
+                        'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
                     ) );
                 }
             }

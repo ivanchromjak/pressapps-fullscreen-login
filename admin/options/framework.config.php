@@ -351,6 +351,13 @@ $options[]      = array(
             'rgba'    => false
         ),
         array(
+            'id'      => 'input_border_radius',
+            'type'    => 'number',
+            'title'   => 'Input Border Radius',
+            'after'   => ' <i class="sk-text-muted">(px)</i>',
+            'default' => 1,
+        ),
+        array(
             'id'      => 'input_border_width',
             'type'    => 'number',
             'title'   => 'Input Border Width',
@@ -367,6 +374,12 @@ $options[]      = array(
             'id'      => 'button_background_color', 
             'type'    => 'color_picker',
             'title'   => 'Button Background Color',
+            'rgba'    => false
+        ),
+        array(
+            'id'      => 'button_background_color_hover',
+            'type'    => 'color_picker',
+            'title'   => 'Button Background Color Hover',
             'rgba'    => false
         ),
         array(
