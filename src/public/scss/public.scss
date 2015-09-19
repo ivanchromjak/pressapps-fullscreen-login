@@ -113,7 +113,7 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: #99cc33;
+  //background: #99cc33;
 }
 
 /* Overlay closing cross */
@@ -188,13 +188,13 @@
 
 .pafl-title {
   font-size      : 30px;
-  margin         : 15px 0;
+  margin         : 25px 0;
   letter-spacing : 5px;
 }
 
 .pafl-subtitle {
   font-style : italic;
-  font-size  : 16px;
+  font-size  : 17px;
   margin     : 25px 0;
 }
 
@@ -204,13 +204,18 @@
 }
 
 //Form links style
+.pafl-form-links {
+  overflow  : hidden;
+  margin    : 0;
+}
 .pafl-form-links a {
   opacity                     : .6;
   -webkit-backface-visibility : hidden;
   border                      : 1px solid;
-  padding                     : 5px 15px;
+  padding                     : 10px;
   margin-bottom               : 20px;
   font-size                   : 16px;
+  line-height                 : 1em;
   width                       : 48%;
   -webkit-transition          : opacity .3s;
   -moz-transition             : opacity .3s;
@@ -258,11 +263,12 @@
   textarea {
     &.pafl-input {
       font-size          : 18px;
+      line-height        : 25px;
       height             : 66px;
       width              : 100%;
       margin-bottom      : 25px;
       border-width       : 0;
-      padding            : 18px 0;
+      padding            : 11px;
       text-align         : center;
       background-color   : #ffffff;
       -webkit-transition : border-width .3s;
@@ -285,6 +291,7 @@
     & + label p {
       font-size   : 16px;
       font-weight : normal;
+      line-height : 1em;
       display     : inline-block;
       position    : relative;
       top         : -8px;
@@ -309,8 +316,9 @@
     border                      : 0;
     width                       : 100%;
     margin                      : 0 0 25px 0;
-    padding                     : 18px 0;
+    padding                     : 24px;
     font-size                   : 17px;
+    line-height                 : 1em;
     font-weight                 : bold;
     -webkit-transition          : background-color .3s;
     -moz-transition             : background-color .3s;
@@ -336,7 +344,7 @@
   .g-recaptcha {
     display : block;
     width   : 304px;
-    margin  : 0 auto 20px;
+    margin  : 0 auto 25px;
   }
 
   .pafl-section-container {
@@ -347,17 +355,16 @@
   }
 
   .pafl-message {
-    font-size             : 14px;
-    padding               : 15px;
+    font-size             : 16px;
+    padding               : 19px;
     margin-bottom         : 20px;
     border                : 1px solid transparent;
-    height                : 66px;
   }
 
   .pafl-success {
-    color                       : #3c763d;
-    background-color            : #dff0d8;
-    border-color                : #d6e9c6;
+    color                       : #fff;
+    background-color            : #4CAF50;
+    border-color                : #4CAF50;
     -webkit-backface-visibility : visible !important;
     backface-visibility         : visible !important;
     -webkit-animation-name      : flipInY;
@@ -370,19 +377,31 @@
 
   .pafl-error {
     color                       : #ffffff;
-    background-color            : transparent;
-    border                      : 1px solid #f10128;
-    -webkit-animation-name      : shake;
-    animation-name              : shake;
-    -webkit-animation-duration  : 1s;
-    animation-duration          : 1s;
-    -webkit-animation-fill-mode : both;
-    animation-fill-mode         : both;
+    background-color            : #f44336;
+    border                      : 1px solid #f44336;
+    //-webkit-animation-name      : shake;
+    //animation-name              : shake;
+    //-webkit-animation-duration  : 1s;
+    //animation-duration          : 1s;
+    //-webkit-animation-fill-mode : both;
+    //animation-fill-mode         : both;
   }
 }
 
 .pafl-form-links .pafl-full-width {
   width : 100% !important;
+}
+
+/**
+ * Recaptcha
+ */
+.pafl-overlay {
+  .rc-anchor {
+      border-radius: 3px;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+  }
 }
 
 @media screen and (max-height: 30.5em) {

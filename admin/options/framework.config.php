@@ -46,21 +46,21 @@ $options[]      = array(
                             'type'    => 'text',
                             'title'   => 'Login Form Link Text',
                             'help'    => 'Login Form Link text field for links located under the forms',
-                            'default' => 'Sign In'
+                            'default' => 'SIGN IN'
                         ),
                         array(
                             'id'      => 'form_register_link_text',
                             'type'    => 'text',
                             'title'   => 'Register Form Link Text',
                             'help'    => 'Register Form Link text field for links located under the forms',
-                            'default' => 'Create an account'
+                            'default' => 'CREATE AN ACCOUNT'
                         ),
                          array(
                             'id'      => 'form_forgot_link_text',
                             'type'    => 'text',
                             'title'   => 'Forgot Form Link Text',
                             'help'    => 'Forgot Form Link text field for links located under the forms',
-                            'default' => 'I forgot my password'
+                            'default' => 'I FORGOT MY PASSWORD'
                         ),
                 ),
             ),
@@ -77,7 +77,7 @@ $options[]      = array(
                             'id'      => 'login_form_title', 
                             'type'    => 'text',
                             'title'   => 'Title',
-                            'default' => 'Welcome Back',
+                            'default' => 'WELCOME BACK',
                         ),
                         array(
                             'id'      => 'login_form_subtitle', 
@@ -114,7 +114,7 @@ $options[]      = array(
                             'id'      => 'login_button_text', 
                             'type'    => 'text',
                             'title'   => 'Login Button Text',
-                            'default' => 'Sign in',
+                            'default' => 'SIGN IN',
                         ),
                 ),
             ),
@@ -132,13 +132,13 @@ $options[]      = array(
                             'id'      => 'register_form_title', 
                             'type'    => 'text',
                             'title'   => 'Title',
-                            'default' => 'Create an Account',
+                            'default' => 'CREATE AN ACCOUNT',
                         ),
                         array(
                             'id'      => 'register_form_subtitle', 
                             'type'    => 'text',
                             'title'   => 'Subtitle',
-                            'default' => 'A password will be emailed to you',
+                            'default' => 'Password will be emailed to you',
                         ),
                         array(
                             'id'      => 'register_form_username_placeholder_text', 
@@ -169,7 +169,7 @@ $options[]      = array(
                             'id'      => 'register_button_text', 
                             'type'    => 'text',
                             'title'   => 'Register Button Text',
-                            'default' => 'Create Account',
+                            'default' => 'CREATE ACCOUNT',
                         ),
 
                 ),
@@ -187,7 +187,7 @@ $options[]      = array(
                             'id'      => 'forgot_form_title', 
                             'type'    => 'text',
                             'title'   => 'Title',
-                            'default' => 'Forgot Password',
+                            'default' => 'FORGOT PASSWORD',
                         ),
                         array(
                             'id'      => 'forgot_form_subtitle', 
@@ -205,7 +205,7 @@ $options[]      = array(
                             'id'      => 'forgot_button_text', 
                             'type'    => 'text',
                             'title'   => 'Forgot Button Text',
-                            'default' => 'Send Reset Email',
+                            'default' => 'SEND RESET EMAIL',
                         ),
                 ),
             ),
@@ -336,7 +336,7 @@ $options[]      = array(
             'id'      => 'modal_background', 
             'type'    => 'color_picker',
             'title'   => 'Background Color',
-            'default' => '#99cc33',
+            'default' => '#03a9f4',
         ),
         array(
             'id'      => 'text_color', 
@@ -378,14 +378,14 @@ $options[]      = array(
             'type'    => 'color_picker',
             'title'   => 'Button Background Color',
             'rgba'    => false,
-            'default' => '#111111',
+            'default' => '#001017',
         ),
         array(
             'id'      => 'button_background_color_hover',
             'type'    => 'color_picker',
             'title'   => 'Button Background Color Hover',
             'rgba'    => false,
-            'default' => '#444444',
+            'default' => '#01579b',
         ),
         array(
             'id'      => 'modal_effect',
