@@ -135,13 +135,8 @@
 .pafl-overlay nav {
   text-align: center;
   position: relative;
-  top: 20%;
-  height: 60%;
-  font-size: 54px;
-  -webkit-transform: translateY(-20%);
-  transform: translateY(-20%);
+  margin: 70px 0 50px;
 }
-/*
 .pafl-overlay ul {
   list-style: none;
   padding: 0;
@@ -152,11 +147,7 @@
 
 .pafl-overlay ul li {
   display: block;
-  height: 20%;
-  height: calc(100% / 5);
-  min-height: 54px;
 }
-*/
 .pafl-overlay {
   overflow : auto;
   z-index  : 99999999;
@@ -269,7 +260,7 @@
       font-size          : 18px;
       height             : 66px;
       width              : 100%;
-      margin-bottom      : 20px;
+      margin-bottom      : 25px;
       border-width       : 0;
       padding            : 18px 0;
       text-align         : center;
@@ -286,13 +277,18 @@
   input[type="checkbox"]#pafl-rememberme {
     display : none;
 
+    & + label {
+      line-height : 1em;
+      display     : block;
+      margin-bottom : 22px;
+    }
     & + label p {
       font-size   : 16px;
       font-weight : normal;
       display     : inline-block;
       position    : relative;
       top         : -8px;
-      margin-left : 10px;
+      margin      : 0 0 0 10px;
     }
 
     & + label span {
@@ -312,7 +308,7 @@
     height                      : 66px;
     border                      : 0;
     width                       : 100%;
-    margin                      : 0 0 20px 0;
+    margin                      : 0 0 25px 0;
     padding                     : 18px 0;
     font-size                   : 17px;
     font-weight                 : bold;
