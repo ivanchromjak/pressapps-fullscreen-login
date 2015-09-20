@@ -557,7 +557,7 @@ class Pressapps_Fullscreen_Login_Public
             $g_recaptcha_response = false;
         }
 
-        // Check if Captcha is enabled and will
+        // Check if Captcha is enabled and g-recaptcha-response is set
         if ( $this->is_captcha_enabled() ) {
             // Captcha Response Param
             $captcha_response = $_REQUEST['g-recaptcha-response'];
@@ -1077,8 +1077,9 @@ class Pressapps_Fullscreen_Login_Public
      */
     public function is_captcha_enabled()
     {
-        $pafl_sk = new Skelet( 'pafl' );
-        if ( is_array( $pafl_sk->get( 'recaptcha_enable_on' ) ) && $pafl_sk->get( 'recaptcha_enable_on' ) !== false ) {
+        $pafl_sk              = new Skelet( 'pafl' );
+        $recaptcha_enabled_on = $pafl_sk->get( 'recaptcha_enable_on' );
+        if ( is_array( $recaptcha_enabled_on ) && $pafl_sk->get( 'recaptcha_enable_on' ) !== false ) {
             return true;
         } else {
             return false;

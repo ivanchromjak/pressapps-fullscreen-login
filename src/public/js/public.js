@@ -80,7 +80,6 @@
 								} else {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
-									console.log( results.g_recaptcha_response );
 									if ( results.g_recaptcha_response !== false ){
 										grecaptcha.reset( loginCaptcha );
 									}
@@ -223,7 +222,6 @@
 				} else if ( get_screen == 'forgot' || get_screen == '#pafl_modal_forgot' ) {
 					$( "div.pafl-overlay div#pafl-forgotten" ).show();
 				}
-
 			},
 			toggleOverlay : function( overlay ) {
 

@@ -89,8 +89,8 @@ module.exports = function(grunt) {
                       '!sftpCache.json',
                       '!src/**'
                     ], 
-                     dest: '../',
-                    },
+                     dest: '../'
+                    }
                ]
             }
         },
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
         'sftp-deploy': {
           demo: {
             auth: {
-              host: 'plugins.pressapps.io',
+              host: 'fullscreen-login.pressapps.io',
               port: 22,
               authKey: 'demo'
             },

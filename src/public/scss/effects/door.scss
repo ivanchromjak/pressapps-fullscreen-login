@@ -1,44 +1,91 @@
 /* Effects */
 .pafl-overlay-door {
-	visibility: hidden;
-	width: 0;
-	left: 50%;
-	-webkit-transform: translateX(-50%);
-	transform: translateX(-50%);
-	-webkit-transition: width 0.5s 0.3s, visibility 0s 0.8s;
-	transition: width 0.5s 0.3s, visibility 0s 0.8s;
+  visibility: hidden;
+  width: 0 !important;
+  left: 50% !important;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-transition: width 0.5s 0.3s, visibility 0s 0.8s;
+  transition: width 0.5s 0.3s, visibility 0s 0.8s;
+  overflow: hidden !important;
 }
 
 .pafl-overlay-door.open {
-	visibility: visible;
-	width: 100%;
-	-webkit-transition: width 0.5s;
-	transition: width 0.5s;
+  visibility: visible;
+  width: 100% !important;
+  -webkit-transition: width 0.5s;
+  transition: width 0.5s;
+  overflow: auto !important;
 }
 
 .pafl-overlay-door nav {
-	position: absolute;
-	left: 50%;
-	-webkit-transform: translateY(-50%) translateX(-50%);
-	transform: translateY(-50%) translateX(-50%);
+  position: absolute;
+  top: 50% !important;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
 }
 
-.pafl-overlay-door nav,
-.pafl-overlay-door .pafl-overlay-close {
-	opacity: 0;
-	-webkit-transition: opacity 0.3s 0.5s;
-	transition: opacity 0.3s 0.5s;
+
+.pafl-overlay {
+
+  .pafl-overlay-close {
+    opacity: 0;
+    -webkit-transition: opacity 0.3s 0.5s;
+    transition: opacity 0.3s 0.5s;
+  }
+
+  &.open .pafl-overlay-close{
+    opacity: 1;
+    -webkit-transform  : none;
+    -moz-transform     : none;
+    -ms-transform      : none;
+    -o-transform       : none;
+    transform          : none;
+    -webkit-transition : opacity 0.3s 0.5s, transform .3s;
+    -moz-transition    : opacity 0.3s 0.5s, transform .3s;
+    -ms-transition     : opacity 0.3s 0.5s, transform .3s;
+    -o-transition      : opacity 0.3s 0.5s, transform .3s;
+    transition         : opacity 0.3s 0.5s, transform .3s;
+    &:hover {
+      cursor            : pointer;
+      -webkit-transform : rotate(180deg);
+      -moz-transform    : rotate(180deg);
+      -ms-transform     : rotate(180deg);
+      -o-transform      : rotate(180deg);
+      transform         : rotate(180deg);
+    }
+  }
+
+  &.close .pafl-overlay-close {
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
+  }
 }
 
-.pafl-overlay-door.open nav,
-.pafl-overlay-door.open .pafl-overlay-close {
-	opacity: 1;
-	-webkit-transition-delay: 0.5s;
-	transition-delay: 0.5s;
+.pafl-overlay-door nav {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s 0.5s;
+  transition: opacity 0.3s 0.5s;
 }
 
-.pafl-overlay-door.close nav,
-.pafl-overlay-door.close .pafl-overlay-close {
-	-webkit-transition-delay: 0s;
-	transition-delay: 0s;
+.pafl-overlay-door.open nav {
+  opacity: 1;
+  -webkit-transition-delay: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.pafl-overlay-door.close nav {
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+
+@media screen and (max-height: 30.5em) {
+  .pafl-overlay nav {
+    height: 70%;
+    font-size: 34px;
+  }
+  .pafl-overlay ul li {
+    min-height: 34px;
+  }
 }
