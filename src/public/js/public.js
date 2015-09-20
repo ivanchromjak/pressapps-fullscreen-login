@@ -9,15 +9,22 @@
 				    triggerBttn = $( '#pafl-trigger-overlay, .pafl-trigger-overlay' ),
 				    closeBttn   = $( '.pafl-overlay-close' );
 
+				$( 'body' ).addClass( 'pafl-container' );
+
 				triggerBttn.on( 'click', function() {
 					$( '.pafl-message' ).remove();
+					$( 'body' ).addClass( 'pafl-open-modal' );
 					PA_FULLSCREEN_LOGIN.common.show_screen( $( this ) );
 					PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
 					return false;
 				} );
 
+				//move .pafl-overlay after body
+				$( '.pafl-overlay' ).insertAfter( 'body' );
+
 				closeBttn.on( 'click', function() {
 					$( '.pafl-message' ).remove();
+					$( 'body' ).removeClass( 'pafl-open-modal' );
 					PA_FULLSCREEN_LOGIN.common.toggleOverlay( overlay );
 					return false;
 				} );

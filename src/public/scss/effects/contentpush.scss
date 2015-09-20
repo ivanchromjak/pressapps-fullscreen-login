@@ -1,20 +1,16 @@
 /* Effects */
-html, body {
-	overflow-x: hidden;
-}
-
-.pafl-container {
+body.pafl-container {
 	overflow-x: hidden;
 	-webkit-transition: -webkit-transform 0.5s;
 	transition: transform 0.5s;	
 }
 
-.pafl-container.pafl-overlay-open {
+body.pafl-container.pafl-open-modal {
 	-webkit-transform: translateX(50%);
 	transform: translateX(50%);
 }
 
-.pafl-container::after {
+body.pafl-container::after {
 	content: '';
 	opacity: 0;
 	visibility: hidden;
@@ -28,7 +24,7 @@ html, body {
 	transition: opacity 0.5s, visibility 0s 0.5s;
 }
 
-.pafl-container.pafl-overlay-open::after {
+body.pafl-container.pafl-open-modal::after {
 	visibility: visible;
 	opacity: 1;
 	-webkit-transition: opacity 0.5s;
