@@ -59,11 +59,13 @@
 					// Remove any messages that currently exist.
 					$( '.pafl-modal-wrap > p.message' ).remove();
 
-
 					// Check if we are trying to login. If so, process all the needed form fields and return a failed or success message.
 					if ( form_id === 'pafl-login' ) {
+						//variable got from inline script it will be dynamically generated depends on which captcha is enabled
+
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
+						var loginData = $( '#pafl-login' ).data( 'response' );
 						$.ajax( {
 							type : 'GET',
 							dataType : 'json',
@@ -75,11 +77,10 @@
 								'rememberme' : ($( '#pafl-form #pafl-rememberme' ).is( ':checked' )) ? "TRUE" : "FALSE",
 								'login' : $( '#pafl-form input[name="login"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
-								'g-recaptcha-response' : $( '#g-recaptcha-response' ).val() //captcha response on user validation
+								'g-recaptcha-response' : ( typeof loginData != 'undefined' ? loginData : false ) //captcha response on user validation
 							},
 							success : function( results ) {
-
-								// Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
+								 // Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
 								if ( results.loggedin && results.validation ) {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-success"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
@@ -87,7 +88,10 @@
 								} else {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
-									if ( results.g_recaptcha_response !== false ){
+									if ( results.g_recaptcha_response !== false ) {
+										//remove data-response for each completed request since it can't be reuse
+										$( '#pafl-login' ).removeData( 'response' ).removeAttr( 'data-response' );
+										//reset captcha
 										grecaptcha.reset( loginCaptcha );
 									}
 
@@ -104,17 +108,18 @@
 								} );
 							},
 							complete : function() {
-								$( '.pafl-loader' ).fadeOut(300, function(){
+								$( '.pafl-loader' ).fadeOut( 300, function() {
 									$( '.pafl-section-container,.pafl-form-logo' ).css( {
 										'-webkit-filter' : 'none',
 										'filter' : 'none'
 									} );
-								});
+								} );
 							}
 						} );
 					} else if ( form_id === 'pafl-register' ) {
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
+						var registerData = $( '#pafl-register' ).data( 'response' );
 						$.ajax( {
 							type : 'GET',
 							dataType : 'json',
@@ -126,7 +131,7 @@
 								'register' : $( '#pafl-form input[name="register"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
 								'password' : $( '#pafl-form #reg_password' ).val(),
-								'g-recaptcha-response' : $( '#g-recaptcha-response-1' ).val() //captcha response on user validation
+								'g-recaptcha-response' : ( typeof registerData != 'undefined' ? registerData : false )//captcha response on user validation
 							},
 							success : function( results ) {
 								if ( results.registerd && results.validation ) {
@@ -137,7 +142,9 @@
 								} else {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
-									if ( results.g_recaptcha_response !== false ){
+									if ( results.g_recaptcha_response !== false ) {
+										//remove data-response for each completed request since it can't be reuse
+										$( '#pafl-login' ).removeData( 'response' ).removeAttr( 'data-response' );
 										grecaptcha.reset( registerCaptcha );
 									}
 								}
@@ -160,9 +167,10 @@
 								} );
 							}
 						} );
-					} else if ( form_id === 'pafl-forgotten' ) {
+					} else if ( form_id === 'pafl-forgot' ) {
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
+						var forgotData = $( '#pafl-forgot' ).data( 'response' );
 						$.ajax( {
 							type : 'GET',
 							dataType : 'json',
@@ -172,17 +180,19 @@
 								'username' : $( '#pafl-form #forgot_login' ).val(),
 								'forgotten' : $( '#pafl-form input[name="forgotten"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
-								'g-recaptcha-response' : $( '#g-recaptcha-response-2' ).val()
+								'g-recaptcha-response' : ( typeof forgotData != 'undefined' ? forgotData : false )//captcha response on user validation
 							},
 							success : function( results ) {
 								if ( results.reset && results.validation ) {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-success"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
-									$( '#pafl-forgotten #pafl-form input:not(#user-submit)' ).val( '' );
+									$( '#pafl-forgot #pafl-form input:not(#pafl-forgot)' ).val( '' );
 								} else {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
 									if ( results.g_recaptcha_response !== false ) {
+										//remove data-response for each completed request since it can't be reuse
+										$( '#pafl-login' ).removeData( 'response' ).removeAttr( 'data-response' );
 										grecaptcha.reset( forgotCaptcha );
 									}
 								}
@@ -227,7 +237,7 @@
 				} else if ( get_screen == 'register' || get_screen == '#pafl_modal_register' ) {
 					$( "div.pafl-overlay div#pafl-register" ).show();
 				} else if ( get_screen == 'forgot' || get_screen == '#pafl_modal_forgot' ) {
-					$( "div.pafl-overlay div#pafl-forgotten" ).show();
+					$( "div.pafl-overlay div#pafl-forgot" ).show();
 				}
 			},
 			toggleOverlay : function( overlay ) {
@@ -261,9 +271,9 @@
 
 					var onEndTransitionFn = function( ev ) {
 						if ( support.transitions ) {
-                            if ( ev.propertyName !== 'visibility' ) {
-                                return;
-                            }
+							if ( ev.propertyName !== 'visibility' ) {
+								return;
+							}
 							this.removeEventListener( transEndEventName, onEndTransitionFn );
 						}
 						classie.remove( overlay, 'close' );

@@ -285,10 +285,10 @@
 
     & + label {
       line-height : 1em;
-      display     : block;
+      display     : inline-block;
       margin-bottom : 22px;
     }
-    & + label p {
+    & + label + p {
       font-size   : 16px;
       font-weight : normal;
       line-height : 1em;

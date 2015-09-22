@@ -266,7 +266,7 @@ class Captcha
         }
 
         return
-            '<div id="' . $id . '" class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme . '" data-response=""></div>';
+            '<div id="' . $id . '" class="g-recaptcha" data-sitekey="' . $this->getPublicKey() . '" data-theme="' . $this->theme . '"></div>';
     }
 
 
@@ -279,23 +279,29 @@ class Captcha
         $output = "<script id=\"recaptcha-inline-script\" type=\"text/javascript\">";
         $output .= "/** ReCaptcha */\n";
 
+        // get all the declated ID and assign to a variable
+        $var_index = 0;
         foreach( $this->getID() as $var_item_id ):
-            $output .= "var " . $var_item_id .";";
+            //added Captcha word on id
+            $output .= "var " . $var_item_id . "Response = 'g-recaptcha-response" . ( $var_index < 1 ? "" : "-" . $var_index )."';";
+            $output .= "var " . $var_item_id ."Captcha;";
+            $var_index++;
         endforeach;
+
+
 
         $output .=  "var onloadCallback = function() {";
         if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
             $i = 0;
             foreach ( $this->getID() as $item_id ):
-
-            $output .= $item_id . " = grecaptcha.render('" . $item_id . "', {";
-            $output .= "'sitekey': document.getElementById('" . $item_id . "').getAttribute('data-sitekey'),";
-            $output .= "'theme': document.getElementById('" . $item_id . "').getAttribute('data-theme'),";
-            $output .= "'callback': function (response) {";
-            $output .= "document.getElementById('g-recaptcha-response" . ( $i >= 1 ? '-' . $i : '' ) . "').setAttribute( 'value', response );";
-            $output .= "}";
-            $output .= "});";
-                        $i++;
+	        $output .= $item_id . "Captcha = grecaptcha.render('" . $item_id . "Captcha', {";
+	        $output .= "'sitekey': document.getElementById('" . $item_id . "Captcha').getAttribute('data-sitekey'),";
+	        $output .= "'theme': document.getElementById('" . $item_id . "Captcha').getAttribute('data-theme'),";
+	        $output .= "'callback': function (response) {";
+	        $output .= "document.getElementById('pafl-" . $item_id  . "').setAttribute( 'data-response', response );";
+	        $output .= "}";
+	        $output .= "});";
+	        $i++;
             endforeach;
         endif;
             $output .= "};";
@@ -507,7 +513,21 @@ class Captcha
     public function setID( $id )
     {
         if ( is_array( $id ) && ! empty( $id ) ){
-            $this->id = array_merge( $this->id, $id );
+            // filter all the ids that were passed if a corresponding captcha is enabled for that field.
+            // will only filter 'login', 'register' and 'forgot'
+            foreach ( $id as $id_checked ) {
+                if ( pafl_is_captcha_field( $id_checked ) === false ) {
+                    unset( $id_checked );
+                } else {
+                    //will add word captcha as identifier
+                    $id_checked = $id_checked;
+
+                    //merge to the existing id property
+                    $this->id[] = $id_checked;
+                }
+            }
+
+
         }
     }
 }

@@ -48,15 +48,6 @@ if( ! class_exists( 'Skelet_LoadConfig' ) ){
 }
 
 /**
- * Load Recaptcha
- */
-if ( ! class_exists( 'Captcha' ) ){
-	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Captcha.php';
-	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Exception.php';
-	include_once dirname( __FILE__ ) . '/public/lib/recaptcha/Response.php';
-}
-
-/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-pressapps-fullscreen-login-activator.php
  */

@@ -125,8 +125,16 @@ class Pressapps_Fullscreen_Login {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pressapps-fullscreen-login-public.php';
 
-		$this->loader = new Pressapps_Fullscreen_Login_Loader();
+		/**
+		 * Load Recaptcha
+		 */
+		if ( ! class_exists( 'Captcha' ) ){
+			include_once dirname( __DIR__ ) . '/public/lib/recaptcha/Captcha.php';
+			include_once dirname( __DIR__ ) . '/public/lib/recaptcha/Exception.php';
+			include_once dirname( __DIR__ ) . '/public/lib/recaptcha/Response.php';
+		}
 
+		$this->loader = new Pressapps_Fullscreen_Login_Loader();
 
 	}
 

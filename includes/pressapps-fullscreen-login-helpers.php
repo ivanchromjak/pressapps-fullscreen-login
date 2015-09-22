@@ -9,49 +9,37 @@
  */
 if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 
-
-if ( ! function_exists( 'pafl_login_link' ) ) {
-
-    /**
-     * Login link shortcode
-     *
-     * @param Array $atts
+if ( ! function_exists( 'pafl_is_captcha_enabled' ) ) {
+	/**
+     * Helper function that checks if captcha is enabled
+     * @return bool
      */
-    function pafl_login_link( $atts ) {
-        $atts = shortcode_atts(
-            array(
-                'login_text' 	=> __( 'Login', 'pressapps-fullscreen-login' ),
-                'logout_text' 	=> __('Logout','pressapps-fullscreen-login')
-            ), $atts, 'pafl_login_link'
-        );
-
-        if ( is_user_logged_in() ){
-            echo '<a href="' . wp_logout_url() . '" >' . $atts['logout_text'] . '</a>';
+    function pafl_is_captcha_enabled() {
+        $pafl_sk              = new Skelet( 'pafl' );
+        $recaptcha_enabled_on = $pafl_sk->get( 'recaptcha_enable_on' );
+        if ( is_array( $recaptcha_enabled_on ) ) {
+            return true;
         } else {
-            echo '<a href="#" onclick="return false" data-form="login"  title="pafl-trigger-overlay">' . $atts['login_text'] . '</a>';
+            return false;
         }
     }
-
 }
 
-if ( ! function_exists( 'pafl_register_link' ) ) {
-
-    /**
-     * Register link shortcode
+if ( ! function_exists( 'pafl_is_captcha_field' ) ) {
+	/**
+     * Check specific field if captcha is enabled.
+     * @param $field
      *
-     * @param Array $atts
+     * @return bool
      */
-    function pafl_register_link( $atts ) {
-        $atts = shortcode_atts(
-            array(
-                'register' 	=> false,
-                'register_text' => __('Create an Account','pressapps-fullscreen-login')
-            ), $atts, 'pafl_register_link'
-        );
+    function pafl_is_captcha_field( $field ) {
+        $pafl_sk         = new Skelet( 'pafl' );
+        $recaptcha_array = $pafl_sk->get( 'recaptcha_enable_on' );
 
-        if ( ! is_user_logged_in() ){
-            return '<a href="#" onclick="return false" data-form="register"  title="pafl-trigger-overlay">' . $atts['register_text'] . '</a>';
+        if ( pafl_is_captcha_enabled() && in_array( $field, $recaptcha_array ) ) {
+            return true;
+        } else {
+            return false;
         }
     }
-
 }
