@@ -86,22 +86,10 @@ $options[]      = array(
                             'default' => 'Already a member? Sign in with your username.',
                         ),
                         array(
-                            'id'      => 'login_form_username_label',
-                            'type'    => 'text',
-                            'title'   => 'Username Input Label',
-                            'default' => 'Username',
-                        ),
-                        array(
                             'id'      => 'login_form_username_placeholder_text', 
                             'type'    => 'text',
                             'title'   => 'Username Placeholder Text',
                             'default' => 'Username',
-                        ),
-                        array(
-	                        'id'      => 'login_form_password_label',
-	                        'type'    => 'text',
-	                        'title'   => 'Password Input Label',
-	                        'default' => 'Password',
                         ),
                         array(
                             'id'      => 'login_form_password_placeholder_text', 
@@ -153,22 +141,10 @@ $options[]      = array(
                             'default' => 'Password will be emailed to you',
                         ),
                         array(
-	                        'id'      => 'register_form_username_label',
-	                        'type'    => 'text',
-	                        'title'   => 'Username Input Label',
-	                        'default' => 'Username',
-                        ),
-                        array(
                             'id'      => 'register_form_username_placeholder_text', 
                             'type'    => 'text',
                             'title'   => 'Username Placeholder Text',
                             'default' => 'Username',
-                        ),
-                        array(
-	                        'id'      => 'register_form_email_label',
-	                        'type'    => 'text',
-	                        'title'   => 'Email Input Label',
-	                        'default' => 'Email',
                         ),
                         array(
                             'id'      => 'register_form_email_placeholder_text', 
@@ -181,13 +157,6 @@ $options[]      = array(
                             'type'    => 'switcher',
                             'title'   => 'Allow User To Set Password',
                             'default' => true,
-                        ),
-                        array(
-	                        'id'      => 'register_form_password_label',
-	                        'type'    => 'text',
-	                        'title'   => 'Password Input Label',
-	                        'default' => 'Password',
-	                        'dependency'   => array( 'pafl_allow_user_set_password', '==', 'true' ),
                         ),
                         array(
                             'id'      => 'register_form_password_placeholder_text', 
@@ -225,12 +194,6 @@ $options[]      = array(
                             'type'    => 'text',
                             'title'   => 'Subtitle',
                             'default' => 'Enter your username or email to reset your password.',
-                        ),
-                        array(
-	                        'id'      => 'forgot_form_username_label',
-	                        'type'    => 'text',
-	                        'title'   => 'Username/Email Input Label',
-	                        'default' => 'Username or Email',
                         ),
                         array(
                             'id'      => 'forgot_form_username_placeholder_text', 
