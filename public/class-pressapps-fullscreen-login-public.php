@@ -316,13 +316,27 @@ class Pressapps_Fullscreen_Login_Public {
 				<form action="login" method="post" id="pafl-form" class="pafl-form-login">
 
 					<?php do_action( 'pafl_inside_modal_login_first' ); ?>
+					<?php
+					// input labels
+					$username_label = $this->filtered_string( $pafl_sk->get( 'login_form_username_input_label' ) );
+					$password_label = $this->filtered_string( $pafl_sk->get( 'login_form_password_input_label' ) ); ?>
 
-					<?php //@todo: label for poedit translation ?>
-					<!-- <label class="field-titles" for="login_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>-->
+					<?php
+					// if login_form_username_input_label field is empty will show default translatable string
+					if ( empty( $username_label ) ): ?>
+						<label class="pafl-field-label" for="login_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>
+					<?php else: ?>
+						<label class="pafl-field-label" for="login_user"><?php echo $username_label; ?></label>
+					<?php endif; ?>
 					<input type="text" name="log" id="login_user" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'login_form_username_placeholder_text' ); ?>" value="<?php echo( isset( $user_login ) ? esc_attr( $user_login ) : '' ); ?>" size="20"/>
 
-					<?php //@todo: label for poedit translation ?>
-					<!-- <label class="field-titles" for="login_pass"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>-->
+					<?php
+					// if login_form_password_input_label field is empty will show default translatable string
+					if ( empty( $password_label ) ): ?>
+						<label class="pafl-field-label" for="login_user"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>
+					<?php else: ?>
+						<label class="pafl-field-label" for="login_pass"><?php echo $password_label; ?></label>
+					<?php endif; ?>
 					<input type="password" name="pwd" id="login_pass" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'login_form_password_placeholder_text' ); ?>" value="" size="20"/>
 
 					<?php do_action( 'pafl_login_form' ); ?>
@@ -370,6 +384,7 @@ class Pressapps_Fullscreen_Login_Public {
 			</div><!--[END #pafl-login]-->
 			<?php // Registration form ?>
 			<?php if ( get_option( 'users_can_register' ) ): ?>
+
 				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
 					<h2 class="pafl-title"><?php echo $pafl_sk->get( 'register_form_title' ); ?></h2>
@@ -382,12 +397,40 @@ class Pressapps_Fullscreen_Login_Public {
 
 						<?php do_action( 'pafl_inside_modal_register_first' ); ?>
 
+						<?php
+						// input labels
+						$register_username_label = $this->filtered_string( $pafl_sk->get( 'register_form_username_label' ) );
+						$register_email_label    = $this->filtered_string( $pafl_sk->get( 'register_form_email_label' ) );
+						$register_password_label = $this->filtered_string( $pafl_sk->get( 'register_form_password_label' ) );
+						?>
+						<?php
+						// if register_form_username_label field is empty will show default translatable string
+						if ( empty( $register_username_label ) ): ?>
+							<label class="pafl-field-label" for="reg_user"><?php _e( 'Username', 'pressapps-fullscreen-login' ); ?></label>
+						<?php else: ?>
+							<label class="pafl-field-label" for="reg_user"><?php echo $register_username_label; ?></label>
+						<?php endif; ?>
 						<input type="text" name="user_login" id="reg_user" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'register_form_username_placeholder_text' ); ?>" value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>" size="20"/>
 
+						<?php
+						// if register_form_email_label field is empty will show default translatable string
+						if ( empty( $register_email_label ) ): ?>
+							<label class="pafl-field-label" for="reg_email"><?php _e( 'Email', 'pressapps-fullscreen-login' ); ?></label>
+						<?php else: ?>
+							<label class="pafl-field-label" for="reg_email"><?php echo $register_email_label; ?></label>
+						<?php endif; ?>
 						<input type="text" name="user_email" id="reg_email" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'register_form_email_placeholder_text' ); ?>" value="<?php echo( isset( $user_email ) ? esc_attr( stripslashes( $user_email ) ) : '' ); ?>" size="20"/>
+
 						<?php
 						$allow_user_set_password = $pafl_sk->get( 'allow_user_set_password' );
 						if ( $allow_user_set_password ):?>
+							<?php
+							// if register_form_password_label field is empty will show default translatable string
+							if ( empty( $register_password_label ) ): ?>
+								<label class="pafl-field-label" for="reg_password"><?php _e( 'Password', 'pressapps-fullscreen-login' ); ?></label>
+							<?php else: ?>
+								<label class="pafl-field-label" for="reg_password"><?php echo $register_password_label; ?></label>
+							<?php endif; ?>
 							<input type="password" name="reg_password" id="reg_password" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'register_form_password_placeholder_text' ); ?>"/>
 						<?php endif; ?>
 						<?php do_action( 'pafl_register_form' ); ?>
@@ -434,9 +477,18 @@ class Pressapps_Fullscreen_Login_Public {
 				<?php do_action( 'pafl_before_modal_forgotten' ); ?>
 
 				<form action="forgotten" method="post" id="pafl-form" class="pafl-form-forgotten">
-
+					<?php
+					// input label
+					$forgot_username_label = $this->filtered_string( $pafl_sk->get( 'forgot_form_username_label' ) );
+					?>
 					<?php do_action( 'pafl_inside_modal_forgotton_first' ); ?>
-
+					<?php
+					// if register_form_password_label field is empty will show default translatable string
+					if ( empty( $forgot_username_label ) ): ?>
+						<label class="pafl-field-label" for="forgot_login"><?php _e( 'Username or Email', 'pressapps-fullscreen-login' ); ?></label>
+					<?php else: ?>
+						<label class="pafl-field-label" for="forgot_login"><?php echo $forgot_username_label; ?></label>
+					<?php endif; ?>
 					<input type="text" name="forgot_login" id="forgot_login" class="pafl-input" placeholder="<?php echo $pafl_sk->get( 'forgot_form_username_placeholder_text' ); ?>" value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>" size="20"/>
 
 					<?php do_action( 'pafl_login_form', 'resetpass' ); ?>
