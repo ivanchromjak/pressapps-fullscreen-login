@@ -1,26 +1,36 @@
-/* Effects */
-body.pafl-container {
-	-webkit-transition: -webkit-transform 0.5s;
-	transition: transform 0.5s;
+.pafl-container {
+  background: #fff;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
 }
 
-body.pafl-container.pafl-modal-open {
-	-webkit-transform: scale(0.8);
-	transform: scale(0.8);
+body.pafl-container.pafl-open-modal {
+  -webkit-transform: scale(0.8);
+  transform: scale(0.8);
 }
 
 .pafl-overlay-contentscale {
-	visibility: hidden;
-	-webkit-transform: translateY(100%);
-	transform: translateY(100%);
-	-webkit-transition: -webkit-transform 0.5s, visibility 0s 0.5s;
-	transition: transform 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  -webkit-transform: translateY(100%);
+  transform: translateY(100%);
+  -webkit-transition: -webkit-transform 0.5s, visibility 0s 0.5s;
+  transition: transform 0.5s, visibility 0s 0.5s;
 }
 
 .pafl-overlay-contentscale.open {
-	visibility: visible;
-	-webkit-transform: translateY(0%);
-	transform: translateY(0%);
-	-webkit-transition: -webkit-transform 0.5s;
-	transition: transform 0.5s;
+  visibility: visible;
+  -webkit-transform: translateY(0%);
+  transform: translateY(0%);
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+
+@media screen and (max-height: 30.5em) {
+  .pafl-overlay nav {
+	height: 70%;
+	font-size: 34px;
+  }
+  .pafl-overlay ul li {
+	min-height: 34px;
+  }
 }

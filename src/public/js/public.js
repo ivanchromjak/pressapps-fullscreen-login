@@ -49,7 +49,6 @@
 
 				// Run our login ajax
 				$( '.pafl-modal-content #pafl-form' ).on( 'submit', function( e ) {
-
 					// Stop the form from submitting so we can use ajax.
 					e.preventDefault();
 
@@ -58,14 +57,12 @@
 
 					// Remove any messages that currently exist.
 					$( '.pafl-modal-wrap > p.message' ).remove();
-
 					// Check if we are trying to login. If so, process all the needed form fields and return a failed or success message.
-					if ( form_id === 'pafl-login' ) {
-						//variable got from inline script it will be dynamically generated depends on which captcha is enabled
 
+					if ( form_id === 'pafl-login' ) {
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
-						var loginData = $( '#pafl-login' ).data( 'response' );
+						var loginData = $( '#pafl-login' ).attr( 'data-response' );
 						$.ajax( {
 							type : 'GET',
 							dataType : 'json',
@@ -77,10 +74,10 @@
 								'rememberme' : ($( '#pafl-form #pafl-rememberme' ).is( ':checked' )) ? "TRUE" : "FALSE",
 								'login' : $( '#pafl-form input[name="login"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
-								'g-recaptcha-response' : ( typeof loginData != 'undefined' ? loginData : false ) //captcha response on user validation
+								'g-recaptcha-response' : ( loginData != 'false' ? loginData : false ) //captcha response on user validation
 							},
 							success : function( results ) {
-								 // Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
+								// Check the returned data message. If we logged in successfully, then let our users know and remove the modal window.
 								if ( results.loggedin && results.validation ) {
 									$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-success"></p>' );
 									$( '.pafl-modal-wrap > .pafl-message' ).text( results.message ).show();
@@ -94,7 +91,6 @@
 										//reset captcha
 										grecaptcha.reset( loginCaptcha );
 									}
-
 								}
 							},
 							error : function( e ) {
@@ -116,10 +112,11 @@
 								} );
 							}
 						} );
+
 					} else if ( form_id === 'pafl-register' ) {
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
-						var registerData = $( '#pafl-register' ).data( 'response' );
+						var registerData = $( '#pafl-register' ).attr( 'data-response' );
 						$.ajax( {
 							type : 'GET',
 							dataType : 'json',
@@ -131,7 +128,7 @@
 								'register' : $( '#pafl-form input[name="register"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
 								'password' : $( '#pafl-form #reg_password' ).val(),
-								'g-recaptcha-response' : ( typeof registerData != 'undefined' ? registerData : false )//captcha response on user validation
+								'g-recaptcha-response' : ( registerData != 'false' ? registerData : false )//captcha response on user validation
 							},
 							success : function( results ) {
 								if ( results.registerd && results.validation ) {
@@ -167,6 +164,7 @@
 								} );
 							}
 						} );
+
 					} else if ( form_id === 'pafl-forgot' ) {
 						//remove any message from previous request if there is
 						$( '.pafl-message' ).remove();
@@ -180,7 +178,7 @@
 								'username' : $( '#pafl-form #forgot_login' ).val(),
 								'forgotten' : $( '#pafl-form input[name="forgotten"]' ).val(),
 								'security' : $( '#pafl-form #security' ).val(),
-								'g-recaptcha-response' : ( typeof forgotData != 'undefined' ? forgotData : false )//captcha response on user validation
+								'g-recaptcha-response' : ( forgotData != 'false' ? forgotData : false ) //captcha response on user validation
 							},
 							success : function( results ) {
 								if ( results.reset && results.validation ) {
@@ -215,6 +213,7 @@
 								} );
 							}
 						} );
+
 					} else {
 						// if all else fails and we've hit here... something strange happen and notify the user.
 						$( '.pafl-modal-wrap > h2' ).after( '<p class="message error"></p>' );

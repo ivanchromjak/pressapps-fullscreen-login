@@ -305,7 +305,7 @@ class Pressapps_Fullscreen_Login_Public {
 			<div class="pafl-section-container">
 
 			<?php // Login Form ?>
-			<div id="pafl-login" class="pafl-modal-wrap pafl-modal-content">
+			<div id="pafl-login" class="pafl-modal-wrap pafl-modal-content" data-response="false">
 
 				<h2 class="pafl-title"><?php echo $pafl_sk->get( 'login_form_title' ); ?></h2>
 
@@ -344,12 +344,6 @@ class Pressapps_Fullscreen_Login_Public {
 					<input type="submit" name="pafl-submit" id="pafl-login" class="pafl-login-button pafl-submit" value="<?php echo $pafl_sk->get( 'login_button_text' ); ?>"/>
 					<input type="hidden" name="login" value="true"/>
 
-					<?php
-					//If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-					if ( $this->is_captcha_enabled() === false || $this->is_captcha_field( 'login' ) === false ): ?>
-						<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" value="false"/>
-					<?php endif; ?>
-
 					<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 					<p class="pafl-form-links">
@@ -376,7 +370,7 @@ class Pressapps_Fullscreen_Login_Public {
 			</div><!--[END #pafl-login]-->
 			<?php // Registration form ?>
 			<?php if ( get_option( 'users_can_register' ) ): ?>
-				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;">
+				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
 					<h2 class="pafl-title"><?php echo $pafl_sk->get( 'register_form_title' ); ?></h2>
 
@@ -406,11 +400,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						<input type="submit" name="pafl-submit" id="pafl-register" class="pafl-register-button pafl-submit" value="<?php echo $pafl_sk->get( 'register_button_text' ); ?>"/>
 						<input type="hidden" name="register" value="true"/>
-						<?php
-						//If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-						if ( $this->is_captcha_enabled() === false || $this->is_captcha_field( 'register' ) === false ): ?>
-							<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-1" value="false"/>
-						<?php endif; ?>
+
 						<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 						<p class="pafl-form-links">
@@ -434,7 +424,7 @@ class Pressapps_Fullscreen_Login_Public {
 				</div><!--[END #pafl-register]-->
 			<?php endif; ?>
 			<?php // Forgotten Password ?>
-			<div id="pafl-forgot" class="pafl-modal-wrap pafl-modal-content" style="display:none;">
+			<div id="pafl-forgot" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
 				<h2 class="pafl-title"><?php echo $pafl_sk->get( 'forgot_form_title' ); ?></h2>
 
@@ -458,11 +448,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					<input type="submit" name="pafl-submit" id="pafl-forgot" class="pafl-forgotte-button pafl-submit" value="<?php echo $pafl_sk->get( 'forgot_button_text' ); ?>">
 					<input type="hidden" name="forgotten" value="true"/>
-					<?php
-					//If captcha is disabled will submit a hidden form for g-recaptcha-response with false value
-					if ( $this->is_captcha_enabled() === false || $this->is_captcha_field( 'forgot' ) === false ): ?>
-						<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response-2" value="false"/>
-					<?php endif; ?>
+
 					<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
 
 					<p class="pafl-form-links">
@@ -525,16 +511,6 @@ class Pressapps_Fullscreen_Login_Public {
 			$g_recaptcha_response = false;
 		}
 
-		//debug
-//		echo json_encode(
-//			array(
-//				'response' => $g_recaptcha_response,
-//				'captcha' => $_REQUEST['g-recaptcha-response'],
-//				'bool' => $_REQUEST['g-recaptcha-response'] !== 'false'
-//			)
-//		);
-//		die();
-
 		// Check if Captcha is enabled and g-recaptcha-response is set
 		if ( $this->is_captcha_enabled() ) {
 			// Captcha Response Param
@@ -572,7 +548,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					if ( is_wp_error( $user_login ) ) {
 
-						echo json_encode( array(
+						echo @json_encode( array(
 							'loggedin'             => false,
 							'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 							'validation'           => false,
@@ -581,7 +557,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					} else {
 
-						echo json_encode( array(
+						echo @json_encode( array(
 							'loggedin'             => true,
 							'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 							'redirect'             => esc_url( $after_login_redirect ),
@@ -593,7 +569,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				} else {
 
-					echo json_encode( array(
+					echo @json_encode( array(
 						'loggedin'             => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -608,7 +584,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				if ( is_wp_error( $user_login ) ) {
 
-					echo json_encode( array(
+					echo @json_encode( array(
 						'loggedin'             => false,
 						'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 						'validation'           => true, // set to true if captcha is disabled
@@ -618,7 +594,7 @@ class Pressapps_Fullscreen_Login_Public {
 				} else {
 
 					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
-					echo json_encode( array(
+					echo @json_encode( array(
 						'loggedin'             => true,
 						'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 						'redirect'             => esc_url( $after_login_redirect ),
@@ -647,7 +623,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					// Check if there were any issues with creating the new user
 					if ( is_wp_error( $user_register ) ) {
-						echo json_encode( array(
+						echo @json_encode( array(
 							'registerd'            => false,
 							'message'              => $user_register->get_error_message(),
 							'validation'           => false,
@@ -661,7 +637,7 @@ class Pressapps_Fullscreen_Login_Public {
 						}
 
 						$after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
-						echo json_encode( array(
+						echo @json_encode( array(
 							'registerd'            => true,
 							'redirect'             => esc_url( $after_register_redirect ),
 							'message'              => $success_message,
@@ -671,7 +647,7 @@ class Pressapps_Fullscreen_Login_Public {
 					}
 
 				} else {
-					echo json_encode( array(
+					echo @json_encode( array(
 						'registerd'            => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -685,7 +661,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				// Check if there were any issues with creating the new user
 				if ( is_wp_error( $user_register ) ) {
-					echo json_encode( array(
+					echo @json_encode( array(
 						'registerd'            => false,
 						'message'              => $user_register->get_error_message(),
 						'validation'           => true, // set to true if captcha is disabled,
@@ -699,7 +675,7 @@ class Pressapps_Fullscreen_Login_Public {
 					}
 
 					$after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
-					echo json_encode( array(
+					echo @json_encode( array(
 						'registerd'            => true,
 						'redirect'             => esc_url( $after_register_redirect ),
 						'message'              => $success_message,
@@ -728,14 +704,14 @@ class Pressapps_Fullscreen_Login_Public {
 
 					// Check if there were any errors when requesting a new password
 					if ( is_wp_error( $user_forgotten ) ) {
-						echo json_encode( array(
+						echo @json_encode( array(
 							'reset'                => false,
 							'message'              => $user_forgotten->get_error_message(),
 							'validation'           => false,
 							'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
 						) );
 					} else {
-						echo json_encode( array(
+						echo @json_encode( array(
 							'reset'                => true,
 							'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
 							'validation'           => true,
@@ -743,7 +719,7 @@ class Pressapps_Fullscreen_Login_Public {
 						) );
 					}
 				} else {
-					echo json_encode( array(
+					echo @json_encode( array(
 						'reset'                => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -755,14 +731,14 @@ class Pressapps_Fullscreen_Login_Public {
 				$user_forgotten = $this->retrieve_password( $username );
 				// Check if there were any errors when requesting a new password
 				if ( is_wp_error( $user_forgotten ) ) {
-					echo json_encode( array(
+					echo @json_encode( array(
 						'reset'                => false,
 						'message'              => $user_forgotten->get_error_message(),
 						'validation'           => true,
 						'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
 					) );
 				} else {
-					echo json_encode( array(
+					echo @json_encode( array(
 						'reset'                => true,
 						'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
 						'validation'           => true,
