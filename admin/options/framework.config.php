@@ -88,7 +88,7 @@ $options[]      = array(
                         array(
                             'id'      => 'login_form_username_label',
                             'type'    => 'text',
-                            'title'   => 'Username Placeholder Text',
+                            'title'   => 'Username Input Label',
                             'default' => 'Username',
                         ),
                         array(
@@ -96,6 +96,12 @@ $options[]      = array(
                             'type'    => 'text',
                             'title'   => 'Username Placeholder Text',
                             'default' => 'Username',
+                        ),
+                        array(
+	                        'id'      => 'login_form_password_label',
+	                        'type'    => 'text',
+	                        'title'   => 'Password Input Label',
+	                        'default' => 'Password',
                         ),
                         array(
                             'id'      => 'login_form_password_placeholder_text', 
