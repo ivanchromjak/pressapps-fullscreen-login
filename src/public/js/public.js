@@ -54,7 +54,6 @@
 
 					// Check what form is currently being submitted so we can return the right values for the ajax request.
 					var form_id = $( this ).parent().attr( 'id' );
-
 					// Remove any messages that currently exist.
 					$( '.pafl-modal-wrap > p.message' ).remove();
 					// Check if we are trying to login. If so, process all the needed form fields and return a failed or success message.
@@ -261,9 +260,9 @@
 
 				var support = { transitions : Modernizr.csstransitions };
 
-				if ( classie.has( overlay, 'open' ) ) {
-					classie.remove( overlay, 'open' );
-					classie.add( overlay, 'close' );
+				if ( classie.has( overlay, 'pafl-open' ) ) {
+					classie.remove( overlay, 'pafl-open' );
+					classie.add( overlay, 'pafl-close' );
 					if ( container != null ) {
 						classie.remove( container, 'pafl-overlay-open' );
 					}
@@ -275,7 +274,7 @@
 							}
 							this.removeEventListener( transEndEventName, onEndTransitionFn );
 						}
-						classie.remove( overlay, 'close' );
+						classie.remove( overlay, 'pafl-close' );
 					};
 					if ( support.transitions ) {
 						overlay.addEventListener( transEndEventName, onEndTransitionFn );
@@ -284,8 +283,8 @@
 						onEndTransitionFn();
 					}
 				}
-				else if ( ! classie.has( overlay, 'close' ) ) {
-					classie.add( overlay, 'open' );
+				else if ( ! classie.has( overlay, 'pafl-close' ) ) {
+					classie.add( overlay, 'pafl-open' );
 					if ( container != null ) {
 						classie.add( container, 'pafl-overlay-open' );
 					}

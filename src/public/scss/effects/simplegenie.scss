@@ -7,7 +7,7 @@
 	transition: transform 0.4s, visibility 0s 0.4s;
 }
 
-.pafl-overlay-simplegenie.open {
+.pafl-overlay-simplegenie.pafl-open {
 	visibility: visible;
 	-webkit-transform: translateY(0%) scale(1);
 	transform: translateY(0%) scale(1);

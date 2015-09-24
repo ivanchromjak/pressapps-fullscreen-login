@@ -10,7 +10,7 @@
   overflow: hidden !important;
 }
 
-.pafl-overlay-door.open {
+.pafl-overlay-door.pafl-open {
   visibility: visible;
   width: 100% !important;
   -webkit-transition: width 0.5s;
@@ -35,7 +35,7 @@
     transition: opacity 0.3s 0.5s;
   }
 
-  &.open .pafl-overlay-close{
+  &.pafl-open .pafl-overlay-close{
     opacity: 1;
     -webkit-transform  : none;
     -moz-transform     : none;
@@ -57,7 +57,7 @@
     }
   }
 
-  &.close .pafl-overlay-close {
+  &.pafl-close .pafl-overlay-close {
     -webkit-transition-delay: 0s;
     transition-delay: 0s;
   }
@@ -69,13 +69,13 @@
   transition: opacity 0.3s 0.5s;
 }
 
-.pafl-overlay-door.open nav {
+.pafl-overlay-door.pafl-open nav {
   opacity: 1;
   -webkit-transition-delay: 0.5s;
   transition-delay: 0.5s;
 }
 
-.pafl-overlay-door.close nav {
+.pafl-overlay-door.pafl-close nav {
   -webkit-transition-delay: 0s;
   transition-delay: 0s;
 }

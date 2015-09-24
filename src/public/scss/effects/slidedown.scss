@@ -7,7 +7,7 @@
 	transition: transform 0.4s ease-in-out, visibility 0s 0.4s;
 }
 
-.pafl-overlay-slidedown.open {
+.pafl-overlay-slidedown.pafl-open {
 	visibility: visible;
 	-webkit-transform: translateY(0%);
 	transform: translateY(0%);

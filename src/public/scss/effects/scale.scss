@@ -8,7 +8,7 @@
 	transition: transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
 }
 
-.pafl-overlay-scale.open {
+.pafl-overlay-scale.pafl-open {
 	visibility: visible;
 	opacity: 1;
 	-webkit-transform: scale(1);

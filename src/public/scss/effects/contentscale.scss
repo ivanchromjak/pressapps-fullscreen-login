@@ -17,7 +17,7 @@ body.pafl-container.pafl-open-modal {
   transition: transform 0.5s, visibility 0s 0.5s;
 }
 
-.pafl-overlay-contentscale.open {
+.pafl-overlay-contentscale.pafl-open {
   visibility: visible;
   -webkit-transform: translateY(0%);
   transform: translateY(0%);

@@ -7,7 +7,7 @@
 	transition: opacity 0.5s, visibility 0s 0.5s;
 }
 
-.pafl-overlay-hugeinc.open {
+.pafl-overlay-hugeinc.pafl-open {
 	opacity: 1;
 	visibility: visible;
 	-webkit-transition: opacity 0.5s;
@@ -26,13 +26,13 @@
 	transition: transform 0.5s, opacity 0.5s;
 }
 
-.pafl-overlay-hugeinc.open nav ul {
+.pafl-overlay-hugeinc.pafl-open nav ul {
 	opacity: 1;
 	-webkit-transform: rotateX(0deg);
 	transform: rotateX(0deg);
 }
 
-.pafl-overlay-hugeinc.close nav ul {
+.pafl-overlay-hugeinc.pafl-close nav ul {
 	-webkit-transform: translateY(25%) rotateX(-35deg);
 	transform: translateY(25%) rotateX(-35deg);
 }

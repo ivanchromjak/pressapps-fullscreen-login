@@ -42,7 +42,7 @@ body.pafl-container.pafl-open-modal::after {
 	transition: transform 0.5s, visibility 0s 0.5s;
 }
 
-.pafl-overlay-contentpush.open {
+.pafl-overlay-contentpush.pafl-open {
 	visibility: visible;
 	-webkit-transform: translateX(0%);
 	transform: translateX(0%);
