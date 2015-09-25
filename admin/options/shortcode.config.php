@@ -9,7 +9,7 @@
  * Fullscreen navigation     Shortcode options and settings
  */
 $skelet_shortcodes[]     = sk_shortcode_apply_prefix( array(
-    'title'      => __( 'Fullscreen Login', 'pressapps' ),
+    'title'      => __( 'FULLSCREEN LOGIN', 'pressapps' ),
     'shortcodes' => array(
         array(
           'name'      => 'login_link',
