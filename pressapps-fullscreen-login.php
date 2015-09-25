@@ -1,26 +1,12 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              http://pressapps.co/
- * @since             1.0.0
- * @package           Pressapps_Fullscreen_Login
- *
- * @wordpress-plugin
  * Plugin Name:       PressApps Fullscreen Login
- * Plugin URI:        http://pressapps.co/fullscreen-login/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin URI:        http://pressapps.co/products/fullscreen-login/
+ * Description:       Add stylish fullscreen login, register and forgotten forms to your site.
  * Version:           1.0.0
  * Author:            PressApps Team
  * Author URI:        http://pressapps.co/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pressapps-fullscreen-login
  * Domain Path:       /languages
  */
@@ -38,7 +24,6 @@ $skelet_paths[] = array(
     'dir'         => wp_normalize_path(  plugin_dir_path( __FILE__ ).'/admin/' ),
     'uri'         => plugin_dir_url( __FILE__ ).'/admin/skelet',
 );
-
 
 /**
  * Load Skelet Framework
