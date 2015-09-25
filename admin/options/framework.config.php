@@ -4,8 +4,8 @@
  * Framework page settings
  */
 $settings = array(
-    'header_title' => 'Fullscreen Login',
-    'menu_title'   => 'Fullscreen Login',
+    'header_title' => __( 'Fullscreen Login', 'pressapps' ),
+    'menu_title'   => __( 'Fullscreen Login', 'pressapps' ),
     'menu_type'    => 'add_submenu_page',
     'menu_slug'    => 'pressapps-fullscreen-login',
     'ajax_save'    => false,
@@ -23,152 +23,152 @@ $options        = array();
  */
 $options[]      = array(
     'name'        => 'forms',
-    'title'       => 'Forms',
+    'title'       => __( 'Forms', 'pressapps' ),
     'icon'        => 'si-menu7',
         'sections' => array(
             array(
                 'name'      => 'general_options',
-                'title'     => 'General',
+                'title'     => __( 'General', 'pressapps' ),
                 'icon'      => 'si-cog3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
-                            'content' => 'General',
+                            'content' => __( 'General', 'pressapps' ),
                         ),
                         array(
                             'id'      => 'form_logo',
                             'type'    => 'upload',
-                            'title'   => 'Form Logo',
-                            'help'    => 'Upload a site logo for the forms.',
+                            'title'   => __( 'Form Logo', 'pressapps' ),
+                            'help'    => __( 'Upload a site logo for the forms.', 'pressapps' ),
                         ),
                         array(
                             'id'      => 'form_login_link_text',
                             'type'    => 'text',
-                            'title'   => 'Login Form Link Text',
-                            'help'    => 'Login Form Link text field for links located under the forms',
+                            'title'   => __( 'Login Form Link Text', 'pressapps' ),
+                            'help'    => __( 'Login Form Link text field for links located under the forms', 'pressapps' ),
                             'default' => 'SIGN IN'
                         ),
                         array(
                             'id'      => 'form_register_link_text',
                             'type'    => 'text',
-                            'title'   => 'Register Form Link Text',
-                            'help'    => 'Register Form Link text field for links located under the forms',
+                            'title'   => __( 'Register Form Link Text', 'pressapps' ),
+                            'help'    => __( 'Register Form Link text field for links located under the forms', 'pressapps' ),
                             'default' => 'CREATE AN ACCOUNT'
                         ),
                          array(
                             'id'      => 'form_forgot_link_text',
                             'type'    => 'text',
-                            'title'   => 'Forgot Form Link Text',
-                            'help'    => 'Forgot Form Link text field for links located under the forms',
+                            'title'   => __( 'Forgot Form Link Text', 'pressapps' ),
+                            'help'    => __( 'Forgot Form Link text field for links located under the forms', 'pressapps' ),
                             'default' => 'I FORGOT MY PASSWORD'
                         ),
                 ),
             ),
             array(
                 'name'      => 'login_options',
-                'title'     => 'Login',
+                'title'     => __( 'Login', 'pressapps' ),
                 'icon'      => 'si-user',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
-                            'content' => 'Login',
+                            'content' => __( 'Login', 'pressapps' ),
                         ),
                         array(
                             'id'      => 'login_form_title', 
                             'type'    => 'text',
-                            'title'   => 'Title',
+                            'title'   => __( 'Title', 'pressapps' ),
                             'default' => 'WELCOME BACK',
                         ),
                         array(
                             'id'      => 'login_form_subtitle', 
                             'type'    => 'text',
-                            'title'   => 'Subtitle',
+                            'title'   => __( 'Subtitle', 'pressapps' ),
                             'default' => 'Already a member? Sign in with your username.',
                         ),
                         array(
                             'id'      => 'login_form_username_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Username Placeholder Text',
+                            'title'   => __( 'Username Placeholder Text', 'pressapps' ),
                             'default' => 'Username',
                         ),
                         array(
                             'id'      => 'login_form_password_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Password Placeholder Text',
+                            'title'   => __( 'Password Placeholder Text', 'pressapps' ),
                             'default' => 'Password',
                         ),
                         array(
                             'id'      => 'rememberme_visibility', 
                             'type'    => 'switcher',
-                            'title'   => 'Remember Me',
+                            'title'   => __( 'Remember Me', 'pressapps' ),
                             'default' => true,
                         ),
                         array(
                             'id'           => 'rememberme_placeholder_text', 
                             'type'         => 'text',
-                            'title'        => 'Remember Me Placeholder Text',
+                            'title'        => __( 'Remember Me Placeholder Text', 'pressapps' ),
                             'default'      => 'Remember Me',
                             'dependency'   => array( 'pafl_rememberme_visibility', '==', 'true' ),
                         ),
                         array(
                             'id'      => 'login_button_text', 
                             'type'    => 'text',
-                            'title'   => 'Login Button Text',
+                            'title'   => __( 'Login Button Text', 'pressapps' ),
                             'default' => 'SIGN IN',
                         ),
                 ),
             ),
             array(
                 'name'      => 'register_options',
-                'title'     => 'Register',
+                'title'     => __( 'Register', 'pressapps' ),
                 'icon'      => 'si-pencil3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
-                            'content' => 'Register',
+                            'content' => __( 'Register', 'pressapps' ),
                         ),
 
                         array(
                             'id'      => 'register_form_title', 
                             'type'    => 'text',
-                            'title'   => 'Title',
+                            'title'   => __( 'Title', 'pressapps' ),
                             'default' => 'CREATE AN ACCOUNT',
                         ),
                         array(
                             'id'      => 'register_form_subtitle', 
                             'type'    => 'text',
-                            'title'   => 'Subtitle',
+                            'title'   => __( 'Subtitle', 'pressapps' ),
                             'default' => 'Password will be emailed to you',
                         ),
                         array(
                             'id'      => 'register_form_username_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Username Placeholder Text',
+                            'title'   => __( 'Username Placeholder Text', 'pressapps' ),
                             'default' => 'Username',
                         ),
                         array(
                             'id'      => 'register_form_email_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Email Placeholder Text',
+                            'title'   => __( 'Email Placeholder Text', 'pressapps' ),
                             'default' => 'Email',
                         ),
                         array(
                             'id'      => 'allow_user_set_password', 
                             'type'    => 'switcher',
-                            'title'   => 'Allow User To Set Password',
+                            'title'   => __( 'Allow User To Set Password', 'pressapps' ),
                             'default' => true,
                         ),
                         array(
                             'id'      => 'register_form_password_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Password Placeholder Text',
+                            'title'   => __( 'Password Placeholder Text', 'pressapps' ),
                             'default' => 'Password',
                             'dependency'   => array( 'pafl_allow_user_set_password', '==', 'true' ),
                         ),
                         array(
                             'id'      => 'register_button_text', 
                             'type'    => 'text',
-                            'title'   => 'Register Button Text',
+                            'title'   => __( 'Register Button Text', 'pressapps' ),
                             'default' => 'CREATE ACCOUNT',
                         ),
 
@@ -176,35 +176,35 @@ $options[]      = array(
             ),
             array(
                 'name'      => 'forgot_options',
-                'title'     => 'Forgot',
+                'title'     => __( 'Forgot', 'pressapps' ),
                 'icon'      => 'si-question3',
                 'fields'    => array(
                         array(
                             'type'    => 'heading',
-                            'content' => 'Forgot',
+                            'content' => __( 'Forgot', 'pressapps' ),
                         ),                      
                         array(
                             'id'      => 'forgot_form_title', 
                             'type'    => 'text',
-                            'title'   => 'Title',
+                            'title'   => __( 'Title', 'pressapps' ),
                             'default' => 'FORGOT PASSWORD',
                         ),
                         array(
                             'id'      => 'forgot_form_subtitle', 
                             'type'    => 'text',
-                            'title'   => 'Subtitle',
+                            'title'   => __( 'Subtitle', 'pressapps' ),
                             'default' => 'Enter your username or email to reset your password.',
                         ),
                         array(
                             'id'      => 'forgot_form_username_placeholder_text', 
                             'type'    => 'text',
-                            'title'   => 'Username/Email Placeholder Text',
+                            'title'   => __( 'Username/Email Placeholder Text', 'pressapps' ),
                             'default' => 'Username or Email',
                         ),
                         array(
                             'id'      => 'forgot_button_text', 
                             'type'    => 'text',
-                            'title'   => 'Forgot Button Text',
+                            'title'   => __( 'Forgot Button Text', 'pressapps' ),
                             'default' => 'SEND RESET EMAIL',
                         ),
                 ),
@@ -217,32 +217,32 @@ $options[]      = array(
  */
 $options[]      = array(
     'name'        => 'redirect',
-    'title'       => 'Redirect',
+    'title'       => __( 'Redirect', 'pressapps' ),
     'icon'        => 'si-redo2',
     'fields'      => array(
 
         array(
             'id'      => 'redirect_allow_after_login_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Login Redirect URL',
-            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
-            'help'    => 'Set optional login redirect URL, if not set you will be redirected to current page',
+            'title'   => __( 'Login Redirect URL', 'pressapps' ),
+            'after'   => __( '<br> Enter full URL e.g. http://yoursitename.com/page', 'pressapps' ),
+            'help'    => __( 'Set optional login redirect URL, if not set you will be redirected to current page', 'pressapps' ),
         ),
 
         array(
             'id'      => 'redirect_allow_after_logout_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Logout Redirect URL',
-            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
-            'help'    => 'Set optional logout redirect URL, if not set you will be redirected to home page',
+            'title'   => __( 'Logout Redirect URL', 'pressapps' ),
+            'after'   => __( '<br> Enter full URL e.g. http://yoursitename.com/page', 'pressapps' ),
+            'help'    => __( 'Set optional logout redirect URL, if not set you will be redirected to home page', 'pressapps' ),
         ),
 
         array(
             'id'      => 'redirect_allow_after_registration_redirection_url', 
             'type'    => 'text',
-            'title'   => 'Registration Redirect URL',
-            'after'   => '<br> Enter full URL e.g. http://yoursitename.com/page',
-            'help'    => 'Set optional registration redirect URL, if not set you will be redirected to the current page.',
+            'title'   => __( 'Registration Redirect URL', 'pressapps' ),
+            'after'   => __( '<br> Enter full URL e.g. http://yoursitename.com/page', 'pressapps' ),
+            'help'    => __( 'Set optional registration redirect URL, if not set you will be redirected to the current page.', 'pressapps' ),
         ),
     )
 );
@@ -253,29 +253,29 @@ $options[]      = array(
  */
 $options[]      = array(
     'name'             => 'email',
-    'title'            => 'Email',
+    'title'            => __( 'Email', 'pressapps' ),
     'icon'             => 'si-envelop2',
     'fields'           => array(
 
         array(
             'id'       => 'custom_email_template', 
             'type'     => 'switcher',
-            'title'    => 'Custom Email Template',
+            'title'    => __( 'Custom Email Template', 'pressapps' ),
             'default'  => false,
         ),
        array(
             'id'       => 'custom_email_subject', 
             'type'     => 'text',
-            'title'    => 'Subject',
+            'title'    => __( 'Subject', 'pressapps' ),
             'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
                         
         ),
         array(
             'id'       => 'custom_email_body', 
             'type'     => 'wysiwyg',
-            'title'    => 'Body',
+            'title'    => __( 'Body', 'pressapps' ),
             'dependency'   => array( 'pafl_custom_email_template', '==', 'true' ),
-            'after'     => 'Add custom registration email template with the following variables for use in subject or body: %username%, %password%, %loginlink%',
+            'after'     => __( 'Add custom registration email template with the following variables for use in subject or body: %username%, %password%, %loginlink%', 'pressapps' ),
                     
         ),
     )
@@ -287,38 +287,38 @@ $options[]      = array(
  */
 $options[]      = array(
     'name'        => 'captcha',
-    'title'       => 'Captcha',
+    'title'       => __( 'Captcha', 'pressapps' ),
     'icon'        => 'si-lock2',
     'fields'      => array(
         array(
             'id'      => 'recaptcha_public_key', 
             'type'    => 'text',
-            'title'   => 'Site Key',
+            'title'   => __( 'Site Key', 'pressapps' ),
             'default' => '',
         ),
         array(
             'id'      => 'recaptcha_private_key', 
             'type'    => 'text',
-            'title'   => 'Secret Key',
+            'title'   => __( 'Secret Key', 'pressapps' ),
             'default' => '',
         ),
         array(
             'id'      => 'recaptcha_enable_on', 
             'type'    => 'checkbox',
-            'title'   => 'Enable On',
+            'title'   => __( 'Enable On', 'pressapps' ),
             'options' => array(
-                'login'     => 'Login Form',
-                'register'  => 'Register Form',
-                'forgot'    => 'Forgot Form',
+                'login'     => __( 'Login Form', 'pressapps' ),
+                'register'  => __( 'Register Form', 'pressapps' ),
+                'forgot'    => __( 'Forgot Form', 'pressapps' ),
             ),
         ),
         array(
             'id'      => 'recaptcha_theme', 
             'type'    => 'select',
-            'title'   => 'Theme',
+            'title'   => __( 'Theme', 'pressapps' ),
             'options' => array(
-                'light'     => 'Light',
-                'dark'      => 'Dark',
+                'light'     => __( 'Light', 'pressapps' ),
+                'dark'      => __( 'Dark', 'pressapps' ),
             ),
         ),
     )
@@ -329,84 +329,84 @@ $options[]      = array(
  */
 $options[]      = array(
     'name'        => 'styling',
-    'title'       => 'Styling',
+    'title'       => __( 'Styling', 'pressapps' ),
     'icon'        => 'si-brush',
     'fields'      => array(
         array(
             'id'      => 'modal_background', 
             'type'    => 'color_picker',
-            'title'   => 'Background Color',
+            'title'   => __( 'Background Color', 'pressapps' ),
             'default' => '#03a9f4',
         ),
         array(
             'id'      => 'text_color', 
             'type'    => 'color_picker',
-            'title'   => 'Text Color',
-            'help'    => 'Change color for content color, applies to form title, subtitle, remember me label and links under forms',
+            'title'   => __( 'Text Color', 'pressapps' ),
+            'help'    => __( 'Change color for content color, applies to form title, subtitle, remember me label and links under forms', 'pressapps' ),
             'rgba'    => false,
             'default' => '#ffffff',
         ),
         array(
             'id'      => 'input_border_color',
             'type'    => 'color_picker',
-            'title'   => 'Input Border Color',
+            'title'   => __( 'Input Border Color', 'pressapps' ),
             'rgba'    => false
         ),
         array(
             'id'      => 'input_border_radius',
             'type'    => 'number',
-            'title'   => 'Input Border Radius',
+            'title'   => __( 'Input Border Radius', 'pressapps' ),
             'after'   => ' <i class="sk-text-muted">(px)</i>',
             'default' => 1,
         ),
         array(
             'id'      => 'input_border_width',
             'type'    => 'number',
-            'title'   => 'Input Border Width',
+            'title'   => __( 'Input Border Width', 'pressapps' ),
             'after'   => ' <i class="sk-text-muted">(px)</i>',
             'default' => 0,
         ),
         array(
             'id'      => 'button_text_color', 
             'type'    => 'color_picker',
-            'title'   => 'Button Text Color',
+            'title'   => __( 'Button Text Color', 'pressapps' ),
             'rgba'    => false,
             'default' => '#ffffff',
         ),
         array(
             'id'      => 'button_background_color', 
             'type'    => 'color_picker',
-            'title'   => 'Button Background Color',
+            'title'   => __( 'Button Background Color', 'pressapps' ),
             'rgba'    => false,
             'default' => '#001017',
         ),
         array(
             'id'      => 'button_background_color_hover',
             'type'    => 'color_picker',
-            'title'   => 'Button Background Color Hover',
+            'title'   => __( 'Button Background Color Hover', 'pressapps' ),
             'rgba'    => false,
             'default' => '#01579b',
         ),
         array(
             'id'      => 'modal_effect',
             'type'    => 'select',
-            'title'   => 'Effect',
+            'title'   => __( 'Effect', 'pressapps' ),
             'options' => array(
-                'hugeinc'       => 'Huge Inc',
-                'corner'        => 'Corner',
-                'slidedown'     => 'Slide Down',
-                'scale'         => 'Scale',
-                'door'          => 'Door',
-                'contentpush'   => 'Content Push',
-                'contentscale'  => 'Content Scale',
-                'simplegenie'   => 'Simple Genie',
+                'hugeinc'       => __( 'Huge Inc', 'pressapps' ),
+                'corner'        => __( 'Corner', 'pressapps' ),
+                'slidedown'     => __( 'Slide Down', 'pressapps' ),
+                'scale'         => __( 'Scale', 'pressapps' ),
+                'door'          => __( 'Door', 'pressapps' ),
+                'contentpush'   => __( 'Content Push', 'pressapps' ),
+                'contentscale'  => __( 'Content Scale', 'pressapps' ),
+                'simplegenie'   => __( 'Simple Genie', 'pressapps' ),
             ),
             'default'    => 'hugeinc',
         ),
         array(
             'id'      => 'custom_css', 
             'type'    => 'textarea',
-            'title'   => 'Custom CSS',
+            'title'   => __( 'Custom CSS', 'pressapps' ),
         ),
     ),
 );

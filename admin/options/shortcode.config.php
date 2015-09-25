@@ -9,34 +9,34 @@
  * Fullscreen navigation     Shortcode options and settings
  */
 $skelet_shortcodes[]     = sk_shortcode_apply_prefix( array(
-    'title'      => 'Fullscreen Login',
+    'title'      => __( 'Fullscreen Login', 'pressapps' ),
     'shortcodes' => array(
         array(
           'name'      => 'login_link',
-          'title'     => 'Insert Login Link',
+          'title'     => __( 'Insert Login Link', 'pressapps' ),
           'fields'    => array(
               array(
                   'id'       => 'login_text',
                   'type'     => 'text',
-                  'title'    => 'Login Link Text',
+                  'title'    => __( 'Login Link Text', 'pressapps' ),
                   'default'  => ''
               ),
               array(
                   'id'       => 'logout_text',
                   'type'     => 'text',
-                  'title'    => 'Logout Link Text',
+                  'title'    => __( 'Logout Link Text', 'pressapps' ),
                   'default'  => ''
               ),
           ),
         ),
         array(
             'name'      => 'register_link',
-            'title'     => 'Insert Register Link',
+            'title'     => __( 'Insert Register Link', 'pressapps' ),
             'fields'    => array(
                 array(
                     'id'       => 'register_text',
                     'type'     => 'text',
-                    'title'    => 'Register Text',
+                    'title'    => __( 'Register Text', 'pressapps' ),
                     'default'  => ''
                 )
             ),
