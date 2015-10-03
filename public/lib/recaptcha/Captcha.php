@@ -291,7 +291,7 @@ class Captcha
 
 
         $output .=  "var onloadCallback = function() {";
-        if ( is_array( $this->getID() ) && ! empty( $this->getID() ) ):
+        if ( is_array( $this->getID() ) && $this->getID() ):
             $i = 0;
             foreach ( $this->getID() as $item_id ):
 	        $output .= $item_id . "Captcha = grecaptcha.render('" . $item_id . "Captcha', {";

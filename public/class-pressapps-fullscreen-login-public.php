@@ -266,6 +266,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Append modal html to footer in all pages
 	 */
 	public function append_to_footer() {
+
 		$pafl_sk     = new Skelet( "pafl" );
 		$modal_class = $pafl_sk->get( 'modal_effect' );
 		$public_key  = $pafl_sk->get( 'recaptcha_public_key' );
@@ -1047,15 +1048,17 @@ class Pressapps_Fullscreen_Login_Public {
 	/**
 	 * Filter function to fixed Array to string conversion notice
 	 *
-	 * @param $string
+	 * @param        $string
+	 *
+	 * @param string $default
 	 *
 	 * @return string
 	 */
-	public function filtered_string( $string ) {
+	public function filtered_string( $string, $default = "" ) {
 		if ( is_string( $string ) && strtolower( $string ) === 'array' ) {
-			$string = "";
+			empty( $default ) ? $string = "" : $string = $default;
 		} elseif ( is_array( $string ) ) {
-			$string = "";
+			empty( $default ) ? $string = "" : $string = $default;
 		}
 
 		return $string;
