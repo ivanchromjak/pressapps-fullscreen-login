@@ -209,6 +209,71 @@ $options[]      = array(
                         ),
                 ),
             ),
+            array(
+                'name'      => 'social_login',
+                'title'     => __( 'Social Login', 'pressapps' ),
+                'icon'      => 'si-share3',
+                'fields'    => array(
+                    array(
+                        'type'    => 'heading',
+                        'content' => __( 'Social Login', 'pressapps' ),
+                    ),
+                    array(
+                        'id'      => 'facebook_login',
+                        'type'    => 'switcher',
+                        'title'   => __( 'Facebook', 'pressapps' ),
+                        'default' => false,
+                    ),
+                    array(
+                        'id'      => 'twitter_login',
+                        'type'    => 'switcher',
+                        'title'   => __( 'Twitter', 'pressapps' ),
+                        'default' => false,
+                    ),
+                    array(
+                        'id'      => 'google_plus_login',
+                        'type'    => 'switcher',
+                        'title'   => __( 'Google+', 'pressapps' ),
+                        'default' => false,
+                    ),
+                    // Facebook Option
+                    array(
+                        'type'    => 'heading',
+                        'content' => __( 'Facebook Login', 'pressapps' ),
+                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
+                    ),
+                    array(
+                        'id'      => 'facebook_login_id',
+                        'type'    => 'text',
+                        'title'   => __( 'Facebook App ID', 'pressapps' ),
+                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
+                    ),
+                    // Twitter Option
+                    array(
+                        'type'    => 'heading',
+                        'content' => __( 'Twitter Login', 'pressapps' ),
+                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
+                    ),
+                    array(
+                        'id'      => 'twitter_login_id',
+                        'type'    => 'text',
+                        'title'   => __( 'Twitter Auth Token', 'pressapps' ),
+                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
+                    ),
+                    // Google+ Option
+                    array(
+                        'type'    => 'heading',
+                        'content' => __( 'Google+ Login', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_plus_login', '==', 'true' )
+                    ),
+                    array(
+                        'id'      => 'google_plus_login_id',
+                        'type'    => 'text',
+                        'title'   => __( 'Google+ Auth Token', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_plus_login', '==', 'true' )
+                    ),
+                )
+            )
         )
 );
 
