@@ -201,9 +201,6 @@ class Pressapps_Fullscreen_Login {
 		$this->loader->add_action( 'wp_ajax_nopriv_ajaxlogin'  ,  $plugin_public, 'ajax_login', 10, 2 );
 		$this->loader->add_action( 'wp_ajax_ajaxlogin'         ,  $plugin_public, 'ajax_login', 10, 2 );
 
-		// Add inline header scripts
-		$this->loader->add_action( 'wp_head' , $plugin_public, 'add_inline_script', 10, 2 );
-
 		// Load Captcha scripts
 		$this->loader->add_action( 'wp_head', $plugin_public, 'captcha_scripts' );
 

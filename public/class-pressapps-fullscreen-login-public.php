@@ -64,7 +64,6 @@ class Pressapps_Fullscreen_Login_Public {
 
 		wp_enqueue_style( 'pafl-' . $modal_class, plugin_dir_url( __FILE__ ) . 'css/effects/' . $modal_class . '.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pressapps-fullscreen-login-public.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -74,7 +73,9 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_localize_script( $this->plugin_name, 'pafl_modal_login_script', array(
+			'ajax'           => admin_url( 'admin-ajax.php' ),
+		) );
 	}
 
 	/**
@@ -91,6 +92,8 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Login link shortcode
 	 *
 	 * @param Array $atts
+	 *
+	 * @return string html login link
 	 */
 	function pafl_login_link( $atts ) {
 		$atts = shortcode_atts(
@@ -111,6 +114,8 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Register link shortcode
 	 *
 	 * @param Array $atts
+	 *
+	 * @return string html register link
 	 */
 	public function pafl_register_link( $atts ) {
 		$atts = shortcode_atts(
@@ -122,6 +127,8 @@ class Pressapps_Fullscreen_Login_Public {
 		if ( ! is_user_logged_in() ) {
 			return '<a href="#" onclick="return false" data-form="register"  class="pafl-trigger-overlay pafl-register-link">' . $atts['register_text'] . '</a>';
 		}
+
+		return '';
 	}
 
 
@@ -236,30 +243,6 @@ class Pressapps_Fullscreen_Login_Public {
 
 		wp_add_inline_style( 'pafl-' . $modal_class, $custom_css );
 
-	}
-
-	/**
-	 * Add inline header scripts
-	 */
-	public function add_inline_script() {
-		$pafl_sk     = new Skelet( "pafl" );
-		$modal_class = $pafl_sk->get( 'modal_effect' );
-
-		// Only run our ajax stuff when the user isn't logged in.
-		if ( ! is_user_logged_in() ) {
-			echo "<script type='text/javascript'>\n";
-			echo 'var pafl_modal_login_script = ' . json_encode(
-					array(
-						'ajax'           => admin_url( 'admin-ajax.php' ),
-						'loader'         => plugin_dir_url( __FILE__ ) . 'img/spin.gif',
-						'loadingmessage' => __( 'Checking Credentials...', 'pressapps-fullscreen-login' ),
-					)
-				);
-			echo ";";
-			echo "\n";
-			echo "</script>\n";
-
-		}
 	}
 
 	/**
@@ -773,6 +756,8 @@ class Pressapps_Fullscreen_Login_Public {
 	 *
 	 * @param  String $user_login
 	 * @param  String $user_email
+	 *
+	 * @return string/int $errors or $user_id
 	 */
 	public function register_new_user( $user_login, $user_email ) {
 
@@ -896,6 +881,8 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Setup password retrieve function
 	 *
 	 * @param  Array $user_data
+	 *
+	 * @return string/bool $errors or bool
 	 */
 	public function  retrieve_password( $user_data ) {
 		global $wpdb, $current_site;
