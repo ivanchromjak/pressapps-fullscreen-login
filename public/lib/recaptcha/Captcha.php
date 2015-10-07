@@ -5,6 +5,10 @@ use Captcha\Response;
 use Captcha\Exception;
 
 /**
+ * NOTICE: The Class Captcha with it's method has been modified to fit into our plugin.
+ */
+
+/**
  * Copyright (c) 2015, Aleksey Korzun <aleksey@webfoundation.net>
  * All rights reserved.
  *
