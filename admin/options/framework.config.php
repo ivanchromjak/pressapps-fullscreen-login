@@ -231,7 +231,7 @@ $options[]      = array(
                         'default' => false,
                     ),
                     array(
-                        'id'      => 'google_plus_login',
+                        'id'      => 'google_login',
                         'type'    => 'switcher',
                         'title'   => __( 'Google+', 'pressapps' ),
                         'default' => false,
@@ -263,14 +263,14 @@ $options[]      = array(
                     // Google+ Option
                     array(
                         'type'    => 'heading',
-                        'content' => __( 'Google+ Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_plus_login', '==', 'true' )
+                        'content' => __( 'Google Login', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_login', '==', 'true' )
                     ),
                     array(
-                        'id'      => 'google_plus_login_id',
+                        'id'      => 'google_login_id',
                         'type'    => 'text',
-                        'title'   => __( 'Google+ Auth Token', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_plus_login', '==', 'true' )
+                        'title'   => __( 'Google Auth Token', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_login', '==', 'true' )
                     ),
                 )
             )

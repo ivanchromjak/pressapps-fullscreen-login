@@ -220,19 +220,42 @@
 					}
 				} );
 
+				//check if fb_login_id object exist and execute the function
+				if ( typeof pafl_modal_login_script.fb_login_id !== 'undefined' ) {
+					PA_FULLSCREEN_LOGIN.common.facebook_login();
+				}
+				//check if twitter_login_id object exist and execute the function
+				if ( typeof pafl_modal_login_script.twitter_login_id !== 'undefined' ) {
+					PA_FULLSCREEN_LOGIN.common.twitter_login();
+				}
+				//check if google_plus_login_id object exist and execute the function
+				if ( typeof pafl_modal_login_script.twitter_login_id !== 'undefined' ) {
+					PA_FULLSCREEN_LOGIN.common.google_plus_login();
+				}
 			},
 			facebook_login : function() {
-				$(document).ready(function() {
+				$( function() {
 					$.ajaxSetup({ cache: true });
 					$.getScript('//connect.facebook.net/en_US/sdk.js', function(){
-						FB.init({
-							appId: '{your-app-id}',
-							version: 'v2.4' // or v2.0, v2.1, v2.2, v2.3
-						});
+
+						if ( typeof pafl_modal_login_script.fb_login_id !== 'undefined' ) {
+							FB.init({
+								appId: pafl_modal_login_script.twitter_login_id,
+								version: 'v2.4'
+							});
+						}
 						$('#loginbutton,#feedbutton').removeAttr('disabled');
-						FB.getLoginStatus(updateStatusCallback);
+						FB.getLoginStatus(function( response ){
+							console.log( response );
+						});
 					});
 				});
+			},
+			twitter_login : function() {
+
+			},
+			google_plus_login : function() {
+
 			},
 			show_screen : function( me ) {
 				var get_screen;
