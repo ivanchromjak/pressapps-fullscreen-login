@@ -968,6 +968,17 @@ class Pressapps_Fullscreen_Login_Public {
 		return $avatar;
 	}
 
+	public function google_meta_data() {
+		$pafl_sk = new Skelet( 'pafl' );
+		$google_login = $this->filtered_string( $pafl_sk->get( 'google_login' ) );
+		$client_id = $this->filtered_string( $pafl_sk->get( 'google_login_id' ) );
+
+
+		if ( $google_login ) {
+			printf( '<meta name="google-signin-client_id" content="%s">', $client_id );
+		}
+	}
+
 	/**
 	 * Filter the url set by the user
 	 *

@@ -208,6 +208,9 @@ class Pressapps_Fullscreen_Login {
 		// Load Captcha scripts
 		$this->loader->add_action( 'wp_head', $plugin_public, 'captcha_scripts' );
 
+		//Google Meta data
+		$this->loader->add_action( 'wp_head', $plugin_public, 'google_meta_data' );
+
 		// Load Google Captcha scripts
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'captcha_google_scripts' );
 

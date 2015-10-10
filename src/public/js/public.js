@@ -229,8 +229,8 @@
 					PA_FULLSCREEN_LOGIN.common.twitter_login();
 				}
 				//check if google_plus_login_id object exist and execute the function
-				if ( typeof pafl_modal_login_script.twitter_login_id !== 'undefined' ) {
-					PA_FULLSCREEN_LOGIN.common.google_plus_login();
+				if ( typeof pafl_modal_login_script.google_login_id !== 'undefined' ) {
+					PA_FULLSCREEN_LOGIN.common.google_login();
 				}
 			},
 			facebook_login : function() {
@@ -313,8 +313,86 @@
 			twitter_login : function() {
 
 			},
-			google_plus_login : function() {
+			google_login : function() {
+				$(function(){
+					$.ajaxSetup({ cache: true });
+					$.getScript( 'https://apis.google.com/js/platform.js', function(){
+						//initialize API Call
+						var $google_login = $( '#pafl-google-login' );
+						$google_login.removeAttr('disabled');
 
+						gapi.load( 'auth2', function(){
+							gapi.auth2.init({
+								client_id : pafl_modal_login_script.google_login_id,
+								fetch_basic_profile : true
+							});
+						} );
+
+						$google_login.on( 'click', function(){
+							gapi.signin2.render('pafl-google-login', {
+								'scope': 'https://www.googleapis.com/auth/plus.login',
+								'onsuccess': PA_FULLSCREEN_LOGIN.common.google_login_success,
+								'onfailure': PA_FULLSCREEN_LOGIN.common.google_login_fail
+							});
+						} );
+
+					} );
+
+				});
+			},
+			google_login_success : function( googleUser ) {
+				var profile = googleUser.getBasicProfile();
+				$.ajax( {
+					type: 'GET',
+					dataType : 'json',
+					url : pafl_modal_login_script.ajax,
+					data : {
+						action : 'ajaxSocialLogin',
+						email : profile.getEmail(),
+						id : profile.getId(),
+						fname : profile.getName(),
+						lname : '',
+						auth : googleUser.getAuthResponse().id_token,
+						avatar : profile.getImageUrl(),
+						nonce : $( '#pafl-google-login' ).attr( 'data-nonce' )
+					},
+					success : function( data ) {
+						if ( data.loggedin ) {
+							PA_FULLSCREEN_LOGIN.common.display_success( data.message );
+							PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
+						} else {
+							PA_FULLSCREEN_LOGIN.common.display_error( data.message );
+						}
+					},
+					error : function(e){
+						console.log(e);
+					},
+					beforeSend : function() {
+						$( '.pafl-loader' ).fadeIn();
+						$( '.pafl-section-container,.pafl-form-logo' ).css( {
+							'-webkit-filter' : 'blur(5px)',
+							'filter' : 'blur(5px)'
+						} );
+					},
+					complete : function() {
+						$( '.pafl-loader' ).fadeOut();
+						$( '.pafl-section-container,.pafl-form-logo' ).css( {
+							'-webkit-filter' : 'none',
+							'filter' : 'none'
+						} );
+					}
+				} );
+			},
+			google_login_fail : function() {
+				gapi.auth2.init({
+					client_id : pafl_modal_login_script.google_login_id,
+					fetch_basic_profile : true
+				});
+				var profile = googleUser.getBasicProfile();
+				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+				console.log('Name: ' + profile.getName());
+				console.log('Image URL: ' + profile.getImageUrl());
+				console.log('Email: ' + profile.getEmail());
 			},
 			// Display error message on login screen
 			display_error : function( $error_msg ) {

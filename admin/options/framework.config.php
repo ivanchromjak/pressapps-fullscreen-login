@@ -233,7 +233,7 @@ $options[]      = array(
                     array(
                         'id'      => 'google_login',
                         'type'    => 'switcher',
-                        'title'   => __( 'Google+', 'pressapps' ),
+                        'title'   => __( 'Google', 'pressapps' ),
                         'default' => false,
                     ),
                     // Facebook Option
@@ -245,7 +245,7 @@ $options[]      = array(
                     array(
                         'id'      => 'facebook_login_id',
                         'type'    => 'text',
-                        'title'   => __( 'Facebook App ID', 'pressapps' ),
+                        'title'   => __( 'App ID', 'pressapps' ),
                         'dependency' => array( 'pafl_facebook_login', '==', 'true' )
                     ),
                     // Twitter Option
@@ -257,7 +257,7 @@ $options[]      = array(
                     array(
                         'id'      => 'twitter_login_id',
                         'type'    => 'text',
-                        'title'   => __( 'Twitter Auth Token', 'pressapps' ),
+                        'title'   => __( 'Auth Token', 'pressapps' ),
                         'dependency' => array( 'pafl_twitter_login', '==', 'true' )
                     ),
                     // Google+ Option
@@ -269,7 +269,13 @@ $options[]      = array(
                     array(
                         'id'      => 'google_login_id',
                         'type'    => 'text',
-                        'title'   => __( 'Google Auth Token', 'pressapps' ),
+                        'title'   => __( 'Client ID', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_login', '==', 'true' )
+                    ),
+                    array(
+                        'id'      => 'google_login_secret',
+                        'type'    => 'text',
+                        'title'   => __( 'Client Secret', 'pressapps' ),
                         'dependency' => array( 'pafl_google_login', '==', 'true' )
                     ),
                 )
