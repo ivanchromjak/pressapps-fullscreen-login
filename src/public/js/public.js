@@ -240,14 +240,92 @@
 
 						if ( typeof pafl_modal_login_script.fb_login_id !== 'undefined' ) {
 							FB.init({
-								appId: pafl_modal_login_script.twitter_login_id,
+								appId: pafl_modal_login_script.fb_login_id,
 								version: 'v2.4'
 							});
 						}
-						$('#loginbutton,#feedbutton').removeAttr('disabled');
-						FB.getLoginStatus(function( response ){
-							console.log( response );
-						});
+
+						var $fb_login = $( '#pafl-fb-login' );
+						//check if fb sdk is loaded and will removed disabled
+						$fb_login.removeAttr('disabled' );
+						//check on init if response status is connected or not
+						FB.getLoginStatus( function( response ){
+							//if response status is not equal to connected
+							if ( response.status !== 'connected' ) {
+								$fb_login.attr('data-login', 'false' );
+							} else {
+								//if app is connected and will check if user is logged in if not will logged out app
+								FB.logout( function() {
+									$fb_login.attr('data-login', 'false');
+								} );
+							}
+						} );
+
+						//trigger facebook login API on click of the fb login button
+						$fb_login.on( 'click', function(e){
+							e.preventDefault();
+							if ( $fb_login.attr( 'data-login' ) === 'true' ) {
+								//if status is currently connected then will do a logout
+								FB.logout( function() {
+									$fb_login.attr('data-login', 'false');
+								} );
+							} else {
+								FB.login( function( response ) {
+									if ( response.authResponse ) {
+										FB.api('/me', { 'fields' : ['email','last_name','first_name', 'picture'] },function( user ){
+											//will do an ajax request to either create a user or login the user
+											$.ajax( {
+												type: 'GET',
+												dataType : 'json',
+												url : pafl_modal_login_script.ajax,
+												data : {
+													action : 'ajaxSocialLogin',
+													email : user.email,
+													id : response.authResponse.userID,
+													fname : user.first_name,
+													lname : user.last_name,
+													auth : response.authResponse.accessToken,
+													avatar : user.picture.data.url,
+													nonce : $( '#pafl-fb-login' ).attr( 'data-nonce' )
+												},
+												success : function( data ) {
+													if ( data.loggedin ) {
+														// will append data-login to facebook button
+														$fb_login.attr('data-login', 'true' );
+														PA_FULLSCREEN_LOGIN.common.display_success( data.message );
+														//PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
+													} else {
+														PA_FULLSCREEN_LOGIN.common.display_error( data.message );
+													}
+												},
+												error : function(e){
+													console.log(e);
+												},
+												beforeSend : function() {
+													$( '.pafl-loader' ).fadeIn();
+													$( '.pafl-section-container,.pafl-form-logo' ).css( {
+														'-webkit-filter' : 'blur(5px)',
+														'filter' : 'blur(5px)'
+													} );
+												},
+												complete : function() {
+													$( '.pafl-loader' ).fadeOut();
+													$( '.pafl-section-container,.pafl-form-logo' ).css( {
+														'-webkit-filter' : 'none',
+														'filter' : 'none'
+													} );
+												}
+											} );
+										});
+									}
+								}, { scope : 'public_profile, email' } );
+							}
+							//will logout the facebook on logout link
+							$('.pafl-logout-link' ).on('click', function(){
+								FB.logout();
+							});
+
+						} )
 					});
 				});
 			},
@@ -256,6 +334,22 @@
 			},
 			google_plus_login : function() {
 
+			},
+			// Display error message on login screen
+			display_error : function( $error_msg ) {
+				$( '.pafl-message' ).remove();
+				$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-error"></p>' );
+				$( '.pafl-modal-wrap > .pafl-message' ).text( $error_msg ).show();
+			},
+			display_info : function( $info_msg ) {
+				$( '.pafl-message' ).remove();
+				$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-info"></p>' );
+				$( '.pafl-modal-wrap > .pafl-message' ).text( $info_msg ).show();
+			},
+			display_success : function( $info_msg ) {
+				$( '.pafl-message' ).remove();
+				$( '.pafl-modal-wrap > h2' ).after( '<p class="pafl-message pafl-success"></p>' );
+				$( '.pafl-modal-wrap > .pafl-message' ).text( $info_msg ).show();
 			},
 			show_screen : function( me ) {
 				var get_screen;

@@ -89,6 +89,7 @@ class Pressapps_Fullscreen_Login_Public {
 		// set default variables that would be passed
 		$script_object = array();
 		$script_object['ajax'] = admin_url( 'admin-ajax.php' );
+		$script_object['is_user_logged_in'] = is_user_logged_in();
 
 		if ( $fb_login ) {
 			$script_object['fb_login_id'] = $fb_login_id;
@@ -126,6 +127,21 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @return string html login link
 	 */
 	function pafl_login_link( $atts ) {
+
+		$pakl_sk = new Skelet( 'pafl' );
+
+		//initiate social class
+		$social_class = array();
+
+		if ( $pakl_sk->get( 'facebook_login' ) ) {
+			$social_class[] = 'pafl-social-facebok';
+		}
+		if ( $pakl_sk->get( 'twitter_login' ) ) {
+			$social_class[] = 'pafl-social-twitter';
+		}
+		if ( $pakl_sk->get( 'google_login' ) ) {
+			$social_class[] = 'pafl-social-google';
+		}
 		$atts = shortcode_atts(
 			array(
 				'login_text'  => __( 'Login', 'pressapps-fullscreen-login' ),
@@ -134,7 +150,7 @@ class Pressapps_Fullscreen_Login_Public {
 		);
 
 		if ( is_user_logged_in() ) {
-			return '<a href="' . wp_logout_url() . '" class="pafl-logout-link" >' . $atts['logout_text'] . '</a>';
+			return '<a href="' . wp_logout_url() . '" class="pafl-logout-link">' . $atts['logout_text'] . '</a>';
 		} else {
 			return '<a href="#" onclick="return false" data-form="login"  class="pafl-trigger-overlay pafl-login-link" >' . $atts['login_text'] . '</a>';
 		}
@@ -365,18 +381,18 @@ class Pressapps_Fullscreen_Login_Public {
 					<?php
 					//check if facebook login is enabled and will show facebook login
 					if ( $this->filtered_string( $pafl_sk->get( 'facebook_login' ) ) ): ?>
-						<button id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button" onclick="return false"><?php _e( 'Sign in with Facebook', 'pressapps-fullscreen-login' ); ?></button>
+						<button id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button" data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false" disabled><?php _e( 'Sign in with Facebook', 'pressapps-fullscreen-login' ); ?></button>
 					<?php endif; ?>
 
 					<?php
 					//check if facebook login is enabled and will show facebook login
 					if ( $this->filtered_string( $pafl_sk->get( 'twitter_login' ) ) ): ?>
-						<button id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button" onclick="return false"><?php _e( 'Sign in with Twitter', 'pressapps-fullscreen-login' ); ?></button>
+						<button id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button" data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false" disabled><?php _e( 'Sign in with Twitter', 'pressapps-fullscreen-login' ); ?></button>
 					<?php endif; ?>
 					<?php
 					//check if facebook login is enabled and will show facebook login
 					if ( $this->filtered_string( $pafl_sk->get( 'google_login' ) ) ): ?>
-						<button id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button" onclick="return false"><?php _e( 'Sign in with Google', 'pressapps-fullscreen-login' ); ?></button>
+						<button id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button" data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false" disabled><?php _e( 'Sign in with Google', 'pressapps-fullscreen-login' ); ?></button>
 					<?php endif; ?>
 					<input type="hidden" name="login" value="true"/>
 
@@ -525,6 +541,120 @@ class Pressapps_Fullscreen_Login_Public {
 		echo "</ul>\n";
 		echo "</nav>\n";
 		echo "</div>\n";
+	}
+
+	public function ajax_social_login() {
+		session_start(); // will use session in storing Auth token access
+		$pafl_sk            = new Skelet( 'pafl' );
+		$data               = array();
+		$data['first_name'] = sanitize_text_field( $_REQUEST['fname'] );
+		$data['last_name']  = sanitize_text_field( $_REQUEST['lname'] );
+		$data['email']      = sanitize_email( $_REQUEST['email'] );
+		$data['username']   = sanitize_user( md5( $_REQUEST['id'] . wp_salt() ) );
+		$data['avatar']     = sanitize_text_field( $_REQUEST['avatar'] );
+		$data['auth']       = $_REQUEST['auth']; // Auth token
+		$data['nonce']      = $_REQUEST['nonce'];
+
+		//verify the nonce that was sent
+		if ( ! wp_verify_nonce( $data['nonce'], 'social_nonce' ) ) {
+			die();
+		}
+
+		//save auth key as session
+		$_SESSION['social_auth'] = $_REQUEST['auth'];
+
+		//check if the email or username has already been registered
+		//username is taken from email
+		if ( ! email_exists( $data['email'] ) && ! username_exists( $data['username'] ) ) {
+
+			//$password = wp_hash_password( md5( $data['username'].wp_salt() ) );
+			$password = md5( $data['auth'] );
+
+			//if successful will return a user id
+			$user_id = wp_create_user( $data['username'], $password, $data['email']  );
+
+			//check if there is an error when creating user
+			if ( ! is_wp_error( $user_id ) ) {
+				$creds                  = array();
+				$creds['user_login']    = $data['username'];
+				$creds['user_password'] = $password;
+				$login                  = wp_signon( $creds, is_ssl() );
+
+				//update user info
+				$update_user_info = wp_update_user( array(
+						'ID' => $user_id,
+						'first_name' => $data['first_name'],
+						'last_name' => $data['last_name'],
+						'display_name' => $data['first_name'],
+						'nickname' => $data['first_name']
+				) );
+
+				//will add meta for facebook profile link
+				add_user_meta( $user_id, 'social_profile', $data['avatar'] );
+
+				//check if there is an error when updating the user info and will output error and end execution
+				if ( is_wp_error( $update_user_info ) ) {
+					echo @json_encode( array(
+						'message' => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ),
+						'loggedin' => false,
+					) );
+					die();
+				}
+
+				//check if there is a problem logging in
+				if ( ! is_wp_error( $login ) ) {
+					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+					echo @json_encode( array(
+						'message' => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
+						'loggedin' => true,
+						'redirect' => $after_login_redirect
+					) );
+				} else {
+					//if unable to login
+					echo @json_encode( array(
+						'message' => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ),
+						'loggedin' => false,
+					) );
+				}
+
+			} else {
+				//if unable to create the user
+				echo @json_encode( array(
+					'message' => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ),
+					'loggedin' => false,
+				) );
+			}
+		} else {
+			$user = get_user_by( 'email', $data['email'] );
+
+			//check if the profile pic has been changed and will update
+			update_user_meta( $user->data->ID, 'social_profile', $data['avatar'], get_user_meta( $user->data->ID, 'social_profile', true ) );
+
+			//the password is not constant as it is dependent on AuthToken sent by Facebook
+			wp_set_password( md5( $data['auth'] . wp_salt() ), $user->data->ID );
+
+			if ( $user ) {
+				$creds                  = array();
+				$creds['user_login']    = $user->data->user_login;
+				$creds['user_password'] = md5( $data['auth'] . wp_salt() );
+				$login                  = wp_signon( $creds, is_ssl() );
+
+				//check if there is a problem logging in
+				if ( ! is_wp_error( $login ) ) {
+					echo @json_encode( array(
+						'message' => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
+						'loggedin' => true,
+					) );
+				} else {
+					echo @json_encode( array(
+						'message' => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ),
+						'loggedin' => false,
+					) );
+				}
+			}
+
+		}
+		die();
 	}
 
 	/**
@@ -796,6 +926,19 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 		die();
+	}
+
+	public function social_avatar ( $avatar_defaults ) {
+		//check if avatar key is set
+			$new_avatar_url = get_user_meta( get_current_user_id(), 'social_profile', true );
+			if ( ! $new_avatar_url ) {
+				$new_avatar_url = plugin_dir_path( __DIR__ ) . '/public/social_profile.png';
+			}
+
+			$avatar_defaults[$new_avatar_url] = __( 'Social Profile', 'pressapps-fullscreen-login' );
+
+			return $avatar_defaults;
+		}
 	}
 
 	/**
@@ -1179,10 +1322,11 @@ class Pressapps_Fullscreen_Login_Public {
 	 */
 	public function pafl_filter_frontend_modal_link_atts( $atts, $item, $args ) {
 
+		$pafl_sk    = new Skelet( 'pafl' );
+
 		// Only apply when URL is #pafl_modal_login/#pafl_modal_register
 		if ( '#pafl_modal_login' === $atts['href'] ) {
 			// Check if we have an over riding logout redirection set. Other wise, default to the home page.
-			$pafl_sk    = new Skelet( 'pafl' );
 			$logout_url = $pafl_sk->get( 'redirect_allow_after_logout_redirection_url' );
 
 			if ( isset( $logout_url ) && $logout_url == '' ) {
@@ -1193,6 +1337,10 @@ class Pressapps_Fullscreen_Login_Public {
 			if ( is_user_logged_in() ) {
 				$atts['href']  = wp_logout_url( $logout_url );
 				$atts['title'] = null;
+				if ( $pafl_sk->get( 'facebook_login' ) ) {
+					$atts['data-facebook'] = 'true';
+				}
+
 			} else {
 				$atts['href']      = '#';
 				$atts['data-form'] = 'login';

@@ -198,8 +198,12 @@ class Pressapps_Fullscreen_Login {
 		$this->loader->add_action( 'wp_footer' , $plugin_public, 'append_to_footer', 10, 2 );
 
 		// Run Ajax on the login
-		$this->loader->add_action( 'wp_ajax_nopriv_ajaxlogin'  ,  $plugin_public, 'ajax_login', 10, 2 );
-		$this->loader->add_action( 'wp_ajax_ajaxlogin'         ,  $plugin_public, 'ajax_login', 10, 2 );
+		$this->loader->add_action( 'wp_ajax_nopriv_ajaxlogin'  ,  $plugin_public, 'ajax_login', 10 );
+		$this->loader->add_action( 'wp_ajax_ajaxlogin'         ,  $plugin_public, 'ajax_login', 10 );
+
+		// Run Ajax on the login
+		$this->loader->add_action( 'wp_ajax_nopriv_ajaxSocialLogin'  ,  $plugin_public, 'ajax_social_login', 10 );
+		$this->loader->add_action( 'wp_ajax_ajaxSocialLogin'         ,  $plugin_public, 'ajax_social_login', 10 );
 
 		// Load Captcha scripts
 		$this->loader->add_action( 'wp_head', $plugin_public, 'captcha_scripts' );
@@ -215,6 +219,9 @@ class Pressapps_Fullscreen_Login {
 
 		// Hide Register from Menu when user is logged in
 		$this->loader->add_filter( 'wp_nav_menu_objects', $plugin_public, 'pafl_filter_frontend_modal_link_register_hide', 10, 1 );
+
+		//Avatar for social profile
+		$this->loader->add_filter( 'avatar_defaults', $plugin_public, 'social_avatar', 10, 1 );
 	}
 
 	/**
