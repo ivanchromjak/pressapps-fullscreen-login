@@ -221,8 +221,7 @@ class Pressapps_Fullscreen_Login {
 		$this->loader->add_filter( 'wp_nav_menu_objects', $plugin_public, 'pafl_filter_frontend_modal_link_register_hide', 10, 1 );
 
 		//Avatar for social profile
-		//@todo: will implement addon to avatar
-		//$this->loader->add_filter( 'avatar_defaults', $plugin_public, 'social_avatar', 10, 1 );
+		$this->loader->add_filter( 'get_avatar', $plugin_public, 'social_avatar', 1, 2 );
 	}
 
 	/**

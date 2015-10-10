@@ -945,17 +945,27 @@ class Pressapps_Fullscreen_Login_Public {
 		die();
 	}
 
-	public function social_avatar( $avatar_defaults ) {
-		//check if avatar key is set
-		if ( get_user_meta( get_current_user_id(), 'social_profile', true ) ) {
-			$new_avatar_url = get_user_meta( get_current_user_id(), 'social_profile', true );
+	public function social_avatar( $avatar, $id_or_email ) {
+		$user = false;
+
+		if ( is_int( $id_or_email ) ) {
+			$user = get_user_by( 'id', $id_or_email );
+
+		} elseif ( is_object( $id_or_email ) ) {
+
+			if ( $id_or_email->user_id ) {
+				$user = get_user_by( 'id', $id_or_email->user_id );
+			}
+
 		} else {
-			$new_avatar_url = plugin_dir_url( __DIR__ ) . 'public/img/social_profile.png';
+			$user = get_user_by( 'email', $id_or_email );
 		}
 
-		$avatar_defaults[ $new_avatar_url ] = __( 'Social Profile', 'pressapps-fullscreen-login' );
-
-		return $avatar_defaults;
+		if ( $user && is_object( $user ) && get_user_meta( $id_or_email, 'social_profile', true ) ) {
+			$img_src = get_user_meta( $id_or_email, 'social_profile', true );
+			$avatar = sprintf( '<img alt="" src="%s" class="avatar avatar-64 photo" height="64" width="64">', $img_src );
+		}
+		return $avatar;
 	}
 
 	/**

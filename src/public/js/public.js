@@ -252,9 +252,7 @@
 						FB.getLoginStatus( function( response ){
 							//if user is connected to the app but not logged in to wp
 							if ( response.status === 'connected' && ! pafl_modal_login_script.is_user_logged_in ) {
-								FB.logout( function() {
-									$fb_login.attr('data-login', 'false');
-								} );
+								FB.logout();
 							}
 						} );
 
@@ -281,8 +279,6 @@
 											},
 											success : function( data ) {
 												if ( data.loggedin ) {
-													// will append data-login to facebook button
-													$fb_login.attr('data-login', 'true' );
 													PA_FULLSCREEN_LOGIN.common.display_success( data.message );
 													PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
 												} else {
