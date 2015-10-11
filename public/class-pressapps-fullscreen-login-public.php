@@ -562,25 +562,31 @@ class Pressapps_Fullscreen_Login_Public {
 	}
 
 	public function ajax_social_login() {
-		session_start(); // will use session in storing Auth token access
 		$pafl_sk            = new Skelet( 'pafl' );
 		$data               = array();
-		$data['first_name'] = sanitize_text_field( $_REQUEST['fname'] );
-		$data['last_name']  = sanitize_text_field( $_REQUEST['lname'] );
-		$data['email']      = sanitize_email( $_REQUEST['email'] );
-		$data['username']   = sanitize_user( md5( $_REQUEST['id'] . wp_salt() ) );
-		$data['avatar']     = sanitize_text_field( $_REQUEST['avatar'] );
-		$data['auth']       = $_REQUEST['auth']; // Auth token
-		$data['nonce']      = $_REQUEST['nonce'];
-		$data['password']   = md5( $data['auth'] . wp_salt() );
+
+		// will check if the request is for Google API and will process the Auth token
+		if ( isset( $_REQUEST['social'] ) && $_REQUEST['social'] === 'google' ) {
+			$url = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='.$_REQUEST['auth'];
+			$auth_output = @file_get_contents( $url );
+			echo json_encode( $auth_output );
+			die();
+		} else {
+			$data['first_name'] = sanitize_text_field( $_REQUEST['fname'] );
+			$data['last_name']  = sanitize_text_field( $_REQUEST['lname'] );
+			$data['email']      = sanitize_email( $_REQUEST['email'] );
+			$data['username']   = sanitize_user( md5( $_REQUEST['id'] . wp_salt() ) );
+			$data['avatar']     = sanitize_text_field( $_REQUEST['avatar'] );
+			$data['auth']       = $_REQUEST['auth']; // Auth token
+			$data['nonce']      = $_REQUEST['nonce'];
+			$data['password']   = md5( $data['auth'] . wp_salt() );
+		}
+
 
 		//verify the nonce that was sent
 		if ( ! wp_verify_nonce( $data['nonce'], 'social_nonce' ) ) {
 			die();
 		}
-
-		//save auth key as session
-		$_SESSION['social_auth'] = $_REQUEST['auth'];
 
 		//check if the email or username has already been registered
 		//username is taken from email

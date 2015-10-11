@@ -275,6 +275,8 @@
 												lname : user.last_name,
 												auth : response.authResponse.accessToken,
 												avatar : user.picture.data.url,
+												// will verify in the backend that the request is sent to process Facebook API
+												social : 'facebook',
 												nonce : $( '#pafl-fb-login' ).attr( 'data-nonce' )
 											},
 											success : function( data ) {
@@ -321,19 +323,26 @@
 						var $google_login = $( '#pafl-google-login' );
 						$google_login.removeAttr('disabled');
 
-						gapi.load( 'auth2', function(){
-							gapi.auth2.init({
+						gapi.load( 'auth2', function() {
+							var GoogleAuth = gapi.auth2.init({
 								client_id : pafl_modal_login_script.google_login_id,
-								fetch_basic_profile : true
+								fetch_basic_profile : true,
+								scope : 'profile'
 							});
-						} );
 
-						$google_login.on( 'click', function(){
-							gapi.signin2.render('pafl-google-login', {
-								'scope': 'https://www.googleapis.com/auth/plus.login',
-								'onsuccess': PA_FULLSCREEN_LOGIN.common.google_login_success,
-								'onfailure': PA_FULLSCREEN_LOGIN.common.google_login_fail
-							});
+							var GoogleUser = GoogleAuth.currentUser.get();
+
+							console.log( GoogleUser.isSignedIn() );
+
+							GoogleAuth.attachClickHandler(
+								'pafl-google-login',
+								{
+									'scope': 'profile email'
+								},
+								PA_FULLSCREEN_LOGIN.common.google_login_success,
+								//will get the error object if failed
+								function( e ){ console.log( e ) }
+							);
 						} );
 
 					} );
@@ -342,27 +351,26 @@
 			},
 			google_login_success : function( googleUser ) {
 				var profile = googleUser.getBasicProfile();
+				console.log( googleUser.getAuthResponse().id_token );
 				$.ajax( {
 					type: 'GET',
 					dataType : 'json',
 					url : pafl_modal_login_script.ajax,
 					data : {
 						action : 'ajaxSocialLogin',
-						email : profile.getEmail(),
-						id : profile.getId(),
-						fname : profile.getName(),
-						lname : '',
+						// will verify in the backend that the request is sent to process Google API
+						social : 'google',
 						auth : googleUser.getAuthResponse().id_token,
-						avatar : profile.getImageUrl(),
 						nonce : $( '#pafl-google-login' ).attr( 'data-nonce' )
 					},
 					success : function( data ) {
-						if ( data.loggedin ) {
-							PA_FULLSCREEN_LOGIN.common.display_success( data.message );
-							PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
-						} else {
-							PA_FULLSCREEN_LOGIN.common.display_error( data.message );
-						}
+						console.log( data );
+						//if ( data.loggedin ) {
+						//	PA_FULLSCREEN_LOGIN.common.display_success( data.message );
+						//	PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
+						//} else {
+						//	PA_FULLSCREEN_LOGIN.common.display_error( data.message );
+						//}
 					},
 					error : function(e){
 						console.log(e);
@@ -382,17 +390,6 @@
 						} );
 					}
 				} );
-			},
-			google_login_fail : function() {
-				gapi.auth2.init({
-					client_id : pafl_modal_login_script.google_login_id,
-					fetch_basic_profile : true
-				});
-				var profile = googleUser.getBasicProfile();
-				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-				console.log('Name: ' + profile.getName());
-				console.log('Image URL: ' + profile.getImageUrl());
-				console.log('Email: ' + profile.getEmail());
 			},
 			// Display error message on login screen
 			display_error : function( $error_msg ) {
