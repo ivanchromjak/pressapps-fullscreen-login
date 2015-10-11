@@ -134,6 +134,13 @@ class Pressapps_Fullscreen_Login {
 			include_once dirname( __DIR__ ) . '/public/lib/recaptcha/Response.php';
 		}
 
+		/**
+		 * Load TwitterOAuth Class
+		 */
+		if ( ! class_exists( 'TwitterOAuth' ) ) {
+			include_once dirname( __DIR__ ) . '/public/lib/twitteroauth/autoload.php';
+		}
+
 		$this->loader = new Pressapps_Fullscreen_Login_Loader();
 
 	}
