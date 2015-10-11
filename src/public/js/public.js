@@ -275,8 +275,6 @@
 												lname : user.last_name,
 												auth : response.authResponse.accessToken,
 												avatar : user.picture.data.url,
-												// will verify in the backend that the request is sent to process Facebook API
-												social : 'facebook',
 												nonce : $( '#pafl-fb-login' ).attr( 'data-nonce' )
 											},
 											success : function( data ) {
@@ -332,64 +330,91 @@
 
 							var GoogleUser = GoogleAuth.currentUser.get();
 
-							console.log( GoogleUser.isSignedIn() );
-
 							GoogleAuth.attachClickHandler(
 								'pafl-google-login',
 								{
 									'scope': 'profile email'
 								},
-								PA_FULLSCREEN_LOGIN.common.google_login_success,
+								function( googleUser ) {
+									var profile = googleUser.getBasicProfile();
+									//this will process the tokeninfo using CORS
+									$.ajax({
+										type: 'GET',
+										url : 'https://www.googleapis.com/oauth2/v3/tokeninfo',
+										data : {
+											id_token : googleUser.getAuthResponse().id_token
+										},
+										xhrFields : {
+											withCredentials : true
+										},
+										success : function( response_data ){
+											//will grab the data that was sent by the google server and process data
+											PA_FULLSCREEN_LOGIN.common.google_login_success( response_data, googleUser.getAuthResponse().id_token );
+										},
+										error : function( e ) {
+											console.log( e );
+										}
+									});
+								},
 								//will get the error object if failed
-								function( e ){ console.log( e ) }
+								function( e ){
+									console.log( e )
+								}
 							);
-						} );
+						} ); //end of gapi.load
 
 					} );
 
 				});
 			},
-			google_login_success : function( googleUser ) {
-				var profile = googleUser.getBasicProfile();
-				console.log( googleUser.getAuthResponse().id_token );
-				$.ajax( {
-					type: 'GET',
-					dataType : 'json',
-					url : pafl_modal_login_script.ajax,
-					data : {
-						action : 'ajaxSocialLogin',
-						// will verify in the backend that the request is sent to process Google API
-						social : 'google',
-						auth : googleUser.getAuthResponse().id_token,
-						nonce : $( '#pafl-google-login' ).attr( 'data-nonce' )
-					},
-					success : function( data ) {
-						console.log( data );
-						//if ( data.loggedin ) {
-						//	PA_FULLSCREEN_LOGIN.common.display_success( data.message );
-						//	PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
-						//} else {
-						//	PA_FULLSCREEN_LOGIN.common.display_error( data.message );
-						//}
-					},
-					error : function(e){
-						console.log(e);
-					},
-					beforeSend : function() {
-						$( '.pafl-loader' ).fadeIn();
-						$( '.pafl-section-container,.pafl-form-logo' ).css( {
-							'-webkit-filter' : 'blur(5px)',
-							'filter' : 'blur(5px)'
-						} );
-					},
-					complete : function() {
-						$( '.pafl-loader' ).fadeOut();
-						$( '.pafl-section-container,.pafl-form-logo' ).css( {
-							'-webkit-filter' : 'none',
-							'filter' : 'none'
-						} );
-					}
-				} );
+			google_login_success : function( response_data, auth_key ) {
+				//check if the token that was sent back from the google server
+				// is for the app by comparing it to the client id being stored here
+				if ( response_data.aud === pafl_modal_login_script.google_login_id ) {
+					$.ajax( {
+						type: 'GET',
+						dataType : 'json',
+						url : pafl_modal_login_script.ajax,
+						data : {
+							action : 'ajaxSocialLogin',
+							email : response_data.email,
+							id : response_data.sub,
+							fname : response_data.given_name,
+							lname : response_data.family_name,
+							auth : auth_key,
+							avatar : response_data.picture,
+							nonce : $( '#pafl-google-login' ).attr( 'data-nonce' )
+						},
+						success : function( data ) {
+							if ( data.loggedin ) {
+								PA_FULLSCREEN_LOGIN.common.display_success( data.message );
+								PA_FULLSCREEN_LOGIN.common.redirectFunc( data.redirect );
+							} else {
+								PA_FULLSCREEN_LOGIN.common.display_error( data.message );
+							}
+						},
+						error : function(e){
+							console.log(e);
+						},
+						beforeSend : function() {
+							$( '.pafl-loader' ).fadeIn();
+							$( '.pafl-section-container,.pafl-form-logo' ).css( {
+								'-webkit-filter' : 'blur(5px)',
+								'filter' : 'blur(5px)'
+							} );
+						},
+						complete : function() {
+							$( '.pafl-loader' ).fadeOut();
+							$( '.pafl-section-container,.pafl-form-logo' ).css( {
+								'-webkit-filter' : 'none',
+								'filter' : 'none'
+							} );
+						}
+					} );
+				} else {
+					PA_FULLSCREEN_LOGIN.common.display_error( 'There seems to be a problem verifying your Google Account' );
+				}
+
 			},
 			// Display error message on login screen
 			display_error : function( $error_msg ) {

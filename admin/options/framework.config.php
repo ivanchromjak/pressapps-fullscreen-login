@@ -271,13 +271,7 @@ $options[]      = array(
                         'type'    => 'text',
                         'title'   => __( 'Client ID', 'pressapps' ),
                         'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'google_login_secret',
-                        'type'    => 'text',
-                        'title'   => __( 'Client Secret', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
+                    )
                 )
             )
         )
