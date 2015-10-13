@@ -708,7 +708,7 @@ class Pressapps_Fullscreen_Login_Public {
 			$secret_key       = $pafl_sk->get( 'recaptcha_private_key' );
 
 			// Captcha Object
-			$captcha = new \PAFL_Captcha();
+			$captcha = new PAFL_Captcha();
 			$captcha->setPrivateKey( $secret_key );
 			$captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
 		}

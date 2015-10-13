@@ -4,7 +4,7 @@
  * All rights reserved.
  */
 
-class PAFL_Exception extends \Exception
+class PAFL_Exception extends Exception
 {
 }
 
