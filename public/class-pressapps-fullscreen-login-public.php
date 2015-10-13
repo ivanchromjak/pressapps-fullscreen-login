@@ -308,7 +308,7 @@ class Pressapps_Fullscreen_Login_Public {
 		if ( $this->is_captcha_enabled() ) {
 
 			//create the Captcha object
-			$captcha = new Captcha\Captcha();
+			$captcha = new PAFL_Captcha();
 			$captcha->setPublicKey( $public_key );
 			$captcha->setPrivateKey( $private_key );
 			$captcha->setTheme( $pafl_sk->get( 'recaptcha_theme' ) );
@@ -708,7 +708,7 @@ class Pressapps_Fullscreen_Login_Public {
 			$secret_key       = $pafl_sk->get( 'recaptcha_private_key' );
 
 			// Captcha Object
-			$captcha = new \Captcha\Captcha();
+			$captcha = new \PAFL_Captcha();
 			$captcha->setPrivateKey( $secret_key );
 			$captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
 		}
@@ -1228,7 +1228,7 @@ class Pressapps_Fullscreen_Login_Public {
 			$theme       = $pafl_sk->get( 'recaptcha_theme' );
 
 			// Set the Captcha Object
-			$captcha = new Captcha\Captcha();
+			$captcha = new PAFL_Captcha();
 			$captcha->setPublicKey( $public_key );
 			$captcha->setPrivateKey( $private_key );
 			$captcha->setTheme( $theme );
@@ -1304,14 +1304,14 @@ class Pressapps_Fullscreen_Login_Public {
 	/**
 	 * Validate Captcha
 	 *
-	 * @return \Captcha\Response
-	 * @throws \Captcha\Exception
+	 * @return \PAFL_Response
+	 * @throws \PAFL_Exception
 	 */
 	public function validate_captcha( $post ) {
 		$pafl_sk    = new Skelet( 'pafl' );
 		$secret_key = $pafl_sk->get( 'recaptcha_private_key' );
 
-		$captcha = new \Captcha\Captcha();
+		$captcha = new PAFL_Captcha();
 		$captcha->setPrivateKey( $secret_key );
 		$captcha->setRemoteIp( $_SERVER['REMOTE_ADDR'] );
 

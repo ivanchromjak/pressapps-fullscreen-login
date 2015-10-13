@@ -1,9 +1,4 @@
 <?php
-namespace Captcha;
-
-use Captcha\Response;
-use Captcha\Exception;
-
 /**
  * NOTICE: The Class Captcha with it's method has been modified to fit into our plugin.
  */
@@ -12,39 +7,9 @@ use Captcha\Exception;
  * Copyright (c) 2015, Aleksey Korzun <aleksey@webfoundation.net>
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies,
- * either expressed or implied, of the FreeBSD Project.
- *
- * Proper library for reCaptcha service
- *
- * @author Aleksey Korzun <aleksey@webfoundation.net>
- * @see http://www.google.com/recaptcha/intro/index.html
- * @throws Exception
- * @package library
  */
 
-class Captcha
+class PAFL_Captcha
 {
     /**
      * reCaptcha's API server
@@ -266,7 +231,7 @@ class Captcha
     public function html( $id )
     {
         if (!$this->getPublicKey()) {
-            throw new Exception('You must set public key provided by reCaptcha');
+            throw new PAFL_Exception('You must set public key provided by reCaptcha');
         }
 
         return
@@ -324,7 +289,7 @@ class Captcha
     public function check($captchaResponse = false)
     {
         if (!$this->getPrivateKey()) {
-            throw new Exception('You must set private key provided by reCaptcha');
+            throw new PAFL_Exception('You must set private key provided by reCaptcha');
         }
 
         // Skip processing of empty data
@@ -335,7 +300,7 @@ class Captcha
         }
 
         // Create a new response object
-        $response = new Response();
+        $response = new PAFL_Response();
 
         // Discard SPAM submissions
         if (strlen($captchaResponse) == 0) {
@@ -379,7 +344,7 @@ class Captcha
         // Make validation request
         $response = @file_get_contents('https://' . self::VERIFY_SERVER . '/recaptcha/api/siteverify?' . $parameters);
         if (!$response) {
-            throw new Exception('Unable to communicate with reCaptcha servers. Response: ' . serialize($response));
+            throw new PAFL_Exception('Unable to communicate with reCaptcha servers. Response: ' . serialize($response));
         }
 
         return $response;
@@ -449,7 +414,7 @@ class Captcha
     public function setSize($size)
     {
         if (!self::isValidSize($size)) {
-            throw new Exception(
+            throw new PAFL_Exception(
                 'Size ' . $size . ' is not valid. Please use one of [' . join(', ', self::$size) . ']'
             );
         }
@@ -470,7 +435,7 @@ class Captcha
     public function setType($type)
     {
         if (!self::isValidSize($type)) {
-            throw new Exception(
+            throw new PAFL_Exception(
                 'Type ' . $type . ' is not valid. Please use one of [' . join(', ', self::$type) . ']'
             );
         }
@@ -491,7 +456,7 @@ class Captcha
     public function setTabIndex($tabIndex)
     {
         if (!is_numeric($tabIndex)) {
-            throw new Exception(
+            throw new PAFL_Exception(
                 'Tab index of ' . $tabIndex . ' is not valid.'
             );
         }
