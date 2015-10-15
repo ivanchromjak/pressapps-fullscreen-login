@@ -206,72 +206,7 @@ $options[]      = array(
                             'type'    => 'text',
                             'title'   => __( 'Forgot Button Text', 'pressapps' ),
                             'default' => 'SEND RESET EMAIL',
-                        ),
-                ),
-            ),
-            array(
-                'name'      => 'social_login',
-                'title'     => __( 'Social Login', 'pressapps' ),
-                'icon'      => 'si-share3',
-                'fields'    => array(
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Social Login', 'pressapps' ),
-                    ),
-                    array(
-                        'id'      => 'facebook_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Facebook', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    array(
-                        'id'      => 'twitter_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Twitter', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    array(
-                        'id'      => 'google_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Google', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    // Facebook Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Facebook Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'facebook_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'App ID', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
-                    ),
-                    // Twitter Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Twitter Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'twitter_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'Auth Token', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
-                    ),
-                    // Google+ Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Google Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'google_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'Client ID', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    )
+                        )
                 )
             )
         )

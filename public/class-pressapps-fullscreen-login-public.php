@@ -89,7 +89,6 @@ class Pressapps_Fullscreen_Login_Public {
 		// set default variables that would be passed
 		$script_object                      = array();
 		$script_object['ajax']              = admin_url( 'admin-ajax.php' );
-		$script_object['is_user_logged_in'] = is_user_logged_in();
 
 		if ( $fb_login ) {
 			$script_object['fb_login_id'] = $fb_login_id;
@@ -562,13 +561,13 @@ class Pressapps_Fullscreen_Login_Public {
 	}
 
 	public function ajax_social_login() {
-		$pafl_sk            = new Skelet( 'pafl' );
-		$data               = array();
+		$pafl_sk = new Skelet( 'pafl' );
+		$data    = array();
 
 		$data['first_name'] = sanitize_text_field( $_REQUEST['fname'] );
 		$data['last_name']  = sanitize_text_field( $_REQUEST['lname'] );
 		$data['email']      = sanitize_email( $_REQUEST['email'] );
-		$data['username']   = sanitize_user( md5( $_REQUEST['id'] . wp_salt() ) );
+		$data['username']   = $data['first_name'] . '_' . $data['last_name'];
 		$data['avatar']     = sanitize_text_field( $_REQUEST['avatar'] );
 		$data['auth']       = $_REQUEST['auth']; // Auth token
 		$data['nonce']      = $_REQUEST['nonce'];
@@ -581,7 +580,17 @@ class Pressapps_Fullscreen_Login_Public {
 
 		//check if the email or username has already been registered
 		//username is taken from email
-		if ( ! email_exists( $data['email'] ) && ! username_exists( $data['username'] ) ) {
+		if ( ! email_exists( $data['email'] ) || ! username_exists( $data['username'] ) ) {
+
+			//check if username exist and will revert from first_name last_name to last_name first_name
+			if ( username_exists( $data['username'] ) ) {
+				$data['username'] = $data['last_name'] . '_' . $data['first_name'];
+				//check again if username still exist and will lower the case down
+				if ( username_exists( $data['username'] ) ) {
+					$data['username'] = strtolower( $data['first_name'] . '_' . $data['last_name'] );
+				}
+			}
+
 			//if successful will return a user id
 			$user_id = wp_create_user( $data['username'], $data['password'], $data['email'] );
 
@@ -637,6 +646,7 @@ class Pressapps_Fullscreen_Login_Public {
 				) );
 			}
 		} else {
+
 			$user = get_user_by( 'email', $data['email'] );
 
 			//check if the profile pic has been changed and will update
