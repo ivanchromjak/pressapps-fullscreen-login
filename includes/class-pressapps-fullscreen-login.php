@@ -129,18 +129,15 @@ class Pressapps_Fullscreen_Login {
 		 * Load Recaptcha
 		 */
 		if ( ! class_exists( 'PAFL_Captcha' ) ){
-			include_once dirname( dirname(__FILE__) ) . '/public/lib/recaptcha/Captcha.php';
-			include_once dirname( dirname(__FILE__) ) . '/public/lib/recaptcha/Exception.php';
-			include_once dirname( dirname(__FILE__) ) . '/public/lib/recaptcha/Response.php';
+			require_once trailingslashit( dirname( dirname(__FILE__) ) ) . 'public/lib/recaptcha/Captcha.php';
+			require_once trailingslashit( dirname( dirname(__FILE__) ) ) . 'public/lib/recaptcha/Exception.php';
+			require_once trailingslashit( dirname( dirname(__FILE__) ) ) . 'public/lib/recaptcha/Response.php';
 		}
 
-		/**
-		 * Load TwitterOAuth Class
-		 */
-		//@todo: will work to make this compatible with php 5.2
-//		if ( ! class_exists( 'TwitterOAuth' ) ) {
-//			include_once dirname( dirname(__FILE__) ) . '/public/lib/twitteroauth/autoload.php';
-//		}
+		if ( ! class_exists( 'Hybrid_Auth' ) ) {
+			require_once trailingslashit( dirname( dirname(__FILE__) ) ) . 'public/lib/hybridauth/Hybrid/Auth.php' ;
+		}
+
 
 		$this->loader = new Pressapps_Fullscreen_Login_Loader();
 
