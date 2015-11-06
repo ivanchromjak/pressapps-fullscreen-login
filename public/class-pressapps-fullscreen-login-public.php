@@ -800,7 +800,7 @@ class Pressapps_Fullscreen_Login_Public {
 		elseif ( isset( $_REQUEST['register'] ) ) {
 			$user_data = array(
 				'user_login' => sanitize_user( $_REQUEST['username'] ),
-				'user_email' => sanitize_email( $_REQUEST['email'] ),
+				'user_email' => $_REQUEST['email'],
 			);
 
 			$allow_user_set_password = $pafl_sk->get( 'allow_user_set_password' );
@@ -1019,7 +1019,7 @@ class Pressapps_Fullscreen_Login_Public {
 		}
 
 		// Check the email address
-		if ( $user_email == '' ) {
+		if ( empty( $user_email ) ) {
 			$errors->add( 'empty_email', __( 'Please type your email address.', 'pressapps-fullscreen-login' ) );
 		} elseif ( ! is_email( $user_email ) ) {
 			$errors->add( 'invalid_email', __( 'The email address isn\'t correct.', 'pressapps-fullscreen-login' ) );
