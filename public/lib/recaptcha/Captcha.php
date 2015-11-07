@@ -1,9 +1,5 @@
 <?php
 /**
- * NOTICE: The Class Captcha with it's method has been modified to fit into our plugin.
- */
-
-/**
  * Copyright (c) 2015, Aleksey Korzun <aleksey@webfoundation.net>
  * All rights reserved.
  *
@@ -248,7 +244,7 @@ class PAFL_Captcha
         $output = "<script id=\"recaptcha-inline-script\" type=\"text/javascript\">";
         $output .= "/** ReCaptcha */\n";
 
-        // get all the declated ID and assign to a variable
+        // get all the declared ID and assign to a variable
         $var_index = 0;
         foreach( $this->getID() as $var_item_id ):
             //added Captcha word on id
@@ -256,8 +252,6 @@ class PAFL_Captcha
             $output .= "var " . $var_item_id ."Captcha;";
             $var_index++;
         endforeach;
-
-
 
         $output .=  "var onloadCallback = function() {";
         if ( is_array( $this->getID() ) && $this->getID() ):

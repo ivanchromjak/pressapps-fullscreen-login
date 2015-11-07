@@ -74,39 +74,12 @@ class Pressapps_Fullscreen_Login_Public {
 	public function enqueue_scripts() {
 		$pafl_sk = new Skelet( 'pafl' );
 
-		//Facebook option
-		$fb_login    = $this->filtered_string( $pafl_sk->get( 'facebook_login' ) );
-		$fb_login_id = $this->filtered_string( $pafl_sk->get( 'facebook_login_id' ) );
-
-		//Twitter option
-		$twitter_login    = $this->filtered_string( $pafl_sk->get( 'twitter_login' ) );
-		$twitter_login_id = $this->filtered_string( $pafl_sk->get( 'twitter_login_id' ) );
-
-		//Google Plus option
-		$google_plus_login    = $this->filtered_string( $pafl_sk->get( 'google_login' ) );
-		$google_plus_login_id = $this->filtered_string( $pafl_sk->get( 'google_login_id' ) );
-
-		// set default variables that would be passed
-		$script_object                      = array();
-		$script_object['ajax']              = admin_url( 'admin-ajax.php' );
-		$script_object['is_user_logged_in'] = is_user_logged_in();
-
-		if ( $fb_login ) {
-			$script_object['fb_login_id'] = $fb_login_id;
-		}
-
-		if ( $twitter_login ) {
-			$script_object['twitter_login_id'] = $twitter_login_id;
-		}
-
-		if ( $google_plus_login ) {
-			$script_object['google_login_id'] = $google_plus_login_id;
-		}
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
 
 		//attribute that will be passed on javascript
-		wp_localize_script( $this->plugin_name, 'pafl_modal_login_script', $script_object );
+		wp_localize_script( $this->plugin_name, 'PAFL', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' )
+		) );
 	}
 
 	/**
@@ -130,18 +103,6 @@ class Pressapps_Fullscreen_Login_Public {
 
 		$pakl_sk = new Skelet( 'pafl' );
 
-		//initiate social class
-		$social_class = array();
-
-		if ( $pakl_sk->get( 'facebook_login' ) ) {
-			$social_class[] = 'pafl-social-facebok';
-		}
-		if ( $pakl_sk->get( 'twitter_login' ) ) {
-			$social_class[] = 'pafl-social-twitter';
-		}
-		if ( $pakl_sk->get( 'google_login' ) ) {
-			$social_class[] = 'pafl-social-google';
-		}
 		$atts = shortcode_atts(
 			array(
 				'login_text'  => __( 'Login', 'pressapps-fullscreen-login' ),
@@ -200,7 +161,6 @@ class Pressapps_Fullscreen_Login_Public {
 			echo "<a href='#' onclick='return false' data-form='register'  class='pafl-trigger-overlay'>" . __( $atts['register_text'], 'pressapps-fullscreen-login' ) . "</a>";
 		} else {
 			if ( is_user_logged_in() ) {
-
 				$pafl_sk               = new Skelet( 'pafl' );
 				$after_logout_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_logout_redirection_url' ) );
 
@@ -211,10 +171,10 @@ class Pressapps_Fullscreen_Login_Public {
 					$logout_url = wp_logout_url();
 				}
 
-				echo "<a href='" . esc_url( $logout_url ) . "' >" . __( $atts['logout_text'], 'pressapps-fullscreen-login' ) . "</a>";
+				echo "<a href='" . esc_url( $logout_url ) . "' >" . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $atts['logout_text'] ) . "</a>";
 
 			} else {
-				echo "<a href='#' onclick='return false'  data-form='login'  class='pafl-trigger-overlay'>" . __( $atts['login_text'], 'pressapps-fullscreen-login' ) . "</a>";
+				echo "<a href='#' onclick='return false'  data-form='login'  class='pafl-trigger-overlay'>" . sprintf(  __( '%s', 'pressapps-fullscreen-login' ),  $atts['login_text'] ) . "</a>";
 			}
 		}
 	}
@@ -419,8 +379,7 @@ class Pressapps_Fullscreen_Login_Public {
 						<a href="#" data-form="forgot"
 						   class="pafl-forgot-left <?php echo get_option( 'users_can_register' ) ? '' : 'pafl-full-width'; ?>"><?php echo $label_forgot; ?></a>
 						<?php if ( get_option( 'users_can_register' ) ): ?>
-							<a href="#" data-form="register"
-							   class="pafl-create-account"> <?php echo $label_register; ?></a>
+							<a href="#" data-form="register" class="pafl-create-account"> <?php echo $label_register; ?></a>
 						<?php endif; ?>
 					</p><!--[END .form-links]-->
 
@@ -432,8 +391,7 @@ class Pressapps_Fullscreen_Login_Public {
 			<?php // Registration form ?>
 			<?php if ( get_option( 'users_can_register' ) ): ?>
 
-				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;"
-				     data-response="false">
+				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
 					<h2 class="pafl-title"><?php echo $pafl_sk->get( 'register_form_title' ); ?></h2>
 
