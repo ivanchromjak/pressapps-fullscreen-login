@@ -297,9 +297,9 @@ class Pressapps_Fullscreen_Login_Public {
 			<?php // Login Form ?>
 			<div id="pafl-login" class="pafl-modal-wrap pafl-modal-content" data-response="false">
 
-				<h2 class="pafl-title"><?php echo $pafl_sk->get( 'login_form_title' ); ?></h2>
+				<h2 class="pafl-title"><?php echo esc_html( $pafl_sk->get( 'login_form_title' ) ); ?></h2>
 
-				<p class="pafl-subtitle"><?php echo $pafl_sk->get( 'login_form_subtitle' ); ?></p>
+				<p class="pafl-subtitle"><?php echo esc_html( $pafl_sk->get( 'login_form_subtitle' ) ); ?></p>
 
 				<?php do_action( 'pafl_before_modal_login' ); ?>
 
@@ -308,11 +308,11 @@ class Pressapps_Fullscreen_Login_Public {
 					<?php do_action( 'pafl_inside_modal_login_first' ); ?>
 
 					<input type="text" name="log" id="login_user" class="pafl-input"
-					       placeholder="<?php echo $pafl_sk->get( 'login_form_username_placeholder_text' ); ?>"
+					       placeholder="<?php echo esc_attr( $pafl_sk->get( 'login_form_username_placeholder_text' ) ); ?>"
 					       value="<?php echo( isset( $user_login ) ? esc_attr( $user_login ) : '' ); ?>" size="20"/>
 
 					<input type="password" name="pwd" id="login_pass" class="pafl-input"
-					       placeholder="<?php echo $pafl_sk->get( 'login_form_password_placeholder_text' ); ?>" value=""
+					       placeholder="<?php echo esc_attr( $pafl_sk->get( 'login_form_password_placeholder_text' ) ); ?>" value=""
 					       size="20"/>
 
 					<?php do_action( 'pafl_login_form' ); ?>
@@ -323,7 +323,7 @@ class Pressapps_Fullscreen_Login_Public {
 						       placeholder="<?php echo esc_attr( $pafl_sk->get( 'rememberme_placeholder_text' ) ); ?>"
 						       id="pafl-rememberme" value="forever"/>
 						<label class="pafl-rememberme-label" for="pafl-rememberme"><span></span></label>
-						<p><?php echo $pafl_sk->get( 'rememberme_placeholder_text' ); ?></p>
+						<p><?php echo esc_html( $pafl_sk->get( 'rememberme_placeholder_text' ) ); ?></p>
 					<?php endif; ?>
 
 					<?php
@@ -335,7 +335,7 @@ class Pressapps_Fullscreen_Login_Public {
 					<?php do_action( 'pafl_inside_modal_login_submit' ); ?>
 
 					<input type="submit" name="pafl-submit" id="pafl-login" class="pafl-login-button pafl-submit"
-					       value="<?php echo $pafl_sk->get( 'login_button_text' ); ?>"/>
+					       value="<?php echo esc_attr( $pafl_sk->get( 'login_button_text' ) ); ?>"/>
 					<?php
 					//set the query arg for the url
 					$pafl_query_arg = array(
@@ -382,11 +382,9 @@ class Pressapps_Fullscreen_Login_Public {
 							$label_register = __( "Register", 'pressapps-fullscreen-login' );
 						}
 						?>
-						<a href="#" data-form="forgot"
-						   class="pafl-forgot-left <?php echo get_option( 'users_can_register' ) ? '' : 'pafl-full-width'; ?>"><?php echo $label_forgot; ?></a>
+						<a href="#" data-form="forgot" class="pafl-forgot-left <?php echo get_option( 'users_can_register' ) ? '' : esc_attr( 'pafl-full-width' ); ?>"><?php echo esc_html( $label_forgot ); ?></a>
 						<?php if ( get_option( 'users_can_register' ) ): ?>
-							<a href="#" data-form="register"
-							   class="pafl-create-account"> <?php echo $label_register; ?></a>
+							<a href="#" data-form="register" class="pafl-create-account"> <?php echo esc_html( $label_register ); ?></a>
 						<?php endif; ?>
 					</p><!--[END .form-links]-->
 
@@ -400,9 +398,9 @@ class Pressapps_Fullscreen_Login_Public {
 
 				<div id="pafl-register" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
-					<h2 class="pafl-title"><?php echo $pafl_sk->get( 'register_form_title' ); ?></h2>
+					<h2 class="pafl-title"><?php echo esc_html( $pafl_sk->get( 'register_form_title' ) ); ?></h2>
 
-					<p class="pafl-subtitle"><?php echo $pafl_sk->get( 'register_form_subtitle' ); ?></p>
+					<p class="pafl-subtitle"><?php echo esc_html( $pafl_sk->get( 'register_form_subtitle' ) ); ?></p>
 
 					<?php do_action( 'pafl_before_modal_register' ); ?>
 
@@ -411,12 +409,12 @@ class Pressapps_Fullscreen_Login_Public {
 						<?php do_action( 'pafl_inside_modal_register_first' ); ?>
 
 						<input type="text" name="user_login" id="reg_user" class="pafl-input"
-						       placeholder="<?php echo $pafl_sk->get( 'register_form_username_placeholder_text' ); ?>"
+						       placeholder="<?php echo esc_attr( $pafl_sk->get( 'register_form_username_placeholder_text' ) ); ?>"
 						       value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>"
 						       size="20"/>
 
 						<input type="text" name="user_email" id="reg_email" class="pafl-input"
-						       placeholder="<?php echo $pafl_sk->get( 'register_form_email_placeholder_text' ); ?>"
+						       placeholder="<?php echo esc_attr( $pafl_sk->get( 'register_form_email_placeholder_text' ) ); ?>"
 						       value="<?php echo( isset( $user_email ) ? esc_attr( stripslashes( $user_email ) ) : '' ); ?>"
 						       size="20"/>
 
@@ -424,7 +422,7 @@ class Pressapps_Fullscreen_Login_Public {
 						$allow_user_set_password = $pafl_sk->get( 'allow_user_set_password' );
 						if ( $allow_user_set_password ):?>
 							<input type="password" name="reg_password" id="reg_password" class="pafl-input"
-							       placeholder="<?php echo $pafl_sk->get( 'register_form_password_placeholder_text' ); ?>"/>
+							       placeholder="<?php echo esc_attr( $pafl_sk->get( 'register_form_password_placeholder_text' ) ); ?>"/>
 						<?php endif; ?>
 						<?php do_action( 'pafl_register_form' ); ?>
 						<?php
@@ -436,7 +434,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						<input type="submit" name="pafl-submit" id="pafl-register"
 						       class="pafl-register-button pafl-submit"
-						       value="<?php echo $pafl_sk->get( 'register_button_text' ); ?>"/>
+						       value="<?php echo esc_attr( $pafl_sk->get( 'register_button_text' ) ); ?>"/>
 						<input type="hidden" name="register" value="true"/>
 
 						<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
@@ -605,7 +603,7 @@ class Pressapps_Fullscreen_Login_Public {
 				$adapter     = $hybridauth->authenticate( $data['provider'] );
 				$pafl_social = $adapter->getUserProfile();
 			} catch ( Exception $e ) {
-				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $e->getMessage() ) . ' <span class="pafl-close">&times;</span></p>';
+				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $e->getMessage() ) . ' <span class="pafl-close">&times;</span></p>';
 
 				return;
 			}
@@ -622,9 +620,8 @@ class Pressapps_Fullscreen_Login_Public {
 				$data['avatar']      = $pafl_social->photoURL;
 				$data['password']    = wp_generate_password( 10, true, true );
 
-				//check if the email or username has already been registered
-				//username is taken from email
-				if ( ! email_exists( $data['email'] ) && ! username_exists( $data['username'] ) ) {
+				//username is taken from the hybridauth identifier which is unique for each user and provider
+				if ( ! username_exists( $data['username'] ) ) {
 					//if successful will return a user id
 					$user_id = wp_create_user( $data['username'], $data['password'], $data['email'] );
 
@@ -651,7 +648,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						//check if there is an error when updating the user info and will output error and end execution
 						if ( is_wp_error( $update_user_info ) ) {
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ) . '</p>';
 
 							return;
 						}
@@ -666,14 +663,14 @@ class Pressapps_Fullscreen_Login_Public {
 
 						} else {
 							//if unable to login
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
 
 							return;
 						}
 
 					} else {
 						//if unable to create the user
-						echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ) . '</p>';
+						echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ) . '</p>';
 
 						return;
 					}
@@ -705,7 +702,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						} else {
 
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
 
 							return;
 						}
