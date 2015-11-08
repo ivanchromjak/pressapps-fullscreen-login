@@ -48,10 +48,9 @@
 				} );
 
 				// Run our login ajax
-				$( '.pafl-modal-content #pafl-form' ).on( 'submit', '#pafl-login', function( e ) {
+				$( '.pafl-modal-content #pafl-form' ).on( 'submit', function( e ) {
 					// Stop the form from submitting so we can use ajax.
 					e.preventDefault();
-					e.stopImmediatePropagation();
 
 					// Check what form is currently being submitted so we can return the right values for the ajax request.
 					var form_id = $( this ).parent().attr( 'id' );
@@ -221,24 +220,33 @@
 					}
 				} );
 				//implements the social login
+				$( '.pafl-social-login' ).on( 'click', function(){
+					$( '.pafl-loader' ).fadeIn();
+					$( '.pafl-section-container,.pafl-form-logo' ).css( {
+						'-webkit-filter' : 'blur(5px)',
+						'filter' : 'blur(5px)'
+					} );
+				} );
+
+
 				$( function(){
 					var $pafl_message_window = $( '#pafl-message-window' );
 					//will check if message window was displayed which occur during social login
 					if ( $pafl_message_window.length !== 0 ) {
 						$pafl_message_window.removeAttr('style').addClass('pafl-message-display');
 
-						$pafl_message_window.on( 'click', '.pafl-close', function(){
-							$pafl_message_window.fadeOut().delay(300).queue( function(){
-								$pafl_message_window.remove();
-							} )
+						$( '.pafl-loader' ).fadeOut();
+						$( '.pafl-section-container,.pafl-form-logo' ).css( {
+							'-webkit-filter' : 'none',
+							'filter' : 'none'
 						} );
 
 						//will redirect toa the set page if success
-						if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
-							setTimeout( function(){
-								window.location.assign( $pafl_message_window.attr( 'data-redirect' ) );
-							}, 3000 );
-						}
+						//if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
+						//	setTimeout( function(){
+						//		window.location.assign( $pafl_message_window.attr( 'data-redirect' ) );
+						//	}, 2000 );
+						//}
 					}
 				} );
 			},
