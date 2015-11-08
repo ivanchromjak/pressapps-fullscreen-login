@@ -105,6 +105,29 @@
   }
 }
 
+@-webkit-keyframes slideUpRetourn {
+  0% {
+    -webkit-transform-origin: 0 0;
+    -webkit-transform: translateY(-100%);
+  }
+
+  100% {
+    -webkit-transform-origin: 0 0;
+    -webkit-transform: translateY(0%);
+  }
+}
+@keyframes slideUpRetourn {
+  0% {
+    transform-origin: 0 0;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform-origin: 0 0;
+    transform: translateY(0%);
+  }
+}
+
 /* Overlay style */
 .pafl-overlay {
   position : fixed;
@@ -358,39 +381,76 @@
     margin    : 0 auto;
     padding   : 0 20px;
   }
+  
+  .pafl-social-link {
+    display : block;
+    color: #fff;
+    font-size: 18px;
+    font-family: sans-serif;
 
-  .pafl-message {
-    font-size     : 16px;
-    padding       : 19px;
-    margin-bottom : 20px;
-    border        : 1px solid transparent;
+    &:hover {
+      color: #fff;
+    }
   }
+}
 
-  .pafl-success {
-    color                       : #ffffff;
-    background-color            : #4caf50;
-    border-color                : #4caf50;
-    -webkit-backface-visibility : visible !important;
-    backface-visibility         : visible !important;
-    -webkit-animation-name      : flipInY;
-    animation-name              : flipInY;
-    -webkit-animation-duration  : 1s;
-    animation-duration          : 1s;
-    -webkit-animation-fill-mode : both;
-    animation-fill-mode         : both;
+.pafl-close {
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #fff;
+  -webkit-transition : color .3s;
+  -moz-transition    : color .3s;
+  -ms-transition     : color .3s;
+  -o-transition      : color .3s;
+  transition         : color .3s;
+  &:hover {
+    color: #333;
   }
+}
 
-  .pafl-info {
-    color                       : #ffffff;
-    background-color            : #4caf50;
-    border-color                : #4caf50;
-  }
+.pafl-message-display {
+  position : absolute;
+  width: 100%;
+  text-align: center;
+  -webkit-animation : slideUpRetourn .1s;
+  -o-animation      : slideUpRetourn .1s;
+  animation         : slideUpRetourn .1s;
+}
 
-  .pafl-error {
-    color            : #ffffff;
-    background-color : #f44336;
-    border           : 1px solid #f44336;
-  }
+.pafl-message {
+  font-size     : 16px;
+  padding       : 19px;
+  margin-bottom : 20px;
+  border        : 1px solid transparent;
+}
+
+.pafl-success {
+  color                       : #ffffff;
+  background-color            : #4caf50;
+  border-color                : #4caf50;
+  -webkit-backface-visibility : visible !important;
+  backface-visibility         : visible !important;
+  -webkit-animation-name      : flipInY;
+  animation-name              : flipInY;
+  -webkit-animation-duration  : 1s;
+  animation-duration          : 1s;
+  -webkit-animation-fill-mode : both;
+  animation-fill-mode         : both;
+}
+
+.pafl-info {
+  color                       : #ffffff;
+  background-color            : #4caf50;
+  border-color                : #4caf50;
+}
+
+.pafl-error {
+  color            : #ffffff;
+  background-color : #f44336;
+  border           : 1px solid #f44336;
 }
 
 .pafl-field-label {

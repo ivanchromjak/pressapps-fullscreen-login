@@ -72,8 +72,6 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		$pafl_sk = new Skelet( 'pafl' );
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pressapps-fullscreen-login-public.js', array( 'jquery' ), $this->version, false );
 
 		//attribute that will be passed on javascript
@@ -100,8 +98,6 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @return string html login link
 	 */
 	function pafl_login_link( $atts ) {
-
-		$pakl_sk = new Skelet( 'pafl' );
 
 		$atts = shortcode_atts(
 			array(
@@ -157,8 +153,8 @@ class Pressapps_Fullscreen_Login_Public {
 		);
 
 		if ( $atts['register'] && ! is_user_logged_in() ) {
-			echo "<a href='#' onclick='return false' data-form='login'  class='pafl-trigger-overlay'>" . __( $atts['login_text'], 'pressapps-fullscreen-login' ) . "</a><br>";
-			echo "<a href='#' onclick='return false' data-form='register'  class='pafl-trigger-overlay'>" . __( $atts['register_text'], 'pressapps-fullscreen-login' ) . "</a>";
+			echo "<a href='#' onclick='return false' data-form='login'  class='pafl-trigger-overlay'>" . sprintf(  __( '%s', 'pressapps-fullscreen-login' ) , $atts['login_text'] ) . "</a><br>";
+			echo "<a href='#' onclick='return false' data-form='register'  class='pafl-trigger-overlay'>" . sprintf( __( '%s', 'pressapps-fullscreen-login' ) , $atts['register_text'] ) . "</a>";
 		} else {
 			if ( is_user_logged_in() ) {
 				$pafl_sk               = new Skelet( 'pafl' );
@@ -174,7 +170,7 @@ class Pressapps_Fullscreen_Login_Public {
 				echo "<a href='" . esc_url( $logout_url ) . "' >" . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $atts['logout_text'] ) . "</a>";
 
 			} else {
-				echo "<a href='#' onclick='return false'  data-form='login'  class='pafl-trigger-overlay'>" . sprintf(  __( '%s', 'pressapps-fullscreen-login' ),  $atts['login_text'] ) . "</a>";
+				echo "<a href='#' onclick='return false'  data-form='login'  class='pafl-trigger-overlay'>" . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $atts['login_text'] ) . "</a>";
 			}
 		}
 	}
@@ -258,6 +254,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 * Append modal html to footer in all pages
 	 */
 	public function append_to_footer() {
+		global $post;
 
 		$pafl_sk     = new Skelet( "pafl" );
 		$modal_class = $pafl_sk->get( 'modal_effect' );
@@ -340,26 +337,35 @@ class Pressapps_Fullscreen_Login_Public {
 					<input type="submit" name="pafl-submit" id="pafl-login" class="pafl-login-button pafl-submit"
 					       value="<?php echo $pafl_sk->get( 'login_button_text' ); ?>"/>
 					<?php
+					//set the query arg for the url
+					$pafl_query_arg = array(
+						'action' => 'pafl_social_login',
+						'nonce'  => wp_create_nonce( 'social_nonce' )
+					);
+
 					//check if facebook login is enabled and will show facebook login
 					if ( $this->filtered_string( $pafl_sk->get( 'facebook_login' ) ) ): ?>
-						<button id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button"
-						        data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false"
-						        disabled><?php _e( 'Sign in with Facebook', 'pressapps-fullscreen-login' ); ?></button>
+						<?php
+						//will set social provider to connect to
+						$pafl_query_arg['provider'] = 'facebook'; ?>
+						<a id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button pafl-social-link " href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Facebook', 'pressapps-fullscreen-login' ); ?></a>
 					<?php endif; ?>
 
 					<?php
-					//check if facebook login is enabled and will show facebook login
+					//check if twitter login is enabled and will show twitter login
 					if ( $this->filtered_string( $pafl_sk->get( 'twitter_login' ) ) ): ?>
-						<button id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button"
-						        data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false"
-						        disabled><?php _e( 'Sign in with Twitter', 'pressapps-fullscreen-login' ); ?></button>
+						<?php
+						//will set social provider to connect to
+						$pafl_query_arg['provider'] = 'twitter'; ?>
+						<a id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Twitter', 'pressapps-fullscreen-login' ); ?></a>
 					<?php endif; ?>
 					<?php
 					//check if facebook login is enabled and will show facebook login
 					if ( $this->filtered_string( $pafl_sk->get( 'google_login' ) ) ): ?>
-						<button id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button"
-						        data-nonce="<?php echo wp_create_nonce( 'social_nonce' ); ?>" onclick="return false"
-						        disabled><?php _e( 'Sign in with Google', 'pressapps-fullscreen-login' ); ?></button>
+						<?php
+						//will set social provider to connect to
+						$pafl_query_arg['provider'] = 'google'; ?>
+						<a id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Google', 'pressapps-fullscreen-login' ); ?></a>
 					<?php endif; ?>
 					<input type="hidden" name="login" value="true"/>
 
@@ -379,7 +385,8 @@ class Pressapps_Fullscreen_Login_Public {
 						<a href="#" data-form="forgot"
 						   class="pafl-forgot-left <?php echo get_option( 'users_can_register' ) ? '' : 'pafl-full-width'; ?>"><?php echo $label_forgot; ?></a>
 						<?php if ( get_option( 'users_can_register' ) ): ?>
-							<a href="#" data-form="register" class="pafl-create-account"> <?php echo $label_register; ?></a>
+							<a href="#" data-form="register"
+							   class="pafl-create-account"> <?php echo $label_register; ?></a>
 						<?php endif; ?>
 					</p><!--[END .form-links]-->
 
@@ -445,8 +452,8 @@ class Pressapps_Fullscreen_Login_Public {
 								$label_forgot = __( "Forgot password?", 'pressapps-fullscreen-login' );
 							}
 							?>
-							<a href="#" data-form="login" class='pafl-allow-login'><?php echo $label_login; ?></a>
-							<a href="#" data-form="forgot" class='pafl-forgot-right'><?php echo $label_forgot; ?></a>
+							<a href="#" data-form="login" class='pafl-allow-login'><?php echo esc_html( $label_login ); ?></a>
+							<a href="#" data-form="forgot" class='pafl-forgot-right'><?php echo esc_html( $label_forgot ); ?></a>
 						</p><!--[END .form-links]-->
 
 						<?php do_action( 'pafl_inside_modal_register_last' ); ?>
@@ -455,12 +462,11 @@ class Pressapps_Fullscreen_Login_Public {
 				</div><!--[END #pafl-register]-->
 			<?php endif; ?>
 			<?php // Forgotten Password ?>
-			<div id="pafl-forgot" class="pafl-modal-wrap pafl-modal-content" style="display:none;"
-			     data-response="false">
+			<div id="pafl-forgot" class="pafl-modal-wrap pafl-modal-content" style="display:none;" data-response="false">
 
-				<h2 class="pafl-title"><?php echo $pafl_sk->get( 'forgot_form_title' ); ?></h2>
+				<h2 class="pafl-title"><?php echo esc_html( $pafl_sk->get( 'forgot_form_title' ) ); ?></h2>
 
-				<p class="pafl-subtitle"><?php echo $pafl_sk->get( 'forgot_form_subtitle' ); ?></p>
+				<p class="pafl-subtitle"><?php echo esc_html( $pafl_sk->get( 'forgot_form_subtitle' ) ); ?></p>
 
 
 				<?php do_action( 'pafl_before_modal_forgotten' ); ?>
@@ -470,7 +476,7 @@ class Pressapps_Fullscreen_Login_Public {
 					<?php do_action( 'pafl_inside_modal_forgotton_first' ); ?>
 
 					<input type="text" name="forgot_login" id="forgot_login" class="pafl-input"
-					       placeholder="<?php echo $pafl_sk->get( 'forgot_form_username_placeholder_text' ); ?>"
+					       placeholder="<?php echo esc_attr( $pafl_sk->get( 'forgot_form_username_placeholder_text' ) ); ?>"
 					       value="<?php echo( isset( $user_login ) ? esc_attr( stripslashes( $user_login ) ) : '' ); ?>"
 					       size="20"/>
 
@@ -482,7 +488,7 @@ class Pressapps_Fullscreen_Login_Public {
 					<?php do_action( 'pafl_inside_modal_forgotten_submit' ); ?>
 
 					<input type="submit" name="pafl-submit" id="pafl-forgot" class="pafl-forgotte-button pafl-submit"
-					       value="<?php echo $pafl_sk->get( 'forgot_button_text' ); ?>">
+					       value="<?php echo esc_attr( $pafl_sk->get( 'forgot_button_text' ) ); ?>">
 					<input type="hidden" name="forgotten" value="true"/>
 
 					<?php wp_nonce_field( 'ajax-form-nonce', 'security' ); ?>
@@ -493,8 +499,7 @@ class Pressapps_Fullscreen_Login_Public {
 							$label_login = __( "Login", 'pressapps-fullscreen-login' );
 						}
 						?>
-						<a href="#" data-form="login"
-						   class="pafl-allow-login pafl-full-width"><?php echo $label_login; ?></a>
+						<a href="#" data-form="login" class="pafl-allow-login pafl-full-width"><?php echo esc_html( $label_login ); ?></a>
 					</p><!--[END .form-links]-->
 
 					<?php do_action( 'pafl_inside_modal_forgotten_last' ); ?>
@@ -519,115 +524,197 @@ class Pressapps_Fullscreen_Login_Public {
 		echo "</div>\n";
 	}
 
-	public function ajax_social_login() {
-		$pafl_sk            = new Skelet( 'pafl' );
-		$data               = array();
+	/**
+	 * Hybrid_Auth Instance of the Class with Configuration.
+	 *
+	 * @return Hybrid_Auth
+	 */
+	public function hybrid_auth() {
+		$pafl_sk = new Skelet( 'pafl' );
+		$config  = array(
+			"base_url"  => plugin_dir_url( dirname( __FILE__ ) ) . "public/lib/hybridauth/",
+			"providers" => array(
+				"Facebook" => array(
+					"enabled"        => true,
+					"keys"           => array(
+						"id"     => $pafl_sk->get( 'facebook_login_id' ),
+						"secret" => $pafl_sk->get( 'facebook_login_secret' )
+					),
+					"scope"          => "email, public_profile",
+					"trustForwarded" => is_ssl()
+				),
+				"Twitter"  => array(
+					"enabled" => true,
+					"keys"    => array(
+						"key"    => $pafl_sk->get( 'twitter_login_id' ),
+	                    "secret" => $pafl_sk->get( 'twitter_login_secret' )
+					)
+				),
+				"Google"   => array(
+					"enabled" => true,
+					"keys"    => array(
+						"id"     => $pafl_sk->get( 'google_login_id' ),
+	                    "secret" => $pafl_sk->get( 'google_login_secret' )
+					),
+				),
+			)
+		);
 
-		$data['first_name'] = sanitize_text_field( $_REQUEST['fname'] );
-		$data['last_name']  = sanitize_text_field( $_REQUEST['lname'] );
-		$data['email']      = sanitize_email( $_REQUEST['email'] );
-		$data['username']   = sanitize_user( md5( $_REQUEST['id'] . wp_salt() ) );
-		$data['avatar']     = sanitize_text_field( $_REQUEST['avatar'] );
-		$data['auth']       = $_REQUEST['auth']; // Auth token
-		$data['nonce']      = $_REQUEST['nonce'];
-		$data['password']   = md5( $data['auth'] . wp_salt() );
-
-		//verify the nonce that was sent
-		if ( ! wp_verify_nonce( $data['nonce'], 'social_nonce' ) ) {
-			die();
-		}
-
-		//check if the email or username has already been registered
-		//username is taken from email
-		if ( ! email_exists( $data['email'] ) && ! username_exists( $data['username'] ) ) {
-			//if successful will return a user id
-			$user_id = wp_create_user( $data['username'], $data['password'], $data['email'] );
-
-			//check if there is an error when creating user
-			if ( ! is_wp_error( $user_id ) ) {
-				$creds                  = array();
-				$creds['user_login']    = $data['username'];
-				$creds['user_password'] = $data['password'];
-				$login                  = wp_signon( $creds, is_ssl() );
-
-				//update user info
-				$update_user_info = wp_update_user( array(
-					'ID'           => $user_id,
-					'first_name'   => $data['first_name'],
-					'last_name'    => $data['last_name'],
-					'display_name' => $data['first_name'],
-					'nickname'     => $data['first_name']
-				) );
-
-				//will add meta for facebook profile link
-				add_user_meta( $user_id, 'social_profile', $data['avatar'] );
-
-				//check if there is an error when updating the user info and will output error and end execution
-				if ( is_wp_error( $update_user_info ) ) {
-					echo @json_encode( array(
-						'message'  => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ),
-						'loggedin' => false,
-					) );
-					die();
-				}
-
-				//check if there is a problem logging in
-				if ( ! is_wp_error( $login ) ) {
-					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
-					echo @json_encode( array(
-						'message'  => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
-						'loggedin' => true,
-						'redirect' => esc_url( $after_login_redirect )
-					) );
-				} else {
-					//if unable to login
-					echo @json_encode( array(
-						'message'  => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ),
-						'loggedin' => false,
-					) );
-				}
-
-			} else {
-				//if unable to create the user
-				echo @json_encode( array(
-					'message'  => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ),
-					'loggedin' => false,
-				) );
-			}
-		} else {
-			$user = get_user_by( 'email', $data['email'] );
-
-			//check if the profile pic has been changed and will update
-			update_user_meta( $user->data->ID, 'social_profile', $data['avatar'], get_user_meta( $user->data->ID, 'social_profile', true ) );
-
-			//the password is not constant as it is dependent on AuthToken sent by Facebook
-			wp_set_password( $data['password'], $user->data->ID );
-
-			if ( $user ) {
-				$creds                  = array();
-				$creds['user_login']    = $user->data->user_login;
-				$creds['user_password'] = $data['password'];
-				$login                  = wp_signon( $creds, is_ssl() );
-
-				//check if there is a problem logging in
-				if ( ! is_wp_error( $login ) ) {
-					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
-					echo @json_encode( array(
-						'message'  => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
-						'loggedin' => true,
-						'redirect' => esc_url( $after_login_redirect )
-					) );
-				} else {
-					echo @json_encode( array(
-						'message'  => sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ),
-						'loggedin' => false,
-					) );
-				}
-			}
-
-		}
-		die();
+		return new Hybrid_Auth( $config );
 	}
+
+	public function logout_action_hook() {
+		if ( isset( $_SESSION['pafl_provider'] ) ) {
+			$hybridauth = $this->hybrid_auth();
+			$adapter    = $hybridauth->authenticate( $_SESSION['pafl_provider'] );
+			$adapter->logout();
+		}
+	}
+
+	/**
+	 * Social login functionality that utilizes Hybrid_Auth Class
+	 * this has been attached to the wordpress init hook
+	 */
+	public function pafl_social_login() {
+		session_start(); // will start session
+
+		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'pafl_social_login' ) {
+
+			//check if the nonce is valid
+			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'social_nonce' ) ) {
+				die();
+			}
+
+			//check if user is already loggedin
+			if ( is_user_logged_in() ) {
+				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . __( 'You are already logged in', 'pressapps-fullscreen-login' ) . ' <span class="pafl-close">&times;</span></p>';
+
+				return;
+			}
+
+			$pafl_sk                   = new Skelet( 'pafl' );
+			$data                      = array(); //init the data
+			$data['provider']          = ucfirst( $_REQUEST['provider'] );
+			$data['nonce']             = $_REQUEST['nonce'];
+			$_SESSION['pafl_provider'] = $data['provider'];
+
+			//Hybridauth Instance
+			$hybridauth = $this->hybrid_auth();
+
+			try {
+				$adapter     = $hybridauth->authenticate( $data['provider'] );
+				$pafl_social = $adapter->getUserProfile();
+			} catch ( Exception $e ) {
+				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $e->getMessage() ) . ' <span class="pafl-close">&times;</span></p>';
+
+				return;
+			}
+
+			//after successfully authenticated the user and get the user profile
+			if ( isset( $pafl_social ) ) {
+				//information from adapter
+				$data['first_name']  = $pafl_social->firstName;
+				$data['last_name']   = $pafl_social->lastName;
+				$data['email']       = $pafl_social->email;
+				$data['username']    = $pafl_social->identifier;
+				$data['user_url']    = $pafl_social->webSiteURL;
+				$data['description'] = $pafl_social->description;
+				$data['avatar']      = $pafl_social->photoURL;
+				$data['password']    = wp_generate_password( 10, true, true );
+
+				//check if the email or username has already been registered
+				//username is taken from email
+				if ( ! email_exists( $data['email'] ) && ! username_exists( $data['username'] ) ) {
+					//if successful will return a user id
+					$user_id = wp_create_user( $data['username'], $data['password'], $data['email'] );
+
+					//check if there is an error when creating user
+					if ( ! is_wp_error( $user_id ) ) {
+						$creds                  = array();
+						$creds['user_login']    = $data['username'];
+						$creds['user_password'] = $data['password'];
+						$login                  = wp_signon( $creds, is_ssl() );
+
+						//update user info
+						$update_user_info = wp_update_user( array(
+							'ID'           => $user_id,
+							'first_name'   => $data['first_name'],
+							'last_name'    => $data['last_name'],
+							'display_name' => $data['first_name'],
+							'nickname'     => $data['first_name'],
+							'user_url'     => $data['user_url'],
+							'description'  => $data['description']
+						) );
+
+						//will add meta for profile photo link
+						add_user_meta( $user_id, 'pafl_social_profile', $data['avatar'] );
+
+						//check if there is an error when updating the user info and will output error and end execution
+						if ( is_wp_error( $update_user_info ) ) {
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ) . '</p>';
+
+							return;
+						}
+
+						//check if there is a problem logging in
+						if ( ! is_wp_error( $login ) ) {
+							$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+
+							echo '<p id="pafl-message-window" class="pafl-message pafl-success" data-redirect="' . esc_url( $after_login_redirect ) . '" style="display:none;">' . __( 'Login Successful!', 'pressapps-fullscreen-login' ) . '</p>';
+
+							return;
+
+						} else {
+							//if unable to login
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+
+							return;
+						}
+
+					} else {
+						//if unable to create the user
+						echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ) . '</p>';
+
+						return;
+					}
+				} else {
+					//if username and email already exist and we will login the user
+					//will only use the username since twitter will not return email
+					$user = get_user_by( 'login', $data['username'] );
+
+					//check if the profile pic has been changed and will update
+					update_user_meta( $user->data->ID, 'pafl_social_profile', $data['avatar'], get_user_meta( $user->data->ID, 'social_profile', true ) );
+
+					//will generate a new password on each login
+					$data['password'] = wp_generate_password( 10, true, true );
+
+					wp_set_password( $data['password'], $user->data->ID );
+					if ( $user ) {
+						$creds                  = array();
+						$creds['user_login']    = $user->data->user_login;
+						$creds['user_password'] = $data['password'];
+						$login                  = wp_signon( $creds, is_ssl() );
+
+						//check if there is a problem logging in
+						if ( ! is_wp_error( $login ) ) {
+							$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
+
+							echo '<p id="pafl-message-window" class="pafl-message pafl-success" data-redirect="' . esc_url( $after_login_redirect ) . '" style="display:none;">' . __( 'Login Successful!', 'pressapps-fullscreen-login' ) . '</p>';
+
+							return;
+
+						} else {
+
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( __( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * The main Ajax function
@@ -696,7 +783,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					if ( is_wp_error( $user_login ) ) {
 
-						echo @json_encode( array(
+						echo json_encode( array(
 							'loggedin'             => false,
 							'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 							'validation'           => false,
@@ -705,7 +792,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					} else {
 
-						echo @json_encode( array(
+						echo json_encode( array(
 							'loggedin'             => true,
 							'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 							'redirect'             => esc_url( $after_login_redirect ),
@@ -717,7 +804,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				} else {
 
-					echo @json_encode( array(
+					echo json_encode( array(
 						'loggedin'             => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -732,7 +819,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				if ( is_wp_error( $user_login ) ) {
 
-					echo @json_encode( array(
+					echo json_encode( array(
 						'loggedin'             => false,
 						'message'              => __( 'Wrong Username or Password!', 'pressapps-fullscreen-login' ),
 						'validation'           => true, // set to true if captcha is disabled
@@ -742,7 +829,7 @@ class Pressapps_Fullscreen_Login_Public {
 				} else {
 
 					$after_login_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_login_redirection_url' ) );
-					echo @json_encode( array(
+					echo json_encode( array(
 						'loggedin'             => true,
 						'message'              => __( 'Login Successful!', 'pressapps-fullscreen-login' ),
 						'redirect'             => esc_url( $after_login_redirect ),
@@ -771,7 +858,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 					// Check if there were any issues with creating the new user
 					if ( is_wp_error( $user_register ) ) {
-						echo @json_encode( array(
+						echo json_encode( array(
 							'registerd'            => false,
 							'message'              => $user_register->get_error_message(),
 							'validation'           => false,
@@ -785,7 +872,7 @@ class Pressapps_Fullscreen_Login_Public {
 						}
 
 						$after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
-						echo @json_encode( array(
+						echo json_encode( array(
 							'registerd'            => true,
 							'redirect'             => esc_url( $after_register_redirect ),
 							'message'              => $success_message,
@@ -795,7 +882,7 @@ class Pressapps_Fullscreen_Login_Public {
 					}
 
 				} else {
-					echo @json_encode( array(
+					echo json_encode( array(
 						'registerd'            => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -809,7 +896,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 				// Check if there were any issues with creating the new user
 				if ( is_wp_error( $user_register ) ) {
-					echo @json_encode( array(
+					echo json_encode( array(
 						'registerd'            => false,
 						'message'              => $user_register->get_error_message(),
 						'validation'           => true, // set to true if captcha is disabled,
@@ -823,7 +910,7 @@ class Pressapps_Fullscreen_Login_Public {
 					}
 
 					$after_register_redirect = $this->filter_redirect_url( $pafl_sk->get( 'redirect_allow_after_registration_redirection_url' ) );
-					echo @json_encode( array(
+					echo json_encode( array(
 						'registerd'            => true,
 						'redirect'             => esc_url( $after_register_redirect ),
 						'message'              => $success_message,
@@ -852,14 +939,14 @@ class Pressapps_Fullscreen_Login_Public {
 
 					// Check if there were any errors when requesting a new password
 					if ( is_wp_error( $user_forgotten ) ) {
-						echo @json_encode( array(
+						echo json_encode( array(
 							'reset'                => false,
 							'message'              => $user_forgotten->get_error_message(),
 							'validation'           => false,
 							'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
 						) );
 					} else {
-						echo @json_encode( array(
+						echo json_encode( array(
 							'reset'                => true,
 							'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
 							'validation'           => true,
@@ -867,7 +954,7 @@ class Pressapps_Fullscreen_Login_Public {
 						) );
 					}
 				} else {
-					echo @json_encode( array(
+					echo json_encode( array(
 						'reset'                => false,
 						'message'              => __( 'Please verify that your not a robot', 'pressapps-fullscreen-login' ),
 						'validation'           => false,
@@ -879,14 +966,14 @@ class Pressapps_Fullscreen_Login_Public {
 				$user_forgotten = $this->retrieve_password( $username );
 				// Check if there were any errors when requesting a new password
 				if ( is_wp_error( $user_forgotten ) ) {
-					echo @json_encode( array(
+					echo json_encode( array(
 						'reset'                => false,
 						'message'              => $user_forgotten->get_error_message(),
 						'validation'           => true,
 						'g_recaptcha_response' => isset( $g_recaptcha_response ) ? $g_recaptcha_response : ''
 					) );
 				} else {
-					echo @json_encode( array(
+					echo json_encode( array(
 						'reset'                => true,
 						'message'              => __( 'Password Reset. Please check your email.', 'pressapps-fullscreen-login' ),
 						'validation'           => true,
@@ -916,17 +1003,18 @@ class Pressapps_Fullscreen_Login_Public {
 			$user = get_user_by( 'email', $id_or_email );
 		}
 
-		if ( $user && is_object( $user ) && get_user_meta( $id_or_email, 'social_profile', true ) ) {
-			$img_src = get_user_meta( $id_or_email, 'social_profile', true );
-			$avatar = sprintf( '<img alt="" src="%s" class="avatar avatar-64 photo" height="64" width="64">', $img_src );
+		if ( $user && is_object( $user ) && get_user_meta( $id_or_email, 'pafl_social_profile', true ) ) {
+			$img_src = get_user_meta( $id_or_email, 'pafl_social_profile', true );
+			$avatar  = sprintf( '<img alt="social avatar" src="%s" class="avatar avatar-64 photo" height="64" width="64">', $img_src );
 		}
+
 		return $avatar;
 	}
 
 	public function google_meta_data() {
-		$pafl_sk = new Skelet( 'pafl' );
+		$pafl_sk      = new Skelet( 'pafl' );
 		$google_login = $this->filtered_string( $pafl_sk->get( 'google_login' ) );
-		$client_id = $this->filtered_string( $pafl_sk->get( 'google_login_id' ) );
+		$client_id    = $this->filtered_string( $pafl_sk->get( 'google_login_id' ) );
 
 
 		if ( $google_login ) {
@@ -1013,7 +1101,7 @@ class Pressapps_Fullscreen_Login_Public {
 			return $errors;
 		}
 
-		update_user_option( $user_id, 'default_password_nag', true, true ); // Set up the Password change nag.
+		update_user_option( $user_id, 'default_password_nag', true, true ); // Set up the Password change
 
 		if ( $allow_user_set_password ) {
 			$data['user_login']    = $user_login;

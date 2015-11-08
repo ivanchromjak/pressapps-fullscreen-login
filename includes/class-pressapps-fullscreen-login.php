@@ -229,6 +229,12 @@ class Pressapps_Fullscreen_Login {
 
 		//Avatar for social profile
 		$this->loader->add_filter( 'get_avatar', $plugin_public, 'social_avatar', 1, 2 );
+
+		//Social login
+		$this->loader->add_action( 'init', $plugin_public, 'pafl_social_login' );
+
+		//logout hook to logout all session from social login if there is
+		$this->loader->add_action( 'wp_logout', $plugin_public, 'logout_action_hook' );
 	}
 
 	/**

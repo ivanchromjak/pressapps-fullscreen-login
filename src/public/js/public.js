@@ -48,9 +48,10 @@
 				} );
 
 				// Run our login ajax
-				$( '.pafl-modal-content #pafl-form' ).on( 'submit', function( e ) {
+				$( '.pafl-modal-content #pafl-form' ).on( 'submit', '#pafl-login', function( e ) {
 					// Stop the form from submitting so we can use ajax.
 					e.preventDefault();
+					e.stopImmediatePropagation();
 
 					// Check what form is currently being submitted so we can return the right values for the ajax request.
 					var form_id = $( this ).parent().attr( 'id' );
@@ -219,6 +220,27 @@
 						$( '.pafl-modal-wrap > p.message' ).text( 'Something  Please refresh your window and try again.' );
 					}
 				} );
+				//implements the social login
+				$( function(){
+					var $pafl_message_window = $( '#pafl-message-window' );
+					//will check if message window was displayed which occur during social login
+					if ( $pafl_message_window.length !== 0 ) {
+						$pafl_message_window.removeAttr('style').addClass('pafl-message-display');
+
+						$pafl_message_window.on( 'click', '.pafl-close', function(){
+							$pafl_message_window.fadeOut().delay(300).queue( function(){
+								$pafl_message_window.remove();
+							} )
+						} );
+
+						//will redirect toa the set page if success
+						if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
+							setTimeout( function(){
+								window.location.assign( $pafl_message_window.attr( 'data-redirect' ) );
+							}, 3000 );
+						}
+					}
+				} );
 			},
 			show_screen : function( me ) {
 				var get_screen;
@@ -331,12 +353,12 @@
 			var items = $( this ).children().clone( true );
 			return (items.length) ? $( this ).html( $.shuffle( items ) ) : this;
 		} );
-	}
+	};
 
 	$.shuffle = function( arr ) {
 		for ( var j, x, i = arr.length; i; j = parseInt( Math.random() * i ), x = arr[ -- i ], arr[ i ] = arr[ j ], arr[ j ] = x );
 		return arr;
-	}
+	};
 
 	$( document ).ready( UTIL.loadEvents );
 
