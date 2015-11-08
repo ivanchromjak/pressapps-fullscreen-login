@@ -240,13 +240,12 @@
 							'-webkit-filter' : 'none',
 							'filter' : 'none'
 						} );
-
 						//will redirect toa the set page if success
-						//if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
-						//	setTimeout( function(){
-						//		window.location.assign( $pafl_message_window.attr( 'data-redirect' ) );
-						//	}, 2000 );
-						//}
+						if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
+							setTimeout( function(){
+								window.location.assign( $pafl_message_window.attr( 'data-redirect' ) );
+							}, 2000 );
+						}
 					}
 				} );
 			},
