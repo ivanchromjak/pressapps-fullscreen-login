@@ -574,7 +574,10 @@ class Pressapps_Fullscreen_Login_Public {
 	 * this has been attached to the wordpress init hook
 	 */
 	public function pafl_social_login() {
-		session_start(); // will start session
+
+		if ( session_id() === '' ) {
+			session_start(); // will start session
+		}
 
 		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'pafl_social_login' ) {
 
