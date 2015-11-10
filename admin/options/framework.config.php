@@ -254,6 +254,13 @@ $options[]      = array(
                         'title'   => __( 'App Secret', 'pressapps' ),
                         'dependency' => array( 'pafl_facebook_login', '==', 'true' )
                     ),
+                    array(
+                        'id'      => 'facebook_login_text',
+                        'type'    => 'text',
+                        'title'   => __( 'Facebook Login Button Text', 'pressapps' ),
+                        'dependency' => array( 'pafl_facebook_login', '==', 'true' ),
+                        'default' => 'Sign in with Facebook'
+                    ),
                     // Twitter Option
                     array(
                         'type'    => 'heading',
@@ -272,6 +279,13 @@ $options[]      = array(
                         'title'   => __( 'Consumer Secret (API Secret)', 'pressapps' ),
                         'dependency' => array( 'pafl_twitter_login', '==', 'true' )
                     ),
+                    array(
+                        'id'      => 'twitter_login_text',
+                        'type'    => 'text',
+                        'title'   => __( 'Twitter Login Button Text', 'pressapps' ),
+                        'dependency' => array( 'pafl_twitter_login', '==', 'true' ),
+                        'default'  => 'Sign in with Twitter'
+                    ),
                     // Google+ Option
                     array(
                         'type'    => 'heading',
@@ -289,6 +303,13 @@ $options[]      = array(
                         'type'    => 'text',
                         'title'   => __( 'Client Secret', 'pressapps' ),
                         'dependency' => array( 'pafl_google_login', '==', 'true' )
+                    ),
+                    array(
+                        'id'      => 'google_login_text',
+                        'type'    => 'text',
+                        'title'   => __( 'Google Login Button Text', 'pressapps' ),
+                        'dependency' => array( 'pafl_google_login', '==', 'true' ),
+                        'default'  => 'Sign in with Google'
                     )
                 )
             )

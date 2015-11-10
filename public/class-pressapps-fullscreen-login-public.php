@@ -348,7 +348,7 @@ class Pressapps_Fullscreen_Login_Public {
 						<?php
 						//will set social provider to connect to
 						$pafl_query_arg['provider'] = 'facebook'; ?>
-						<a id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button pafl-social-link " href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Facebook', 'pressapps-fullscreen-login' ); ?></a>
+						<a id="pafl-fb-login" class="pafl-social-login pafl-fb-login pafl-login-button pafl-social-link " href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php echo esc_html( $pafl_sk->get( 'facebook_login_text' ) ); ?></a>
 					<?php endif; ?>
 
 					<?php
@@ -357,7 +357,7 @@ class Pressapps_Fullscreen_Login_Public {
 						<?php
 						//will set social provider to connect to
 						$pafl_query_arg['provider'] = 'twitter'; ?>
-						<a id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Twitter', 'pressapps-fullscreen-login' ); ?></a>
+						<a id="pafl-twitter-login" class="pafl-social-login pafl-twitter-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php echo esc_html( $pafl_sk->get( 'twitter_login_text' ) ); ?></a>
 					<?php endif; ?>
 					<?php
 					//check if facebook login is enabled and will show facebook login
@@ -365,7 +365,7 @@ class Pressapps_Fullscreen_Login_Public {
 						<?php
 						//will set social provider to connect to
 						$pafl_query_arg['provider'] = 'google'; ?>
-						<a id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php _e( 'Sign in with Google', 'pressapps-fullscreen-login' ); ?></a>
+						<a id="pafl-google-login" class="pafl-social-login pafl-google-login pafl-login-button pafl-social-link" href="<?php echo esc_url( add_query_arg( $pafl_query_arg, get_the_permalink( $post->ID ) ) ); ?>"><?php echo esc_html( $pafl_sk->get( 'google_login_text' ) ); ?></a>
 					<?php endif; ?>
 					<input type="hidden" name="login" value="true"/>
 
