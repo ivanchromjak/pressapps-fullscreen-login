@@ -5,9 +5,9 @@
 		common : {
 			init : function() {
 
-				var overlay     = document.querySelector( 'div.pafl-overlay' ),
-				    triggerBttn = $( '#pafl-trigger-overlay, .pafl-trigger-overlay' ),
-				    closeBttn   = $( '.pafl-overlay-close' );
+				var overlay     = document.querySelector( 'div.pafl-overlay' );
+				var triggerBttn = $( '#pafl-trigger-overlay, .pafl-trigger-overlay' );
+				var closeBttn   = $( '.pafl-overlay-close' );
 
 				$( 'body' ).addClass( 'pafl-container' );
 
@@ -240,6 +240,15 @@
 							'-webkit-filter' : 'none',
 							'filter' : 'none'
 						} );
+
+						//social login close function
+						$( '.pafl-social-close' ).on( 'click', function(){
+							$pafl_message_window.slideUp().delay(800).queue(function(next){
+								$(this ).remove();
+								next();
+							});
+						} );
+
 						//will redirect toa the set page if success
 						if ( $pafl_message_window.hasClass( 'pafl-success' ) ) {
 							setTimeout( function(){

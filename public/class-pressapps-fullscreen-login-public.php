@@ -588,7 +588,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 			//check if user is already loggedin
 			if ( is_user_logged_in() ) {
-				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . __( 'You are already logged in', 'pressapps-fullscreen-login' ) . ' <span class="pafl-close">&times;</span></p>';
+				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . __( 'You are already logged in', 'pressapps-fullscreen-login' ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 				return;
 			}
@@ -606,7 +606,7 @@ class Pressapps_Fullscreen_Login_Public {
 				$adapter     = $hybridauth->authenticate( $data['provider'] );
 				$pafl_social = $adapter->getUserProfile();
 			} catch ( Exception $e ) {
-				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $e->getMessage() ) . ' <span class="pafl-close">&times;</span></p>';
+				echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $e->getMessage() ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 				return;
 			}
@@ -651,7 +651,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						//check if there is an error when updating the user info and will output error and end execution
 						if ( is_wp_error( $update_user_info ) ) {
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $update_user_info->get_error_message() ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 							return;
 						}
@@ -666,14 +666,14 @@ class Pressapps_Fullscreen_Login_Public {
 
 						} else {
 							//if unable to login
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 							return;
 						}
 
 					} else {
 						//if unable to create the user
-						echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ) . '</p>';
+						echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $user_id->get_error_message() ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 						return;
 					}
@@ -705,7 +705,7 @@ class Pressapps_Fullscreen_Login_Public {
 
 						} else {
 
-							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . '</p>';
+							echo '<p id="pafl-message-window" class="pafl-message pafl-error" style="display:none;">' . sprintf( esc_html__( '%s', 'pressapps-fullscreen-login' ), $login->get_error_message() ) . ' <span class="pafl-social-close">&times;</span></p>';
 
 							return;
 						}
