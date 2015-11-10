@@ -78,3 +78,45 @@ function pafl_register_link( $atts ) {
     }
 }
 ```
+
+##Social Login
+###Facebook
+Requires **App ID** and **App Secret**
+
+###How to Generate App ID and App Secret?
+- Go to https://developers.facebook.com/ ( requires to sign in with facebook account )
+- Click on **My Apps**, then under the dropdown select **Add a New App**. 
+- A list of choice will popup through a modal after clicking **Add a New App**, select **Website**
+- It will redirect you to **Quick Start for Website**, just type in the **name** for the new App and click **Create New Facebook App ID**
+- It will prompt you with a message **Create (name of the app) App?**, select a **Category** then click **Create App ID**
+- It will redirect you to a page named **Setup the Facebook SDK for JavaScript**.
+- then scroll down under **Tell us about your website** there is a text field which is **Site URL**, then type in the url of your website
+- After it if you will scroll down you can see a **Finished!** text with a check icon, then your done
+- Just **refresh** the page and you will be able to see under **My Apss** the new App that you created
+- When you click on your new App you will be able to see **App ID** , **API Version**, **App Secret**
+
+###Twitter
+Requires **Consumer Key (API Key)** and **Consumer Secret (API Secret)**
+
+###How to Generate API Key and API Secret?
+> You must add your mobile phone to your Twitter profile before creating an application.
+
+- Go to https://apps.twitter.com/ ( requires to sign in with twitter account )
+- click on **Create New App** button, then fill up the **Application Details** just leave **Callback URL** blank
+- then you can access your new app, then go to **Keys and Access Tokens** tab
+- under **Application Settings** you can copy your **Consumer Key (API Key)** and **Consumer Secret (API Secret)**
+
+###Google
+Requires **Client ID** and **Client Secret**
+
+###How to Generate API Key and API Secret?
+- Go to https://console.developers.google.com
+- then click on **Create a project** under the dropdown see screenshot [http://prntscr.com/91ca2l]
+- In the Project name field, type in a name for your project then click on **Create** button
+- In the sidebar under **API Manager**, select **Credentials**, and click the OAuth consent screen tab. Choose an Email Address, specify a Product Name, and click Save.
+- In the sidebar under **API Manager**, select **Credentials**
+- Click **Create a new Client ID** — a dialog box appears
+- In the Application type section of the dialog, select **Web application**
+- In the **Authorized JavaScript origins** field, enter the origin for your app. You can enter multiple origins to allow for your app to run on different protocols, domains, or subdomains. Wildcards are not allowed. ( URL of your website )
+- In the **Authorized redirect URI** field, delete the default value.then add **http://yoursitename.com/wp-content/plugins/pressapps-fullscreen-login/public/lib/hybridauth/?hauth.done=Google** where **http://yoursitename.com** is the home url of your site and click **Save**
+- then under **Creadentials** and click on the name of your newly created app, then copy **Client ID** and **Client secret**
