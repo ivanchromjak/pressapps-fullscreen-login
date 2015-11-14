@@ -1033,7 +1033,7 @@ class Pressapps_Fullscreen_Login_Public {
 		if ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
 			$url_redirect = $url;
 		} else {
-			$url_redirect = '';
+			$url_redirect = home_url();
 		}
 
 		return $url_redirect;
