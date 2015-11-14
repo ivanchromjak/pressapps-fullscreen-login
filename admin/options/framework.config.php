@@ -361,6 +361,7 @@ $options[]      = array(
                             <li>In the Application type section of the dialog, select <strong>Web application</strong>.</li>
                             <li>In the <strong>Authorized JavaScript origins</strong> field, enter the origin for your app. You can enter multiple origins to allow for your app to run on different protocols, domains, or subdomains. Wildcards are not allowed. ( URL of your website ).</li>
                             <li>In the <strong>Authorized redirect URI</strong> field, delete the default value and add <code>' . plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'public/lib/hybridauth/?hauth.done=Google</code> then click <strong>Save</strong>.</li>
+                            <li><strong style="color:red;font-weight:bold;">IMPORTANT!</strong> Enable Google+ API or your app will not work. To enable Google+ API, in the sidebar under <strong>API Manager</strong>, select <strong>Overview</strong> then click on <strong>Google APIs</strong> tab and under <strong>Social APIs</strong> click on <strong>Google+ API</strong> , then click on <strong>Enable API</strong> button.</li>
                             </ol>
                             '
                     )
