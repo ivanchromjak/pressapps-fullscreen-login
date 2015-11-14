@@ -315,7 +315,7 @@ $options[]      = array(
                             <h3>You must add your mobile phone to your Twitter profile before creating an application.</h3>
                             <ol>
                             <li>Go to <a href="https://apps.twitter.com/" target="_blank">https://apps.twitter.com/</a> ( requires to sign in with twitter account ).</li>
-                            <li>Click on <strong>Create New App</strong> button, then fill up the <strong>Application Details</strong> just leave <strong>Callback URL</strong> blank.</li>
+                            <li>Click on <strong>Create New App</strong> button, then fill up the <strong>Application Details</strong> including <strong>Callback URL</strong> which is the home url.</li>
                             <li>You can access your new app, then go to <strong>Keys and Access Tokens</strong> tab.</li>
                             <li>Under <strong>Application Settings</strong> you can copy your <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.</li>
                             </ol>
