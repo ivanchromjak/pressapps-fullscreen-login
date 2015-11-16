@@ -4,7 +4,7 @@
  * Plugin Name:       PressApps Fullscreen Login
  * Plugin URI:        http://pressapps.co/products/fullscreen-login/
  * Description:       Add stylish fullscreen login, register and forgotten forms to your site.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            PressApps Team
  * Author URI:        http://pressapps.co/
  * Text Domain:       pressapps-fullscreen-login

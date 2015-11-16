@@ -1,0 +1,11 @@
+{
+    "config": {
+        "vendor-dir": "protected/vendors"
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/pressapps/skelet.git",
+            "type": "vcs"
+        }
+    ]
+}
