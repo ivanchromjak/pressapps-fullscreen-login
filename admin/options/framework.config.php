@@ -209,164 +209,6 @@ $options[]      = array(
                         ),
                 ),
             ),
-            array(
-                'name'      => 'social_login',
-                'title'     => __( 'Social Login', 'pressapps' ),
-                'icon'      => 'si-share3',
-                'fields'    => array(
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Social Login', 'pressapps' ),
-                    ),
-                    array(
-                        'id'      => 'facebook_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Facebook', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    array(
-                        'id'      => 'twitter_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Twitter', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    array(
-                        'id'      => 'google_login',
-                        'type'    => 'switcher',
-                        'title'   => __( 'Google', 'pressapps' ),
-                        'default' => false,
-                    ),
-                    // Facebook Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Facebook Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'facebook_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'App ID', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'facebook_login_secret',
-                        'type'    => 'text',
-                        'title'   => __( 'App Secret', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'facebook_login_text',
-                        'type'    => 'text',
-                        'title'   => __( 'Facebook Login Button Text', 'pressapps' ),
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' ),
-                        'default' => 'Sign in with Facebook'
-                    ),
-                    array(
-                        'type' => 'notice',
-                        'class' => 'info',
-                        'dependency' => array( 'pafl_facebook_login', '==', 'true' ),
-                        'content' => '
-                            <h2>How to Generate <strong>App ID</strong> and <strong>App Secret</strong>?</h2>
-                            <ol>
-                            <li>Go to <a href="https://developers.facebook.com/" target="_blank">https://developers.facebook.com/</a> ( requires to sign in with facebook account ).</li>
-                            <li>Click on <strong>My Apps</strong>, then under the dropdown select <strong>Add a New App</strong>.</li>
-                            <li>A list of choice will popup through a modal after clicking <strong>Add a New App</strong>, select <strong>Website</strong>.</li>
-                            <li>It will redirect you to <strong>Quick Start for Website</strong>, just type in the <strong>name</strong> for the new App and click <strong>Create New Facebook App ID</strong>.</li>
-                            <li>It will prompt you with a message <strong>Create (name of the app) App?</strong>, select a <strong>Category</strong> then click <strong>Create App ID</strong>.</li>
-                            <li>It will redirect you to a page named <strong>Setup the Facebook SDK for JavaScript</strong>.</li>
-                            <li>Scroll down under <strong>Tell us about your website</strong> there is a text field which is <strong>Site URL</strong>, then type in the url of your website.</li>
-                            <li>After it if you will scroll down you can see a <strong>Finished!</strong> text with a check icon, then your done.</li>
-                            <li>Just <strong>refresh</strong> the page and you will be able to see under <strong>My Apps</strong> the new App that you created.</li>
-                            <li>When you click on your new App you will be able to see <strong>App ID</strong> , <strong>API Version</strong>, <strong>App Secret</strong>.</li>
-                            </ol>
-                            '
-                    ),
-                    // Twitter Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Twitter Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'twitter_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'Consumer Key (API Key)', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'twitter_login_secret',
-                        'type'    => 'text',
-                        'title'   => __( 'Consumer Secret (API Secret)', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'twitter_login_text',
-                        'type'    => 'text',
-                        'title'   => __( 'Twitter Login Button Text', 'pressapps' ),
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' ),
-                        'default'  => 'Sign in with Twitter'
-                    ),
-                    array(
-                        'type' => 'notice',
-                        'class' => 'info',
-                        'dependency' => array( 'pafl_twitter_login', '==', 'true' ),
-                        'content' => '
-                            <h2>How to Generate <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>?</h2>
-                            <h3>You must add your mobile phone to your Twitter profile before creating an application.</h3>
-                            <ol>
-                            <li>Go to <a href="https://apps.twitter.com/" target="_blank">https://apps.twitter.com/</a> ( requires to sign in with twitter account ).</li>
-                            <li>Click on <strong>Create New App</strong> button, then fill up the <strong>Application Details</strong> including <strong>Callback URL</strong> which is the home url.</li>
-                            <li>You can access your new app, then go to <strong>Keys and Access Tokens</strong> tab.</li>
-                            <li>Under <strong>Application Settings</strong> you can copy your <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.</li>
-                            </ol>
-                            '
-                    ),
-                    // Google Option
-                    array(
-                        'type'    => 'heading',
-                        'content' => __( 'Google Login', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'google_login_id',
-                        'type'    => 'text',
-                        'title'   => __( 'Client ID', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'google_login_secret',
-                        'type'    => 'text',
-                        'title'   => __( 'Client Secret', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' )
-                    ),
-                    array(
-                        'id'      => 'google_login_text',
-                        'type'    => 'text',
-                        'title'   => __( 'Google Login Button Text', 'pressapps' ),
-                        'dependency' => array( 'pafl_google_login', '==', 'true' ),
-                        'default'  => 'Sign in with Google'
-                    ),
-                    array(
-                        'type' => 'notice',
-                        'class' => 'info',
-                        'dependency' => array( 'pafl_google_login', '==', 'true' ),
-                        'content' => '
-                            <h2>How to Generate <strong>Client ID</strong> and <strong>Client Secret</strong>?</h2>
-                            <ol>
-                            <li>Go to <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>.</li>
-                            <li>Click on <strong>Create a project</strong> under the dropdown.</li>
-                            <li>In the Project name field, type in a name for your project then click on <strong>Create</strong> button.</li>
-                            <li>In the sidebar under <strong>API Manager</strong>, select <strong>Credentials</strong>, and click the OAuth consent screen tab. Choose an Email Address, specify a Product Name, and click Save.</li>
-                            <li>Click <strong>Create a new Client ID</strong>, a dialog box appears.</li>
-                            <li>In the Application type section of the dialog, select <strong>Web application</strong>.</li>
-                            <li>In the <strong>Authorized JavaScript origins</strong> field, enter the origin for your app. You can enter multiple origins to allow for your app to run on different protocols, domains, or subdomains. Wildcards are not allowed. ( URL of your website ).</li>
-                            <li>In the <strong>Authorized redirect URI</strong> field, delete the default value and add <code>' . plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'public/lib/hybridauth/?hauth.done=Google</code> then click <strong>Save</strong>.</li>
-                            <li><strong style="color:red;font-weight:bold;">IMPORTANT!</strong> Enable Google+ API or your app will not work. To enable Google+ API, in the sidebar under <strong>API Manager</strong>, select <strong>Overview</strong> then click on <strong>Google APIs</strong> tab and under <strong>Social APIs</strong> click on <strong>Google+ API</strong> , then click on <strong>Enable API</strong> button.</li>
-                            </ol>
-                            '
-                    )
-                )
-            )
         )
 );
 
@@ -479,6 +321,168 @@ $options[]      = array(
                 'dark'      => __( 'Dark', 'pressapps' ),
             ),
         ),
+    )
+);
+
+/*
+ * Social login settings
+ */
+$options[]  = array(
+    'name'      => 'social_login',
+    'title'     => __( 'Social Login', 'pressapps' ),
+    'icon'      => 'si-share3',
+    'fields'    => array(
+        array(
+            'type'    => 'heading',
+            'content' => __( 'Social Login', 'pressapps' ),
+        ),
+        array(
+            'id'      => 'facebook_login',
+            'type'    => 'switcher',
+            'title'   => __( 'Facebook', 'pressapps' ),
+            'default' => false,
+        ),
+        array(
+            'id'      => 'twitter_login',
+            'type'    => 'switcher',
+            'title'   => __( 'Twitter', 'pressapps' ),
+            'default' => false,
+        ),
+        array(
+            'id'      => 'google_login',
+            'type'    => 'switcher',
+            'title'   => __( 'Google', 'pressapps' ),
+            'default' => false,
+        ),
+        // Facebook Option
+        array(
+            'type'    => 'heading',
+            'content' => __( 'Facebook Login', 'pressapps' ),
+            'dependency' => array( 'pafl_facebook_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'facebook_login_id',
+            'type'    => 'text',
+            'title'   => __( 'App ID', 'pressapps' ),
+            'dependency' => array( 'pafl_facebook_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'facebook_login_secret',
+            'type'    => 'text',
+            'title'   => __( 'App Secret', 'pressapps' ),
+            'dependency' => array( 'pafl_facebook_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'facebook_login_text',
+            'type'    => 'text',
+            'title'   => __( 'Facebook Login Button Text', 'pressapps' ),
+            'dependency' => array( 'pafl_facebook_login', '==', 'true' ),
+            'default' => 'Sign in with Facebook'
+        ),
+        array(
+            'type' => 'notice',
+            'class' => 'info',
+            'dependency' => array( 'pafl_facebook_login', '==', 'true' ),
+            'content' => '
+                <h2>How to Generate <strong>App ID</strong> and <strong>App Secret</strong>?</h2>
+                <ol>
+                <li>Go to <a href="https://developers.facebook.com/" target="_blank">https://developers.facebook.com/</a> ( requires to sign in with facebook account ).</li>
+                <li>Click on <strong>My Apps</strong>, then under the dropdown select <strong>Add a New App</strong>.</li>
+                <li>A list of choice will popup through a modal after clicking <strong>Add a New App</strong>, select <strong>Website</strong>.</li>
+                <li>It will redirect you to <strong>Quick Start for Website</strong>, just type in the <strong>name</strong> for the new App and click <strong>Create New Facebook App ID</strong>.</li>
+                <li>It will prompt you with a message <strong>Create (name of the app) App?</strong>, select a <strong>Category</strong> then click <strong>Create App ID</strong>.</li>
+                <li>It will redirect you to a page named <strong>Setup the Facebook SDK for JavaScript</strong>.</li>
+                <li>Scroll down under <strong>Tell us about your website</strong> there is a text field which is <strong>Site URL</strong>, then type in the url of your website.</li>
+                <li>After it if you will scroll down you can see a <strong>Finished!</strong> text with a check icon, then your done.</li>
+                <li>Just <strong>refresh</strong> the page and you will be able to see under <strong>My Apps</strong> the new App that you created.</li>
+                <li>When you click on your new App you will be able to see <strong>App ID</strong> , <strong>API Version</strong>, <strong>App Secret</strong>.</li>
+                </ol>
+                '
+        ),
+        // Twitter Option
+        array(
+            'type'    => 'heading',
+            'content' => __( 'Twitter Login', 'pressapps' ),
+            'dependency' => array( 'pafl_twitter_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'twitter_login_id',
+            'type'    => 'text',
+            'title'   => __( 'Consumer Key (API Key)', 'pressapps' ),
+            'dependency' => array( 'pafl_twitter_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'twitter_login_secret',
+            'type'    => 'text',
+            'title'   => __( 'Consumer Secret (API Secret)', 'pressapps' ),
+            'dependency' => array( 'pafl_twitter_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'twitter_login_text',
+            'type'    => 'text',
+            'title'   => __( 'Twitter Login Button Text', 'pressapps' ),
+            'dependency' => array( 'pafl_twitter_login', '==', 'true' ),
+            'default'  => 'Sign in with Twitter'
+        ),
+        array(
+            'type' => 'notice',
+            'class' => 'info',
+            'dependency' => array( 'pafl_twitter_login', '==', 'true' ),
+            'content' => '
+                <h2>How to Generate <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>?</h2>
+                <h3>You must add your mobile phone to your Twitter profile before creating an application.</h3>
+                <ol>
+                <li>Go to <a href="https://apps.twitter.com/" target="_blank">https://apps.twitter.com/</a> ( requires to sign in with twitter account ).</li>
+                <li>Click on <strong>Create New App</strong> button, then fill up the <strong>Application Details</strong> including <strong>Callback URL</strong> which is the home url.</li>
+                <li>You can access your new app, then go to <strong>Keys and Access Tokens</strong> tab.</li>
+                <li>Under <strong>Application Settings</strong> you can copy your <strong>Consumer Key (API Key)</strong> and <strong>Consumer Secret (API Secret)</strong>.</li>
+                </ol>
+                '
+        ),
+        // Google Option
+        array(
+            'type'    => 'heading',
+            'content' => __( 'Google Login', 'pressapps' ),
+            'dependency' => array( 'pafl_google_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'google_login_id',
+            'type'    => 'text',
+            'title'   => __( 'Client ID', 'pressapps' ),
+            'dependency' => array( 'pafl_google_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'google_login_secret',
+            'type'    => 'text',
+            'title'   => __( 'Client Secret', 'pressapps' ),
+            'dependency' => array( 'pafl_google_login', '==', 'true' )
+        ),
+        array(
+            'id'      => 'google_login_text',
+            'type'    => 'text',
+            'title'   => __( 'Google Login Button Text', 'pressapps' ),
+            'dependency' => array( 'pafl_google_login', '==', 'true' ),
+            'default'  => 'Sign in with Google'
+        ),
+        array(
+            'type' => 'notice',
+            'class' => 'info',
+            'dependency' => array( 'pafl_google_login', '==', 'true' ),
+            'content' => '
+                <h2>How to Generate <strong>Client ID</strong> and <strong>Client Secret</strong>?</h2>
+                <ol>
+                <li>Go to <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>.</li>
+                <li>Click on <strong>Create a project</strong> under the dropdown.</li>
+                <li>In the Project name field, type in a name for your project then click on <strong>Create</strong> button.</li>
+                <li>In the sidebar under <strong>API Manager</strong>, select <strong>Credentials</strong>, and click the OAuth consent screen tab. Choose an Email Address, specify a Product Name, and click Save.</li>
+                <li>Click <strong>Create a new Client ID</strong>, a dialog box appears.</li>
+                <li>In the Application type section of the dialog, select <strong>Web application</strong>.</li>
+                <li>In the <strong>Authorized JavaScript origins</strong> field, enter the origin for your app. You can enter multiple origins to allow for your app to run on different protocols, domains, or subdomains. Wildcards are not allowed. ( URL of your website ).</li>
+                <li>In the <strong>Authorized redirect URI</strong> field, delete the default value and add <code>' . plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'public/lib/hybridauth/?hauth.done=Google</code> then click <strong>Save</strong>.</li>
+                <li><strong style="color:red;font-weight:bold;">IMPORTANT!</strong> Enable Google+ API or your app will not work. To enable Google+ API, in the sidebar under <strong>API Manager</strong>, select <strong>Overview</strong> then click on <strong>Google APIs</strong> tab and under <strong>Social APIs</strong> click on <strong>Google+ API</strong> , then click on <strong>Enable API</strong> button.</li>
+                </ol>
+                '
+        )
     )
 );
 
