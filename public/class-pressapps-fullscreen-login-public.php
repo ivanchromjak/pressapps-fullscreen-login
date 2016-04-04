@@ -1173,7 +1173,7 @@ class Pressapps_Fullscreen_Login_Public {
 	 * @return string/bool $errors or bool
 	 */
 	public function  retrieve_password( $user_data ) {
-		global $wpdb, $current_site;
+		global $wpdb, $current_site, $wp_hasher;
 
 		$errors = new WP_Error();
 
@@ -1224,13 +1224,15 @@ class Pressapps_Fullscreen_Login_Public {
 
 		do_action( 'retrieve_password_key', $user_login, $key );
 
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-
-		$hashed = $wp_hasher->HashPassword( $key );
-
-		// Now insert the new md5 key into the db
-		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+	    if ( empty( $wp_hasher ) ) {
+	        require_once ABSPATH . WPINC . '/class-phpass.php';
+	        $wp_hasher = new PasswordHash( 8, true );
+        }
+        $hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+	    $key_saved = $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+	    if ( false === $key_saved ) {
+	        return new WP_Error( 'no_password_key_update', __( 'Could not save password reset key to database.' ) );
+	    }
 
 		$message = __( 'Someone requested that the password be reset for the following account:', 'pressapps-fullscreen-login' ) . "\r\n\r\n";
 		$message .= network_home_url( '/' ) . "\r\n\r\n";
