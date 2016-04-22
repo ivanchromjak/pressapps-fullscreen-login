@@ -559,7 +559,7 @@ $options[]      = array(
                 'slidedown'     => __( 'Slide Down', 'pressapps' ),
                 'scale'         => __( 'Scale', 'pressapps' ),
                 'door'          => __( 'Door', 'pressapps' ),
-                'contentpush'   => __( 'Content Push', 'pressapps' ),
+                //'contentpush'   => __( 'Content Push', 'pressapps' ),
                 'contentscale'  => __( 'Content Scale', 'pressapps' ),
                 'simplegenie'   => __( 'Simple Genie', 'pressapps' ),
             ),

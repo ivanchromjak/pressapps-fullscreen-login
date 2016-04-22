@@ -19,8 +19,8 @@
 					return false;
 				} );
 
-				//move .pafl-overlay after body
-				$( '.pafl-overlay' ).insertAfter( 'body' );
+				//move .pafl-overlay after body - removed due to IE11 issue
+				//$( '.pafl-overlay' ).insertAfter( 'body' );
 
 				closeBttn.on( 'click', function() {
 					$( '.pafl-message' ).remove();
