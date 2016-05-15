@@ -63,7 +63,7 @@
 						$( '.pafl-message' ).remove();
 						var loginData = $( '#pafl-login' ).attr( 'data-response' );
 						$.ajax( {
-							type : 'GET',
+							type : 'POST',
 							dataType : 'json',
 							url : PAFL.ajax_url,
 							data : {
@@ -117,7 +117,7 @@
 						$( '.pafl-message' ).remove();
 						var registerData = $( '#pafl-register' ).attr( 'data-response' );
 						$.ajax( {
-							type : 'GET',
+							type : 'POST',
 							dataType : 'json',
 							url : PAFL.ajax_url,
 							data : {
@@ -169,7 +169,7 @@
 						$( '.pafl-message' ).remove();
 						var forgotData = $( '#pafl-forgot' ).data( 'response' );
 						$.ajax( {
-							type : 'GET',
+							type : 'POST',
 							dataType : 'json',
 							url : PAFL.ajax_url,
 							data : {

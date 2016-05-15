@@ -740,7 +740,7 @@ class Pressapps_Fullscreen_Login_Public {
 		$pafl_sk = new Skelet( 'pafl' );
 
 		//Check if there is a g-recaptcha-response sent via GET and check if it is set to false
-		if ( isset( $_REQUEST['g-recaptcha-response'] ) && $_REQUEST['g-recaptcha-response'] !== 'false' ) {
+		if ( isset( $_POST['g-recaptcha-response'] ) && $_POST['g-recaptcha-response'] !== 'false' ) {
 			$g_recaptcha_response = true;
 		} else {
 			$g_recaptcha_response = false;
@@ -749,7 +749,7 @@ class Pressapps_Fullscreen_Login_Public {
 		// Check if Captcha is enabled and g-recaptcha-response is set
 		if ( $this->is_captcha_enabled() ) {
 			// Captcha Response Param
-			$captcha_response = $_REQUEST['g-recaptcha-response'];
+			$captcha_response = $_POST['g-recaptcha-response'];
 			$secret_key       = $pafl_sk->get( 'recaptcha_private_key' );
 
 			// Captcha Object
@@ -765,11 +765,11 @@ class Pressapps_Fullscreen_Login_Public {
 
 
 		// Check that we are submitting the login form
-		if ( isset( $_REQUEST['login'] ) ) {
+		if ( isset( $_POST['login'] ) ) {
 
-			$data['user_login']    = sanitize_user( $_REQUEST['username'] );
-			$data['user_password'] = sanitize_text_field( $_REQUEST['password'] );
-			$data['remember']      = ( sanitize_text_field( $_REQUEST['rememberme'] ) == 'TRUE' ) ? true : false;
+			$data['user_login']    = sanitize_user( $_POST['username'] );
+			$data['user_password'] = sanitize_text_field( $_POST['password'] );
+			$data['remember']      = ( sanitize_text_field( $_POST['rememberme'] ) == 'TRUE' ) ? true : false;
 
 
 			//validate if captcha is enabled and login credentials are correct and will provide feedback
@@ -842,10 +842,10 @@ class Pressapps_Fullscreen_Login_Public {
 			}
 
 		} // Check if we are submitting the register form
-		elseif ( isset( $_REQUEST['register'] ) ) {
+		elseif ( isset( $_POST['register'] ) ) {
 			$user_data = array(
-				'user_login' => sanitize_user( $_REQUEST['username'] ),
-				'user_email' => $_REQUEST['email'],
+				'user_login' => sanitize_user( $_POST['username'] ),
+				'user_email' => $_POST['email'],
 			);
 
 			$allow_user_set_password = $pafl_sk->get( 'allow_user_set_password' );
@@ -922,13 +922,13 @@ class Pressapps_Fullscreen_Login_Public {
 
 
 		} // Check if we are submitting the forgotten pwd form
-		elseif ( isset( $_REQUEST['forgotten'] ) ) {
+		elseif ( isset( $_POST['forgotten'] ) ) {
 
 			// Check if we are sending an email or username and sanitize it appropriately
-			if ( is_email( $_REQUEST['username'] ) ) {
-				$username = sanitize_email( $_REQUEST['username'] );
+			if ( is_email( $_POST['username'] ) ) {
+				$username = sanitize_email( $_POST['username'] );
 			} else {
-				$username = sanitize_user( $_REQUEST['username'] );
+				$username = sanitize_user( $_POST['username'] );
 			}
 
 			// Send our information
@@ -1079,9 +1079,9 @@ class Pressapps_Fullscreen_Login_Public {
 		$allow_user_set_password = $sk->get( 'allow_user_set_password' );
 
 		if ( $allow_user_set_password ) {
-			if ( empty( $_REQUEST['password'] ) ) {
+			if ( empty( $_POST['password'] ) ) {
 				$errors->add( 'empty_password', __( 'Please type your password.', 'pressapps-fullscreen-login' ) );
-			} elseif ( strlen( $_REQUEST['password'] ) < 6 ) {
+			} elseif ( strlen( $_POST['password'] ) < 6 ) {
 				$errors->add( 'minlength_password', __( 'Password must be 6 character long.', 'pressapps-fullscreen-login' ) );
 			}
 		}
@@ -1092,7 +1092,7 @@ class Pressapps_Fullscreen_Login_Public {
 			return $errors;
 		}
 
-		$user_pass = ( $allow_user_set_password ) ? $_REQUEST['password'] : wp_generate_password( 12, false );
+		$user_pass = ( $allow_user_set_password ) ? $_POST['password'] : wp_generate_password( 12, false );
 		$user_id   = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 
 		if ( ! $user_id ) {
