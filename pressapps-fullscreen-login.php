@@ -21,15 +21,15 @@ if ( ! defined( 'WPINC' ) ) {
  */
 $skelet_paths[] = array(
     'prefix'      => 'pafl',
-    'dir'         => wp_normalize_path(  plugin_dir_path( __FILE__ ).'/admin/' ),
-    'uri'         => plugin_dir_url( __FILE__ ).'/admin/skelet',
+    'dir'         => wp_normalize_path(  plugin_dir_path( __FILE__ ).'includes/' ),
+    'uri'         => plugin_dir_url( __FILE__ ).'includes/skelet',
 );
 
 /**
  * Load Skelet Framework
  */
 if( ! class_exists( 'Skelet_LoadConfig' ) ){
-	include_once dirname( __FILE__ ) . '/admin/skelet/skelet.php';
+	include_once dirname( __FILE__ ) .'/includes/skelet/skelet.php';
 }
 
 /**

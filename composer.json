@@ -1,11 +1,21 @@
 {
-    "config": {
-        "vendor-dir": "protected/vendors"
-    },
-    "repositories": [
+    "name": "pressapps/pressapps-pressapps-fullscreen-login",
+    "authors": [
         {
-            "url": "https://github.com/pressapps/skelet.git",
-            "type": "vcs"
+            "name": "PressApps Team",
+            "email": "support@pressapps.co"
         }
-    ]
+    ],
+    "config" : {
+        "vendor-dir" : "includes"
+    },
+	 "repositories": [
+		 {
+			 "type": "git",
+			 "url": "https://github.com/pressapps/skelet.git"
+		 }
+	 ],
+    "require": {
+        "skelet" : "dev-master"
+    }
 }

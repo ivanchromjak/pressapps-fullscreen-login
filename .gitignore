@@ -49,3 +49,16 @@ public/css
 admin/js
 admin/css
 protected
+
+# Skelet
+###################
+includes/skelet
+includes/skelet/README.md
+includes/skelet/composer.json
+
+# Composer
+includes/*
+!includes/*.php
+!includes/options
+includes/autoload.php
+composer.lock
